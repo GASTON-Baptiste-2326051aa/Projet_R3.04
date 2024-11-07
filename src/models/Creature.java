@@ -1,6 +1,9 @@
+package models;
+
 import java.util.Arrays;
 
 public abstract class Creature {
+
     private String name;
     private boolean is_male;
     private float weight;
@@ -9,7 +12,17 @@ public abstract class Creature {
     private int moral;
     private Illness[] illnesses;
 
-    public Creature(String name, boolean is_male, float weight, float height, int age, int moral, Illness[] maladies) {
+    /**
+     * Constructor of the Creature class
+     * @param name
+     * @param is_male
+     * @param age
+     * @param weight
+     * @param height
+     * @param moral
+     * @param maladies
+     */
+    public Creature(String name, boolean is_male,int age, float weight, float height, int moral, Illness[] maladies) {
         this.name = name;
         this.is_male = is_male;
         this.weight = weight;
@@ -19,6 +32,15 @@ public abstract class Creature {
         this.illnesses = maladies;
     }
 
+    /**
+     * Second constructor of the Creature class
+     * @param name
+     * @param is_male
+     * @param weight
+     * @param height
+     * @param age
+     * @param maladies
+     */
     public Creature(String name, boolean is_male, float weight, float height, int age, Illness[] maladies) {
         this.name = name;
         this.is_male = is_male;
@@ -29,6 +51,12 @@ public abstract class Creature {
         this.illnesses = maladies;
     }
 
+    /**
+     * Third constructor, used for the Doctor class
+     * @param name
+     * @param is_male
+     * @param age
+     */
     public Creature(String name, boolean is_male, int age) {
         this.name = name;
         this.is_male = is_male;
@@ -39,26 +67,50 @@ public abstract class Creature {
         this.illnesses = new Illness[0];
     }
 
+    /**
+     * Return the name of a creature
+     * @return
+     */
     public String getName() {
         return name;
     }
 
+    /**
+     * Set the name of a creature
+     * @param name
+     */
     public void setName(String name) {
         this.name = name;
     }
 
-    public boolean isIs_male() {
+    /**
+     * return if the creature is a male or not
+     * @return
+     */
+    public boolean isMale() {
         return is_male;
     }
 
-    public void setIs_male(boolean is_male) {
+    /**
+     * Set the gender of a creature
+     * @param is_male : if it is true, it is a male, otherwise it is a female
+     */
+    public void setIs_Male(boolean is_male) {
         this.is_male = is_male;
     }
 
+    /**
+     * Return the weight of a creature
+     * @return
+     */
     public float getWeight() {
         return weight;
     }
 
+    /**
+     * Set the weight of a creature
+     * @param weight
+     */
     public void setWeight(float weight) {
         this.weight = weight;
     }
@@ -98,7 +150,7 @@ public abstract class Creature {
     public void cure(Illness maladie) {
         for (Illness illness : this.illnesses) {
             if (illness.getName().equals(maladie.getName())) {
-                illness.downgrade();
+                illness.decrease();
             }
         }
     }
@@ -110,22 +162,23 @@ public abstract class Creature {
         } else if (this.moral == 0) {
             this.cry();
         } else {
-            System.out.println(this.name + " attend");
+            System.out.println(this.name + " wait");
         }
     }
 
     public void cry() {
-        System.out.println(this.name + " hurle de douleur");
+        System.out.println(this.name + " scream in pain");
     }
 
+
     public void panic() {
-        System.out.println(this.name + " s'emporte");
+        System.out.println(this.name + " get carried away");
     }
 
     public void passAway(Service service) {
         for (Illness illness : this.illnesses) {
             if (illness.is_mortal()) {
-                System.out.println(this.name + " trepasse");
+                System.out.println(this.name + " pass away");
                 service.removeCreature(this);
                 break;
             }
@@ -134,7 +187,7 @@ public abstract class Creature {
 
     @Override
     public String toString() {
-        return "Creature{" +
+        return "models.Creature{" +
                 "name='" + name + '\'' +
                 ", is_male=" + is_male +
                 ", weight=" + weight +

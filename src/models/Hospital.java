@@ -1,49 +1,82 @@
+package models;
+
 public class Hospital {
     private String name;
     private final int serviceMax;
     private Service[] services;
-    private Medecin[] medecins;
+    private Doctor[] doctors;
 
-    public Hospital(String name, int serviceMax, Service[] services, Medecin[] medecins) {
+    /**
+     * constructor of the class Hospital
+     * @param name the name of the hospital
+     * @param serviceMax the number max of service in the hospital
+     * @param services the number of service in the hospital
+     * @param doctors the list of doctor in the hospital
+     */
+    public Hospital(String name, int serviceMax, Service[] services, Doctor[] doctors) {
         this.name = name;
         this.serviceMax = serviceMax;
         this.services = services;
-        this.medecins = medecins;
+        this.doctors = doctors;
     }
 
+    /**
+     * constructor of the class Hospital
+     * @param serviceMax the number max of service in the hospital
+     */
     public Hospital(int serviceMax){
         this.name = null;
         this.serviceMax = serviceMax;
         this.services = null;
-        this.medecins = null;
+        this.doctors = null;
     }
 
+    /**
+     * return this.name
+     * @return this.name
+     */
     public String getName() {
         return name;
     }
 
+    /**
+     * define the new value of this.name
+     * @param name the new value of this.name
+     */
     public void setName(String name) {
         this.name = name;
     }
 
+    /**
+     * return the max amount of service in the hospital
+     * @return the max amount of service in the hospital
+     */
     public int getServiceMax() {
         return serviceMax;
     }
 
+    /**
+     * return the list of service in the hospital
+     * @return the list of service in the hospital
+     */
     public Service[] getServices() {
         return services;
     }
 
+    /**
+     *  define the
+     * @param services
+     */
     public void setServices(Service[] services) {
         this.services = services;
     }
 
-    public Medecin[] getMedecins() {
-        return medecins;
+    public Doctor[] getDoctor() {
+        return doctors;
     }
 
-    public void setMedecins(Medecin[] medecins) {
-        this.medecins = medecins;
+    public void setDoctor(Doctor[] doctors) {
+        this.doctors = doctors;
     }
 
     public int getCreatureNow() {
@@ -71,6 +104,6 @@ public class Hospital {
 
     public static void main(String[] args) {
         Hospital hospital = new Hospital(10);
-
+        hospital.run();
     }
 }
