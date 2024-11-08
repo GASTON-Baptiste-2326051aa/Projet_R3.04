@@ -18,9 +18,9 @@ public class BeastMan extends Creature {
     }
 
     /**
-     *
+     * Can contaminate another creature
      */
     public void contaminate(){
-
+        System.out.println(getName() + "infects another creature");
     }
 }

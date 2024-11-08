@@ -18,9 +18,9 @@ public class Orc extends Creature {
     }
 
     /**
-     *
+     * Contaminates another creature
      */
     public void contaminate(){
-
+        System.out.println(getName() + "infects another creature !");
     }
 }

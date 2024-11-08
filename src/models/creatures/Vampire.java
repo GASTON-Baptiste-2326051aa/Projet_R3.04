@@ -17,23 +17,25 @@ public class Vampire extends Creature {
         super(name, is_male, age, weight, height, moral, illnesses); }
 
     /**
-     *
+     * While passing away, demoralizes a part of the creature inside the medical service
      */
     public void demoralize(){
 
     }
 
     /**
-     *
+     * Contaminates another creature
      */
     public void contaminate(){
+        System.out.println(getName() + "infects another creature !");
 
     }
 
     /**
-     *
+     * Can regenearate itself, meaning that the moral is going back to default
      */
-    public void regenerer(){
-
+    public void regenerate(){
+        System.out.println(getName() + "regenerates itself !");
+        setMorale(100);
     }
 }

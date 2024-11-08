@@ -18,9 +18,10 @@ public class Lycanthrope extends Creature {
     }
 
     /**
-     *
+     * Contaminates another creature
      */
     public void contaminate(){
+        System.out.println(getName() + "infects a creature !");
 
     }
 }

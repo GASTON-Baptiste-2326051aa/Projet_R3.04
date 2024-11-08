@@ -12,7 +12,7 @@ public abstract class Creature {
     private float weight;
     private float height;
     private int age;
-    private int moral;
+    private int morale;
     private Illness[] illnesses;
 
     /**
@@ -22,16 +22,16 @@ public abstract class Creature {
      * @param age the age of the creature
      * @param weight the weight of the creature
      * @param height the height of the creature
-     * @param moral the moral of the creature
+     * @param morale the moral of the creature
      * @param maladies the illnesses of the creature
      */
-    public Creature(String name, boolean is_male,int age, float weight, float height, int moral, Illness[] maladies) {
+    public Creature(String name, boolean is_male, int age, float weight, float height, int morale, Illness[] maladies) {
         this.name = name;
         this.is_male = is_male;
         this.weight = weight;
         this.height = height;
         this.age = age;
-        this.moral = moral;
+        this.morale = morale;
         this.illnesses = maladies;
     }
 
@@ -50,7 +50,7 @@ public abstract class Creature {
         this.weight = weight;
         this.height = height;
         this.age = age;
-        this.moral = 100;
+        this.morale = 100;
         this.illnesses = maladies;
     }
 
@@ -66,7 +66,7 @@ public abstract class Creature {
         this.weight = 70.8F;
         this.height = 1.80F;
         this.age = age;
-        this.moral = 100;
+        this.morale = 100;
         this.illnesses = new Illness[0];
     }
 
@@ -154,16 +154,16 @@ public abstract class Creature {
      * Return the moral of a creature
      * @return the moral of the creature
      */
-    public int getMoral() {
-        return moral;
+    public int getMorale() {
+        return morale;
     }
 
     /**
      * Set the moral of a creature
-     * @param moral the moral of the creature
+     * @param morale the moral of the creature
      */
-    public void setMoral(int moral) {
-        this.moral = moral;
+    public void setMorale(int morale) {
+        this.morale = morale;
     }
 
     /**
@@ -183,48 +183,54 @@ public abstract class Creature {
     }
 
     /**
-     * Add an illness to a creature
-     * @param illness the illness to add
+     * Cure an illness of a creature
+     * @param illness the illness to cure
      */
     public void cure(Illness illness) {
         for (Illness illnesses : this.illnesses) {
             if (illnesses.getName().equals(illness.getName())) {
                 illnesses.decrease();
             }
+            this.morale += 20; // Since the creature is being cured, his morale increased
         }
     }
 
+    public void addIllness(Illness illness) {
+
+    }
+
     /**
-     * the creature wait a time
+     * The creature wait
      * @param service the service where the creature is
      */
-    public void waitATime(Service service) {
-        this.moral--;
-        if (this.moral <= -3) {
-            this.panic();
-        } else if (this.moral == 0) {
-            this.cry();
+    public void wait(Service service) {
+        this.morale--;
+        if (this.morale <= -3) {
+            this.carriedAway();
+        } else if (this.morale == 0) {
+            this.scream();
         } else {
             System.out.println(this.name + " wait");
         }
     }
 
     /**
-     * the creature scream in pain
+     * The creature scream in pain if it's morale is at it's lowest
      */
-    public void cry() {
+    public void scream() {
         System.out.println(this.name + " scream in pain");
     }
 
     /**
-     * the creature get carried away
+     * The creature gets carried away if it screams too many times
      */
-    public void panic() {
+    public void carriedAway() {
+
         System.out.println(this.name + " get carried away");
     }
 
     /**
-     * the creature pass away
+     * The creature passes away
      * @param service the service where the creature is
      */
     public void passAway(Service service) {
@@ -237,6 +243,18 @@ public abstract class Creature {
         }
     }
 
+    // A LIRE SVP
+    // Déclarer ces fonctions ici puis utiliser un OVERRIDE ?
+    public void contaminate(){
+
+    }
+    public void regenerate(){
+
+    }
+    public void demoralize(){
+
+    }
+
     @Override
     public String toString() {
         return "models.creatures.Creature{" +
@@ -245,7 +263,7 @@ public abstract class Creature {
                 ", weight=" + weight +
                 ", height=" + height +
                 ", age=" + age +
-                ", moral=" + moral +
+                ", moral=" + morale +
                 ", illnesses=" + Arrays.toString(illnesses) +
                 '}';
     }
