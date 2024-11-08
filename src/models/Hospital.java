@@ -1,5 +1,9 @@
 package models;
 
+import models.creatures.Creature;
+import models.creatures.Doctor;
+import models.services.Service;
+
 public class Hospital {
     private String name;
     private final int serviceMax;

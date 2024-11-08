@@ -1,4 +1,8 @@
-package models;
+package models.creatures;
+
+import models.Hospital;
+import models.Illness;
+import models.services.Service;
 
 import java.util.Scanner;
 
@@ -8,17 +12,17 @@ public class Doctor extends Creature {
 
     /**
      * Constructor of the Doctor class
-     * @param name
-     * @param is_male
-     * @param age
+     * @param name the name of the doctor
+     * @param is_male the sexe of the doctor
+     * @param age the age of the doctor
      */
     public Doctor(String name, boolean is_male, int age) {
         super(name, is_male, age);
     }
 
     /**
-     * Gives the informations about the medical service
-     * @param service
+     * Gives the information about the medical service
+     * @param service the service to check
      */
     public void checkService(Service service) {
         System.out.println("Service: " + service.getName());
@@ -34,8 +38,8 @@ public class Doctor extends Creature {
 
     /**
      * Cure a creature
-     * @param creature
-     * @param illness
+     * @param creature the creature to cure
+     * @param illness the illness to cure
      */
     public void cure(Creature creature, Illness illness) {
         System.out.println("Soigner " + creature + " de " + illness);
@@ -44,7 +48,7 @@ public class Doctor extends Creature {
 
     /**
      * Change the budget of a service
-     * @param service
+     * @param service the service to change the budget
      */
     public void changeServiceBudget(Service service) {
         service.setBudget(input.nextInt());
@@ -53,9 +57,9 @@ public class Doctor extends Creature {
 
     /**
      * Change the service of a creature.
-     * @param creature
-     * @param serviceDep
-     * @param serviceArr
+     * @param creature the creature to move
+     * @param serviceDep the service where the creature is
+     * @param serviceArr the service where the creature will be
      */
     public void moveCreature(Creature creature, Service serviceDep, Service serviceArr) {
         serviceDep.removeCreature(creature);
@@ -65,9 +69,9 @@ public class Doctor extends Creature {
     }
 
     /**
-     *
-     * @param hospital
-     * @return
+     * choose a creature in the hospital
+     * @param hospital the hospital where the creature is
+     * @return the creature chosen
      */
     public Creature chooseCreature(Hospital hospital) {
         System.out.println("Choose a creature: ");
@@ -82,9 +86,9 @@ public class Doctor extends Creature {
     }
 
     /**
-     * Allow the user to choose a medical service
-     * @param hospital
-     * @return
+     * chooose a service in the hospital
+     * @param hospital the hospital where the service is
+     * @return the service chosen
      */
     public Service chooseService(Hospital hospital) {
         System.out.println("Choose a service: ");
@@ -100,9 +104,9 @@ public class Doctor extends Creature {
     }
 
     /**
-     *
-     * @param creature
-     * @return
+     * Choose an illness for a creature
+     * @param creature the creature to choose the illness
+     * @return the illness chosen
      */
     public Illness chooseIllness(Creature creature) {
         System.out.println("Choisissez une maladie: ");
@@ -118,8 +122,8 @@ public class Doctor extends Creature {
     }
 
     /**
-     * Launch the menu of the hospital simulator
-     * @param hospital
+     * Launch the menu of the hospital simulation
+     * @param hospital the hospital where the doctor is
      */
     public void runMenu(Hospital hospital) {
         System.out.println("Que voulez-vous faire ?");
@@ -153,14 +157,14 @@ public class Doctor extends Creature {
     }
 
     /**
-     *
-     * @return
+     * return the string representation of the doctor
+     * @return the string representation of the doctor
      */
     @Override
     public String toString() {
-        return "models.Doctor{" +
+        return "models.creatures.Doctor{" +
                 "name='" + this.getName() + '\'' +
-                ", sex='" + (this.isIs_male() ? "Male" : "Female") +
+                ", sex='" + (this.isMale() ? "Male" : "Female") +
                 "', age=" + this.getAge() +
                 '}';
     }
