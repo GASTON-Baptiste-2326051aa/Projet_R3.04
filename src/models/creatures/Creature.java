@@ -1,4 +1,7 @@
-package models;
+package models.creatures;
+
+import models.Illness;
+import models.services.Service;
 
 import java.util.Arrays;
 
@@ -14,13 +17,13 @@ public abstract class Creature {
 
     /**
      * Constructor of the Creature class
-     * @param name
-     * @param is_male
-     * @param age
-     * @param weight
-     * @param height
-     * @param moral
-     * @param maladies
+     * @param name the name of the creature
+     * @param is_male the sexe of the creature
+     * @param age the age of the creature
+     * @param weight the weight of the creature
+     * @param height the height of the creature
+     * @param moral the moral of the creature
+     * @param maladies the illnesses of the creature
      */
     public Creature(String name, boolean is_male,int age, float weight, float height, int moral, Illness[] maladies) {
         this.name = name;
@@ -34,12 +37,12 @@ public abstract class Creature {
 
     /**
      * Second constructor of the Creature class
-     * @param name
-     * @param is_male
-     * @param weight
-     * @param height
-     * @param age
-     * @param maladies
+     * @param name the name of the creature
+     * @param is_male the sexe of the creature
+     * @param weight the weight of the creature
+     * @param height the height of the creature
+     * @param age the age of the creature
+     * @param maladies the illnesses of the creature
      */
     public Creature(String name, boolean is_male, float weight, float height, int age, Illness[] maladies) {
         this.name = name;
@@ -53,9 +56,9 @@ public abstract class Creature {
 
     /**
      * Third constructor, used for the Doctor class
-     * @param name
-     * @param is_male
-     * @param age
+     * @param name the name of the creature
+     * @param is_male the sexe of the creature
+     * @param age the age of the creature
      */
     public Creature(String name, boolean is_male, int age) {
         this.name = name;
@@ -69,7 +72,7 @@ public abstract class Creature {
 
     /**
      * Return the name of a creature
-     * @return
+     * @return the name of the creature
      */
     public String getName() {
         return name;
@@ -77,7 +80,7 @@ public abstract class Creature {
 
     /**
      * Set the name of a creature
-     * @param name
+     * @param name the name of the creature
      */
     public void setName(String name) {
         this.name = name;
@@ -85,7 +88,7 @@ public abstract class Creature {
 
     /**
      * return if the creature is a male or not
-     * @return
+     * @return true if it's a male, false otherwise
      */
     public boolean isMale() {
         return is_male;
@@ -101,7 +104,7 @@ public abstract class Creature {
 
     /**
      * Return the weight of a creature
-     * @return
+     * @return the weight of the creature
      */
     public float getWeight() {
         return weight;
@@ -109,52 +112,92 @@ public abstract class Creature {
 
     /**
      * Set the weight of a creature
-     * @param weight
+     * @param weight the weight of the creature
      */
     public void setWeight(float weight) {
         this.weight = weight;
     }
 
+    /**
+     * Return the height of a creature
+     * @return the height of the creature
+     */
     public float getHeight() {
         return height;
     }
 
+    /**
+     * Set the height of a creature
+     * @param height the height of the creature
+     */
     public void setHeight(float height) {
         this.height = height;
     }
 
+    /**
+     * Return the age of a creature
+     * @return the age of the creature
+     */
     public int getAge() {
         return age;
     }
 
+    /**
+     * Set the age of a creature
+     * @param age the age of the creature
+     */
     public void setAge(int age) {
         this.age = age;
     }
 
+    /**
+     * Return the moral of a creature
+     * @return the moral of the creature
+     */
     public int getMoral() {
         return moral;
     }
 
+    /**
+     * Set the moral of a creature
+     * @param moral the moral of the creature
+     */
     public void setMoral(int moral) {
         this.moral = moral;
     }
 
+    /**
+     * Return the illnesses of a creature
+     * @return the illnesses of the creature
+     */
     public Illness[] getIllnesses() {
         return illnesses;
     }
 
+    /**
+     * Set the illnesses of a creature
+     * @param illnesses the illnesses of the creature
+     */
     public void setIllnesses(Illness[] illnesses) {
         this.illnesses = illnesses;
     }
 
-    public void cure(Illness maladie) {
-        for (Illness illness : this.illnesses) {
-            if (illness.getName().equals(maladie.getName())) {
-                illness.decrease();
+    /**
+     * Add an illness to a creature
+     * @param illness the illness to add
+     */
+    public void cure(Illness illness) {
+        for (Illness illnesses : this.illnesses) {
+            if (illnesses.getName().equals(illness.getName())) {
+                illnesses.decrease();
             }
         }
     }
 
+    /**
+     * the creature wait a time
+     * @param service the service where the creature is
+     */
     public void waitATime(Service service) {
         this.moral--;
         if (this.moral <= -3) {
@@ -166,15 +209,24 @@ public abstract class Creature {
         }
     }
 
+    /**
+     * the creature scream in pain
+     */
     public void cry() {
         System.out.println(this.name + " scream in pain");
     }
 
-
+    /**
+     * the creature get carried away
+     */
     public void panic() {
         System.out.println(this.name + " get carried away");
     }
 
+    /**
+     * the creature pass away
+     * @param service the service where the creature is
+     */
     public void passAway(Service service) {
         for (Illness illness : this.illnesses) {
             if (illness.is_mortal()) {
@@ -187,7 +239,7 @@ public abstract class Creature {
 
     @Override
     public String toString() {
-        return "models.Creature{" +
+        return "models.creatures.Creature{" +
                 "name='" + name + '\'' +
                 ", is_male=" + is_male +
                 ", weight=" + weight +

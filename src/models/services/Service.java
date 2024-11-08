@@ -1,4 +1,6 @@
-package models;
+package models.services;
+
+import models.creatures.Creature;
 
 import java.util.Arrays;
 
