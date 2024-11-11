@@ -1,8 +1,16 @@
 package models.creatures;
 
 import models.Illness;
+import models.services.Service;
+
+import java.util.Random;
 
 public class Vampire extends Creature {
+    /**
+     * the decrease of the moral of the creatures inside the service
+     */
+    private static final int DEMORALIZE_DECREASE = 5;
+
     /**
      * Constructor of the class Vampire
      * @param name the name of a vampire
@@ -17,23 +25,63 @@ public class Vampire extends Creature {
         super(name, is_male, age, weight, height, moral, illnesses); }
 
     /**
-     *
+     * decrease the moral of the creature inside the service
      */
-    public void demoralize(){
-
+    private void demoralize(Service service) {
+        for (Creature creature : service.getCreatures()) {
+            creature.setMoral(creature.getMoral() - DEMORALIZE_DECREASE);
+        }
     }
 
     /**
-     *
+     * get all the mortal illnesses of the lycanthrope
+     * @return an array of mortal illnesses
      */
-    public void contaminate(){
-
+    private Illness[] getMortalIllnesses() {
+        Illness[] mortalIllnesses = new Illness[getIllnesses().length];
+        int i = 0;
+        for (Illness illness : this.getIllnesses()) {
+            if (illness.is_mortal()) {
+                mortalIllnesses[i++] = illness;
+            }
+        }
+        return mortalIllnesses;
     }
 
     /**
-     *
+     * the lycanthrope contaminate a creature of the service
      */
-    public void regenerer(){
+    private void contaminate(Service service) {
+        Random random = new Random();
+        Illness illness = getMortalIllnesses()[random.nextInt(getMortalIllnesses().length)];
+        for (Creature creature : service.getCreatures()) {
+            if (random.nextBoolean()) {
+                creature.addIllness(illness);
+                break;
+            }
+        }
+    }
 
+    /**
+     * the vampire revive
+     */
+    private void revive(Service service) {
+        service.addCreature(this);
+        System.out.println(this.getName() + " revive");
+    }
+
+    /**
+     * the vampire pass away, contaminate a creature, demoralize the creatures inside the service and revive
+     */
+    @Override
+    public boolean passAway(Service service) {
+        boolean isDead = super.passAway(service);
+        if (isDead) {
+            service.removeCreature(this);
+            contaminate(service);
+            demoralize(service);
+            revive(service);
+        }
+        return isDead;
     }
 }

@@ -11,78 +11,90 @@ public class Hospital {
     private Doctor[] doctors;
 
     /**
-     * constructor of the class Hospital
+     * Constructor of the class Hospital
      * @param name the name of the hospital
-     * @param serviceMax the number max of service in the hospital
-     * @param services the number of service in the hospital
-     * @param doctors the list of doctor in the hospital
+     * @param serviceMax the maximum number of services in the hospital
+     * @param services the list of services in the hospital
+     * @param doctors the list of doctors in the hospital
      */
     public Hospital(String name, int serviceMax, Service[] services, Doctor[] doctors) {
         this.name = name;
         this.serviceMax = serviceMax;
-        this.services = services;
-        this.doctors = doctors;
+        this.services = services != null ? services : new Service[serviceMax];
+        this.doctors = doctors != null ? doctors : new Doctor[0];
     }
 
     /**
-     * constructor of the class Hospital
-     * @param serviceMax the number max of service in the hospital
+     * Constructor of the class Hospital
+     * @param serviceMax the maximum number of services in the hospital
      */
-    public Hospital(int serviceMax){
+    public Hospital(int serviceMax) {
         this.name = null;
         this.serviceMax = serviceMax;
-        this.services = null;
-        this.doctors = null;
+        this.services = new Service[serviceMax];
+        this.doctors = new Doctor[0];
     }
 
     /**
-     * return this.name
-     * @return this.name
+     * Return the name of the hospital
+     * @return the name of the hospital
      */
     public String getName() {
-        return name;
+        return this.name;
     }
 
     /**
-     * define the new value of this.name
-     * @param name the new value of this.name
+     * Set the name of the hospital
+     * @param name the new name of the hospital
      */
     public void setName(String name) {
         this.name = name;
     }
 
     /**
-     * return the max amount of service in the hospital
-     * @return the max amount of service in the hospital
+     * Return the maximum number of services in the hospital
+     * @return the maximum number of services in the hospital
      */
     public int getServiceMax() {
         return serviceMax;
     }
 
     /**
-     * return the list of service in the hospital
-     * @return the list of service in the hospital
+     * Return the list of services in the hospital
+     * @return the services in the hospital
      */
     public Service[] getServices() {
         return services;
     }
 
     /**
-     *  define the
-     * @param services
+     * Set the list of services in the hospital
+     * @param services the new list of services in the hospital
      */
     public void setServices(Service[] services) {
         this.services = services;
     }
 
-    public Doctor[] getDoctor() {
+    /**
+     * Return the list of doctors in the hospital
+     * @return the doctors in the hospital
+     */
+    public Doctor[] getDoctors() {
         return doctors;
     }
 
-    public void setDoctor(Doctor[] doctors) {
+    /**
+     * Set the list of doctors in the hospital
+     * @param doctors the new list of doctors in the hospital
+     */
+    public void setDoctors(Doctor[] doctors) {
         this.doctors = doctors;
     }
 
+    /**
+     * Return the current number of creatures in the hospital
+     * @return the current number of creatures in the hospital
+     */
     public int getCreatureNow() {
         int creatureNow = 0;
         for (Service service : services) {
@@ -91,6 +103,10 @@ public class Hospital {
         return creatureNow;
     }
 
+    /**
+     * Return the list of creatures in the hospital
+     * @return the creatures in the hospital
+     */
     public Creature[] getCreatures() {
         Creature[] creatures = new Creature[getCreatureNow()];
         int i = 0;
@@ -102,8 +118,11 @@ public class Hospital {
         return creatures;
     }
 
-    public void run(){
-
+    /**
+     * start the hospital
+     */
+    public void run() {
+        // TODO
     }
 
     public static void main(String[] args) {

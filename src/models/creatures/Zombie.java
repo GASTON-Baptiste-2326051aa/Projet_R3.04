@@ -1,6 +1,7 @@
 package models.creatures;
 
 import models.Illness;
+import models.services.Service;
 
 public class Zombie extends Creature {
     /**
@@ -17,9 +18,23 @@ public class Zombie extends Creature {
         super(name, is_male, age, weight, height, morale, illnesses); }
 
     /**
-     *
+     * the zombie revive
      */
-    public void regenerate(){
+    private void revive(Service service) {
+        service.addCreature(this);
+        System.out.println(this.getName() + " revive");
+    }
 
+    /**
+     * the zombie pass away and revive
+     */
+    @Override
+    public boolean passAway(Service service) {
+        boolean isDead = super.passAway(service);
+        if (isDead) {
+            service.removeCreature(this);
+            revive(service);
+        }
+        return isDead;
     }
 }

@@ -1,8 +1,13 @@
 package models.creatures;
 import models.Illness;
+import models.services.Service;
 
 public class Elf extends Creature {
 
+    /**
+     * the decrease of the moral of the creatures inside the service
+     */
+    private static final int DEMORALIZE_DECREASE = 5;
 
     /**
      * Constructor for the class Elf
@@ -19,9 +24,24 @@ public class Elf extends Creature {
     }
 
     /**
-
+     * decrease the moral of the creature inside the service
      */
-    public void demoralize(){
+    private void demoralize(Service service) {
+        for (Creature creature : service.getCreatures()) {
+            creature.setMoral(creature.getMoral() - DEMORALIZE_DECREASE);
+        }
+    }
 
+    /**
+     * the elf pass away and demoralize the creatures inside the service
+     */
+    @Override
+    public boolean passAway(Service service) {
+        boolean isDead = super.passAway(service);
+        if (isDead) {
+            service.removeCreature(this);
+            demoralize(service);
+        }
+        return isDead;
     }
 }

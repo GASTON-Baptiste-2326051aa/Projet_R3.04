@@ -7,7 +7,18 @@ import models.services.Service;
 import java.util.Scanner;
 
 public class Doctor extends Creature {
+    /**
+     * The maximum number of actions the doctor can do
+     */
+    private static final int MAX_ACTION_LEFT = 10;
+    private static final int COST_CHECK_SERVICE = 0;
+    private static final int COST_CURE_CREATURE = 2;
+    private static final int COST_CHANGE_SERVICE_BUDGET = 3;
+    private static final int COST_MOVE_CREATURE = 1;
 
+    /**
+     * The scanner to read the input
+     */
     private final Scanner input = new Scanner(System.in);
 
     /**
@@ -24,7 +35,7 @@ public class Doctor extends Creature {
      * Gives the information about the medical service
      * @param service the service to check
      */
-    public void checkService(Service service) {
+    public Service checkService(Service service) {
         System.out.println("Service: " + service.getName());
         System.out.println("Budget: " + service.getBudget());
         System.out.println("Surface: " + service.getSurface());
@@ -34,16 +45,19 @@ public class Doctor extends Creature {
         for (Creature creature : service.getCreatures()) {
             System.out.println("\t - " + creature);
         }
+        return service;
     }
 
     /**
      * Cure a creature
      * @param creature the creature to cure
-     * @param illness the illness to cure
      */
-    public void cure(Creature creature, Illness illness) {
-        System.out.println("Soigner " + creature + " de " + illness);
-        creature.cure(illness);
+    public void cure(Service service, Creature creature) {
+        for (int i = 0; i < service.getBudget() + 1; i++) {
+            Illness illness = this.chooseIllness(creature);
+            System.out.println("Cure " + creature.getName() + " from " + illness.getName());
+            creature.cureIllness(illness);
+        }
     }
 
     /**
@@ -51,6 +65,7 @@ public class Doctor extends Creature {
      * @param service the service to change the budget
      */
     public void changeServiceBudget(Service service) {
+        System.out.println("Set the new budget: ");
         service.setBudget(input.nextInt());
         System.out.println("New budget: " + service.budgetToString(service.getBudget()));
     }
@@ -86,14 +101,31 @@ public class Doctor extends Creature {
     }
 
     /**
-     * chooose a service in the hospital
+     * choose a creature in the service
+     * @param service the service where the creature is
+     * @return the creature chosen
+     */
+    public Creature chooseCreature(Service service) {
+        System.out.println("Choose a creature: ");
+        int i = 1;
+        Creature[] creatures = service.getCreatures();
+        for (Creature creature : creatures) {
+            System.out.println(i + " - " + creature);
+            i++;
+        }
+        int choice = input.nextInt();
+        return creatures[choice - 1];
+    }
+
+    /**
+     * choose a service in the hospital
      * @param hospital the hospital where the service is
      * @return the service chosen
      */
     public Service chooseService(Hospital hospital) {
         System.out.println("Choose a service: ");
         int nb = 1;
-        Service[] services = new Service[1000];
+        Service[] services = new Service[hospital.getServiceMax()];
         for (Service service : hospital.getServices()) {
             System.out.println(nb + " - " + service.getName());
             services[nb - 1] = service;
@@ -109,9 +141,9 @@ public class Doctor extends Creature {
      * @return the illness chosen
      */
     public Illness chooseIllness(Creature creature) {
-        System.out.println("Choisissez une maladie: ");
+        System.out.println("Choose an illness: ");
         int nb = 1;
-        Illness[] illnesses = new Illness[1000];
+        Illness[] illnesses = new Illness[creature.getIllnesses().length];
         for (Illness illness : creature.getIllnesses()) {
             System.out.println(nb + " - " + illness);
             illnesses[nb - 1] = illness;
@@ -126,33 +158,43 @@ public class Doctor extends Creature {
      * @param hospital the hospital where the doctor is
      */
     public void runMenu(Hospital hospital) {
-        System.out.println("Que voulez-vous faire ?");
-        System.out.println("1 - Vérifier un service");
-        System.out.println("2 - Soigner une créature");
-        System.out.println("3 - Changer le budget d'un service");
-        System.out.println("4 - Déplacer une créature");
-        System.out.println("5 - Quitter");
-        int choice = input.nextInt();
-        switch (choice) {
-            case 1:
-                checkService(this.chooseService(hospital));
-                break;
-            case 2:
-                Creature creature = this.chooseCreature(hospital);
-                cure(creature, this.chooseIllness(creature));
-                break;
-            case 3:
-                changeServiceBudget(this.chooseService(hospital));
-                break;
-            case 4:
-                moveCreature(this.chooseCreature(hospital), this.chooseService(hospital), this.chooseService(hospital));
-                break;
-            case 5:
-                System.exit(0);
-                break;
-            default:
-                System.out.println("Choix invalide");
-                break;
+        int actionLeft = MAX_ACTION_LEFT;
+        Service actualService = null;
+        while (actionLeft > 0) {
+            System.out.println("Actions left: " + actionLeft);
+            System.out.println(actualService != null ? "Current service: " + actualService : "No current service");
+            System.out.println("What do you want to do?");
+            System.out.println("1 - Check a service");
+            System.out.println("2 - Cure a creature");
+            System.out.println("3 - Change the budget of a service");
+            System.out.println("4 - Move a creature");
+            int choice = input.nextInt();
+            switch (choice) {
+                case 1:
+                    actualService = checkService(this.chooseService(hospital));
+                    actionLeft -= COST_CHECK_SERVICE;
+                    break;
+                case 2:
+                    if (actualService == null) {
+                        System.out.println("You must check a service before curing a creature");
+                    } else {
+                        Creature creature = this.chooseCreature(actualService);
+                        cure(actualService, creature);
+                        actionLeft -= COST_CURE_CREATURE;
+                    }
+                    break;
+                case 3:
+                    changeServiceBudget(this.chooseService(hospital));
+                    actionLeft -= COST_CHANGE_SERVICE_BUDGET;
+                    break;
+                case 4:
+                    moveCreature(this.chooseCreature(hospital), this.chooseService(hospital), this.chooseService(hospital));
+                    actionLeft -= COST_MOVE_CREATURE;
+                    break;
+                default:
+                    System.out.println("Invalid choice");
+                    break;
+            }
         }
     }
 
@@ -162,7 +204,7 @@ public class Doctor extends Creature {
      */
     @Override
     public String toString() {
-        return "models.creatures.Doctor{" +
+        return "Doctor{" +
                 "name='" + this.getName() + '\'' +
                 ", sex='" + (this.isMale() ? "Male" : "Female") +
                 "', age=" + this.getAge() +

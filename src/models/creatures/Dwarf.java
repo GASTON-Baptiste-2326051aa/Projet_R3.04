@@ -1,6 +1,7 @@
 package models.creatures;
 
 import models.Illness;
+import models.services.Service;
 
 public class Dwarf extends Creature {
     /**
@@ -15,5 +16,16 @@ public class Dwarf extends Creature {
      */
     public Dwarf(String name, boolean is_male, int age, int weight, int height, int moral, Illness[] illnesses) {
         super(name, is_male, age, weight, height, moral, illnesses);
+    }
+
+    /**
+     * the dwarf pass away
+     */
+    @Override
+    public boolean passAway(Service service) {
+        boolean isDead = super.passAway(service);
+        if (isDead)
+            service.removeCreature(this);
+        return isDead;
     }
 }

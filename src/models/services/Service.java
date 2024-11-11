@@ -159,22 +159,6 @@ public class Service {
         }
     }
 
-    /**
-     * cure the selected creature from the service
-     * @param creature the selected creature to cure
-     */
-    public void cure(Creature creature) {
-        for (int i = 0; i < this.creatureNow; i++) {
-            if (this.creatures[i].equals(creature)) {
-                this.creatures[i].cure(
-                        this.creatures[i].getIllnesses()[0]
-                    );
-                this.removeCreature(creature);
-                break;
-            }
-        }
-    }
-
     @Override
     public String toString() {
         return "Service{" +
