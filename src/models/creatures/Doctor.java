@@ -6,8 +6,13 @@ import models.services.Service;
 
 import java.util.Scanner;
 
+/**
+ * Class Doctor
+ */
 public class Doctor extends Creature {
-
+    /**
+     * Scanner to read the input
+     */
     private final Scanner input = new Scanner(System.in);
 
     /**

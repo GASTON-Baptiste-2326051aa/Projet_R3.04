@@ -1,11 +1,32 @@
 package models;
 
+/**
+ * Enum Illness
+ */
 public enum Illness {
+    /**
+     * MDC Illness
+     */
     MDC("MDC", "Maladie débilitante chronique", 0, 7),
+    /**
+     * FOMO Illness
+     */
     FOMO("FOMO", "Fear of missing out", 0, 10),
+    /**
+     * DRS Illness
+     */
     DRS("DRS", "Dépendance aux réseaux sociaux", 0, 6),
+    /**
+     * PEC Illness
+     */
     PEC("PEC", "Porphyrie érythropoïétique congénitale", 0, 5),
+    /**
+     * ZPL Illness
+     */
     ZPL("ZPL", "Zoopathie paraphrénique lycanthropique", 0, 4),
+    /**
+     * NDMAD Illness
+     */
     NDMAD("NDMAD", "Not Defined Maladie A Définir", 0, 2);
 
     private String name;

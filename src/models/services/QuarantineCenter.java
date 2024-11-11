@@ -2,6 +2,9 @@ package models.services;
 
 import models.creatures.Creature;
 
+/**
+ * Class QuarantineCenter
+ */
 public class QuarantineCenter extends Service {
     private double ventilationLevel;
     private double temperature;

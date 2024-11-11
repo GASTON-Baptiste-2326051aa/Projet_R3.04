@@ -4,6 +4,9 @@ import models.creatures.Creature;
 
 import java.util.Arrays;
 
+/**
+ * Class Service
+ */
 public class Service {
     private String name;
     private float surface;

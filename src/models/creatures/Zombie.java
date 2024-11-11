@@ -2,6 +2,9 @@ package models.creatures;
 
 import models.Illness;
 
+/**
+ * Class Zombie
+ */
 public class Zombie extends Creature {
     /**
      * Constructor of the class Zombie
@@ -17,7 +20,7 @@ public class Zombie extends Creature {
         super(name, is_male, age, weight, height, morale, illnesses); }
 
     /**
-     *
+     * Regenerates the service
      */
     public void regenerate(){
 

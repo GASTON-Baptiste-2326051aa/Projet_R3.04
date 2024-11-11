@@ -2,6 +2,9 @@ package models.services;
 
 import models.creatures.Creature;
 
+/**
+ * Class Crypt
+ */
 public class Crypt extends Service {
     /**
      * Constructor of the Crypt constructor

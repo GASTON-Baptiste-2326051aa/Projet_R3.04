@@ -2,6 +2,9 @@ package models.creatures;
 
 import models.Illness;
 
+/**
+ * Class Vampire
+ */
 public class Vampire extends Creature {
     /**
      * Constructor of the class Vampire
@@ -17,21 +20,21 @@ public class Vampire extends Creature {
         super(name, is_male, age, weight, height, moral, illnesses); }
 
     /**
-     *
+     * Demoralizes the service
      */
     public void demoralize(){
 
     }
 
     /**
-     *
+     * Contaminates the service
      */
     public void contaminate(){
 
     }
 
     /**
-     *
+     * Regenerates the service
      */
     public void regenerer(){
 

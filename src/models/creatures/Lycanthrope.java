@@ -2,6 +2,9 @@ package models.creatures;
 
 import models.*;
 
+/**
+ * Class Lycanthrope
+ */
 public class Lycanthrope extends Creature {
     /**
      * Constructor of the class Lycanthrope
@@ -18,7 +21,7 @@ public class Lycanthrope extends Creature {
     }
 
     /**
-     *
+     * Contaminates the service
      */
     public void contaminate(){
 

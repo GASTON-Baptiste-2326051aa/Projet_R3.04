@@ -5,6 +5,9 @@ import models.services.Service;
 
 import java.util.Arrays;
 
+/**
+ * Class Creature
+ */
 public abstract class Creature {
 
     private String name;

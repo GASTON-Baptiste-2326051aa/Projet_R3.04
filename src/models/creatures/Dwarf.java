@@ -2,6 +2,9 @@ package models.creatures;
 
 import models.Illness;
 
+/**
+ * Class Dwarf
+ */
 public class Dwarf extends Creature {
     /**
      * Constructor of the class Dwarf

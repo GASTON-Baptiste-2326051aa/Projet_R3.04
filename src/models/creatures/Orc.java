@@ -2,6 +2,9 @@ package models.creatures;
 
 import models.Illness;
 
+/**
+ * Class Orc
+ */
 public class Orc extends Creature {
     /**
      * Constructor of the class Orc
@@ -18,7 +21,7 @@ public class Orc extends Creature {
     }
 
     /**
-     *
+     * Contaminates the service
      */
     public void contaminate(){
 

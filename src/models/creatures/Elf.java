@@ -1,9 +1,10 @@
 package models.creatures;
 import models.Illness;
 
+/**
+ * Class Elf
+ */
 public class Elf extends Creature {
-
-
     /**
      * Constructor for the class Elf
      * @param name the name of the elf
@@ -19,7 +20,7 @@ public class Elf extends Creature {
     }
 
     /**
-
+     * Demoralizes the service
      */
     public void demoralize(){
 
