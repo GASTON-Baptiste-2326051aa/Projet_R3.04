@@ -22,7 +22,6 @@ public class Orc extends Creature {
 
     /**
      * get all the mortal illnesses of the orc
-     *
      * @return an array of mortal illnesses
      */
     private Illness[] getMortalIllnesses() {
@@ -45,6 +44,7 @@ public class Orc extends Creature {
         for (Creature creature : service.getCreatures()) {
             if (random.nextBoolean()) {
                 creature.addIllness(illness);
+                System.out.println(getName() + "infects another creature !");
                 break;
             }
         }

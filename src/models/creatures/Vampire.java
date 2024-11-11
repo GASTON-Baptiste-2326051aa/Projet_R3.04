@@ -25,7 +25,7 @@ public class Vampire extends Creature {
         super(name, is_male, age, weight, height, moral, illnesses); }
 
     /**
-     * decrease the moral of the creature inside the service
+     * While passing away, demoralizes a part of the creature inside the medical service
      */
     private void demoralize(Service service) {
         for (Creature creature : service.getCreatures()) {
@@ -57,6 +57,7 @@ public class Vampire extends Creature {
         for (Creature creature : service.getCreatures()) {
             if (random.nextBoolean()) {
                 creature.addIllness(illness);
+                System.out.println(getName() + "infects another creature !");
                 break;
             }
         }

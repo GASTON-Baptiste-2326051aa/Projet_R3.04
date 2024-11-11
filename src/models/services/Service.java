@@ -4,7 +4,7 @@ import models.creatures.Creature;
 
 import java.util.Arrays;
 
-public class Service {
+public abstract class Service {
     private String name;
     private float surface;
     private final int creatureMax;

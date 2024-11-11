@@ -24,7 +24,7 @@ public abstract class Creature {
     private float weight;
     private float height;
     private int age;
-    private int moral;
+    private int morale;
     private Illness[] illnesses;
 
     /**
@@ -34,16 +34,17 @@ public abstract class Creature {
      * @param age the age of the creature
      * @param weight the weight of the creature
      * @param height the height of the creature
-     * @param moral the moral of the creature
+     * @param morale the moral of the creature
      * @param maladies the illnesses of the creature
      */
-    public Creature(String name, boolean is_male, int age, float weight, float height, int moral, Illness[] maladies) {
+
+    public Creature(String name, boolean is_male, int age, float weight, float height, int morale, Illness[] illnesses) {
         this.name = name;
         this.is_male = is_male;
         this.weight = weight;
         this.height = height;
         this.age = age;
-        this.moral = moral;
+        this.morale = morale;
         this.illnesses = maladies;
     }
 
@@ -166,13 +167,13 @@ public abstract class Creature {
      * Return the moral of a creature
      * @return the moral of the creature
      */
-    public int getMoral() {
-        return moral;
+    public int getMorale() {
+        return morale;
     }
 
     /**
      * Set the moral of a creature
-     * @param moral the moral of the creature
+     * @param morale the moral of the creature
      */
     public void setMoral(int moral) {
         if (moral > MORAL_MAX) {
@@ -197,9 +198,8 @@ public abstract class Creature {
     }
 
     /**
-     * Add an illness to a creature
-     *
-     * @param illness the illness to add
+     * Cure an illness of a creature
+     * @param illness the illness to cure
      */
     public void addIllness(Illness illness) {
         for (Illness illnesses : this.illnesses) {
@@ -226,7 +226,6 @@ public abstract class Creature {
 
     /**
      * Increase an illness to a creature
-     *
      * @param illness the illness to increase
      */
     public void worseIllness(Illness illness) {
@@ -258,11 +257,16 @@ public abstract class Creature {
                 illnesses.decrease();
                 this.moral += 10;
             }
+            this.morale += 20; // Since the creature is being cured, his morale increased
         }
     }
 
+    public void addIllness(Illness illness) {
+
+    }
+
     /**
-     * the creature wait a time
+     * The creature wait
      * @param service the service where the creature is
      */
     public void waitATime(Service service) {
@@ -277,21 +281,22 @@ public abstract class Creature {
     }
 
     /**
-     * the creature scream in pain
+     * The creature scream in pain if it's morale is at it's lowest
      */
-    public void cry() {
+    public void scream() {
         System.out.println(this.name + " scream in pain");
     }
 
     /**
-     * the creature get carried away
+     * The creature gets carried away if it screams too many times
      */
-    public void panic() {
+    public void carriedAway() {
+
         System.out.println(this.name + " get carried away");
     }
 
     /**
-     * the creature pass away
+     * The creature passes away
      * @param service the service where the creature is
      */
     public boolean passAway(Service service) {
@@ -311,6 +316,18 @@ public abstract class Creature {
         return isDead;
     }
 
+    // TODO
+    // Déclarer ces fonctions ici puis utiliser un OVERRIDE ?
+    public void contaminate(Service service){
+
+    }
+    public void revive(Service service){
+
+    }
+    public void demoralize(Service service){
+      
+    }
+
     @Override
     public String toString() {
         return "Creature{" +
@@ -319,7 +336,7 @@ public abstract class Creature {
                 ", weight=" + weight +
                 ", height=" + height +
                 ", age=" + age +
-                ", moral=" + moral +
+                ", moral=" + morale +
                 ", illnesses=" + Arrays.toString(illnesses) +
                 '}';
     }

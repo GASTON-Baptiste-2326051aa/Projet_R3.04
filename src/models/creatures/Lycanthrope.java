@@ -45,6 +45,7 @@ public class Lycanthrope extends Creature {
         for (Creature creature : service.getCreatures()) {
             if (random.nextBoolean()) {
                 creature.addIllness(illness);
+                System.out.println(getName() + "infects a creature !");
                 break;
             }
         }
