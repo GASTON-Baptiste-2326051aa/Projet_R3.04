@@ -21,37 +21,6 @@ public class Lycanthrope extends Creature {
     }
 
     /**
-     * get all the mortal illnesses of the lycanthrope
-     *
-     * @return an array of mortal illnesses
-     */
-    private Illness[] getMortalIllnesses() {
-        Illness[] mortalIllnesses = new Illness[getIllnesses().length];
-        int i = 0;
-        for (Illness illness : this.getIllnesses()) {
-            if (illness.is_mortal()) {
-                mortalIllnesses[i++] = illness;
-            }
-        }
-        return mortalIllnesses;
-    }
-
-    /**
-     * the lycanthrope contaminate a creature of the service
-     */
-    public void contaminate(Service service) {
-        Random random = new Random();
-        Illness illness = getMortalIllnesses()[random.nextInt(getMortalIllnesses().length)];
-        for (Creature creature : service.getCreatures()) {
-            if (random.nextBoolean()) {
-                creature.addIllness(illness);
-                System.out.println(getName() + "infects a creature !");
-                break;
-            }
-        }
-    }
-
-    /**
      * the lycanthrope pass away and contaminate the creatures inside the service
      */
     @Override

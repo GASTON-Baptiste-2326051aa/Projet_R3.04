@@ -19,12 +19,22 @@ public abstract class Creature {
     private static final float DEFAULT_WEIGHT = 70.8F;
     private static final float DEFAULT_HEIGHT = 1.80F;
 
+    /**
+     * The decrease of the moral of the creatures inside the service
+     */
+    private static final int DEMORALIZE_DECREASE = 5;
+
+    /**
+     * The random object
+     */
+    private final Random random = new Random();
+
     private String name;
     private boolean is_male;
     private float weight;
     private float height;
     private int age;
-    private int morale;
+    private int moral;
     private Illness[] illnesses;
 
     /**
@@ -34,18 +44,17 @@ public abstract class Creature {
      * @param age the age of the creature
      * @param weight the weight of the creature
      * @param height the height of the creature
-     * @param morale the moral of the creature
-     * @param maladies the illnesses of the creature
+     * @param moral the moral of the creature
+     * @param illnesses the illnesses of the creature
      */
-
-    public Creature(String name, boolean is_male, int age, float weight, float height, int morale, Illness[] illnesses) {
+    public Creature(String name, boolean is_male, int age, float weight, float height, int moral, Illness[] illnesses) {
         this.name = name;
         this.is_male = is_male;
         this.weight = weight;
         this.height = height;
         this.age = age;
-        this.morale = morale;
-        this.illnesses = maladies;
+        this.moral = moral;
+        this.illnesses = illnesses;
     }
 
     /**
@@ -167,13 +176,13 @@ public abstract class Creature {
      * Return the moral of a creature
      * @return the moral of the creature
      */
-    public int getMorale() {
-        return morale;
+    public int getMoral() {
+        return moral;
     }
 
     /**
      * Set the moral of a creature
-     * @param morale the moral of the creature
+     * @param moral the moral of the creature
      */
     public void setMoral(int moral) {
         if (moral > MORAL_MAX) {
@@ -257,12 +266,8 @@ public abstract class Creature {
                 illnesses.decrease();
                 this.moral += 10;
             }
-            this.morale += 20; // Since the creature is being cured, his morale increased
+            this.moral += 20; // Since the creature is being cured, his moral increased
         }
-    }
-
-    public void addIllness(Illness illness) {
-
     }
 
     /**
@@ -272,16 +277,16 @@ public abstract class Creature {
     public void waitATime(Service service) {
         this.moral--;
         if (this.moral <= MORAL_MIN) {
-            this.panic();
+            this.carriedAway();
         } else if (this.moral == 0) {
-            this.cry();
+            this.scream();
         } else {
             System.out.println(this.name + " wait a time");
         }
     }
 
     /**
-     * The creature scream in pain if it's morale is at it's lowest
+     * The creature scream in pain if it's moral is at it's lowest
      */
     public void scream() {
         System.out.println(this.name + " scream in pain");
@@ -316,16 +321,52 @@ public abstract class Creature {
         return isDead;
     }
 
-    // TODO
-    // Déclarer ces fonctions ici puis utiliser un OVERRIDE ?
+    /**
+     * get all the mortal illnesses of the creature
+     *
+     * @return an array of mortal illnesses
+     */
+    public Illness[] getMortalIllnesses() {
+        Illness[] mortalIllnesses = new Illness[getIllnesses().length];
+        int i = 0;
+        for (Illness illness : this.getIllnesses()) {
+            if (illness.is_mortal()) {
+                mortalIllnesses[i++] = illness;
+            }
+        }
+        return mortalIllnesses;
+    }
+
+    /**
+     * the creature contaminate another creature of the service
+     */
     public void contaminate(Service service){
-
+        Illness illness = getMortalIllnesses()[random.nextInt(getMortalIllnesses().length)];
+        for (Creature creature : service.getCreatures()) {
+            if (random.nextBoolean()) {
+                creature.addIllness(illness);
+                System.out.println(getName() + "infects another creature !");
+                break;
+            }
+        }
     }
+
+    /**
+     * the creature revive
+     */
     public void revive(Service service){
-
+        service.addCreature(this);
+        System.out.println(this.getName() + " revive !");
     }
+
+    /**
+     * the creature some of the creatures inside the service
+     */
     public void demoralize(Service service){
-      
+        for (Creature creature : service.getCreatures()) {
+            if (random.nextBoolean())
+                creature.setMoral(creature.getMoral() - DEMORALIZE_DECREASE);
+        }
     }
 
     @Override
@@ -336,7 +377,7 @@ public abstract class Creature {
                 ", weight=" + weight +
                 ", height=" + height +
                 ", age=" + age +
-                ", moral=" + morale +
+                ", moral=" + moral +
                 ", illnesses=" + Arrays.toString(illnesses) +
                 '}';
     }

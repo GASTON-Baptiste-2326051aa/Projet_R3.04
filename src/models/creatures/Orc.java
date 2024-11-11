@@ -3,8 +3,6 @@ package models.creatures;
 import models.Illness;
 import models.services.Service;
 
-import java.util.Random;
-
 public class Orc extends Creature {
     /**
      * Constructor of the class Orc
@@ -18,36 +16,6 @@ public class Orc extends Creature {
      */
     public Orc(String name, boolean is_male, int age, int weight, int height, int moral, Illness[] illnesses) {
         super(name, is_male, age, weight, height, moral, illnesses);
-    }
-
-    /**
-     * get all the mortal illnesses of the orc
-     * @return an array of mortal illnesses
-     */
-    private Illness[] getMortalIllnesses() {
-        Illness[] mortalIllnesses = new Illness[getIllnesses().length];
-        int i = 0;
-        for (Illness illness : this.getIllnesses()) {
-            if (illness.is_mortal()) {
-                mortalIllnesses[i++] = illness;
-            }
-        }
-        return mortalIllnesses;
-    }
-
-    /**
-     * the orc contaminate a creature of the service
-     */
-    private void contaminate(Service service) {
-        Random random = new Random();
-        Illness illness = getMortalIllnesses()[random.nextInt(getMortalIllnesses().length)];
-        for (Creature creature : service.getCreatures()) {
-            if (random.nextBoolean()) {
-                creature.addIllness(illness);
-                System.out.println(getName() + "infects another creature !");
-                break;
-            }
-        }
     }
 
     /**

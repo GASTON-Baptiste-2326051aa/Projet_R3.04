@@ -3,12 +3,6 @@ import models.Illness;
 import models.services.Service;
 
 public class Elf extends Creature {
-
-    /**
-     * the decrease of the moral of the creatures inside the service
-     */
-    private static final int DEMORALIZE_DECREASE = 5;
-
     /**
      * Constructor for the class Elf
      * @param name the name of the elf
@@ -21,15 +15,6 @@ public class Elf extends Creature {
      */
     public Elf(String name, boolean is_male, int age, float weight, float height, int moral, Illness[] illnesses) {
         super(name, is_male, age, weight, height, moral, illnesses);
-    }
-
-    /**
-     * decrease the moral of the creature inside the service
-     */
-    private void demoralize(Service service) {
-        for (Creature creature : service.getCreatures()) {
-            creature.setMoral(creature.getMoral() - DEMORALIZE_DECREASE);
-        }
     }
 
     /**
