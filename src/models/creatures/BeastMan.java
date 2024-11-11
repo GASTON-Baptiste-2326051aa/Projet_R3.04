@@ -3,8 +3,6 @@ package models.creatures;
 import models.Illness;
 import models.services.Service;
 
-import java.util.Random;
-
 public class BeastMan extends Creature {
     /**
      * Constructor of the class BeastMan
