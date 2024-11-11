@@ -1,9 +1,8 @@
 package models.creatures;
 import models.Illness;
+import models.services.Service;
 
 public class Elf extends Creature {
-
-
     /**
      * Constructor for the class Elf
      * @param name the name of the elf
@@ -19,9 +18,15 @@ public class Elf extends Creature {
     }
 
     /**
-
+     * the elf pass away and demoralize the creatures inside the service
      */
-    public void demoralize(){
-
+    @Override
+    public boolean passAway(Service service) {
+        boolean isDead = super.passAway(service);
+        if (isDead) {
+            service.removeCreature(this);
+            demoralize(service);
+        }
+        return isDead;
     }
 }

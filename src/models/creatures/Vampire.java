@@ -1,6 +1,9 @@
 package models.creatures;
 
 import models.Illness;
+import models.services.Service;
+
+import java.util.Random;
 
 public class Vampire extends Creature {
     /**
@@ -14,28 +17,21 @@ public class Vampire extends Creature {
      * @param illnesses the illnesses of a vampire
      */
     public Vampire(String name, boolean is_male, int age, int weight, int height, int moral, Illness[] illnesses) {
-        super(name, is_male, age, weight, height, moral, illnesses); }
-
-    /**
-     * While passing away, demoralizes a part of the creature inside the medical service
-     */
-    public void demoralize(){
-
+        super(name, is_male, age, weight, height, moral, illnesses);
     }
 
     /**
-     * Contaminates another creature
+     * the vampire pass away, contaminate a creature, demoralize the creatures inside the service and revive
      */
-    public void contaminate(){
-        System.out.println(getName() + "infects another creature !");
-
-    }
-
-    /**
-     * Can regenearate itself, meaning that the moral is going back to default
-     */
-    public void regenerate(){
-        System.out.println(getName() + "regenerates itself !");
-        setMorale(100);
+    @Override
+    public boolean passAway(Service service) {
+        boolean isDead = super.passAway(service);
+        if (isDead) {
+            service.removeCreature(this);
+            contaminate(service);
+            demoralize(service);
+            revive(service);
+        }
+        return isDead;
     }
 }

@@ -1,6 +1,9 @@
 package models.creatures;
 
-import models.*;
+import models.Illness;
+import models.services.Service;
+
+import java.util.Random;
 
 public class Lycanthrope extends Creature {
     /**
@@ -18,10 +21,15 @@ public class Lycanthrope extends Creature {
     }
 
     /**
-     * Contaminates another creature
+     * the lycanthrope pass away and contaminate the creatures inside the service
      */
-    public void contaminate(){
-        System.out.println(getName() + "infects a creature !");
-
+    @Override
+    public boolean passAway(Service service) {
+        boolean isDead = super.passAway(service);
+        if (isDead) {
+            service.removeCreature(this);
+            contaminate(service);
+        }
+        return isDead;
     }
 }

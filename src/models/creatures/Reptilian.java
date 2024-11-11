@@ -1,6 +1,7 @@
 package models.creatures;
 
 import models.Illness;
+import models.services.Service;
 
 public class Reptilian extends Creature {
     /**
@@ -14,5 +15,17 @@ public class Reptilian extends Creature {
      * @param illnesses the illnesses of the reptilian
      */
     public Reptilian(String name, boolean is_male, int age, int weight, int height, int moral, Illness[] illnesses) {
-        super(name, is_male, age, weight, height, moral, illnesses);}
+        super(name, is_male, age, weight, height, moral, illnesses);
+    }
+
+    /**
+     * the reptilian pass away
+     */
+    @Override
+    public boolean passAway(Service service) {
+        boolean isDead = super.passAway(service);
+        if (isDead)
+            service.removeCreature(this);
+        return isDead;
+    }
 }

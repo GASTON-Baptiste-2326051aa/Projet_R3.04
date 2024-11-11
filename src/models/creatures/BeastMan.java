@@ -1,6 +1,7 @@
 package models.creatures;
 
 import models.Illness;
+import models.services.Service;
 
 public class BeastMan extends Creature {
     /**
@@ -18,9 +19,16 @@ public class BeastMan extends Creature {
     }
 
     /**
-     * Can contaminate another creature
+     * the beastman pass away and contaminate the creatures inside the service
      */
-    public void contaminate(){
-        System.out.println(getName() + "infects another creature");
+    @Override
+    public boolean passAway(Service service) {
+        boolean isDead = super.passAway(service);
+        if (isDead) {
+            service.removeCreature(this);
+            contaminate(service);
+        }
+        return isDead;
+
     }
 }
