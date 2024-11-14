@@ -27,7 +27,7 @@ public abstract class Creature {
     /**
      * The random object
      */
-    private final Random random = new Random();
+    private static final Random random = new Random();
 
     private String name;
     private boolean is_male;
