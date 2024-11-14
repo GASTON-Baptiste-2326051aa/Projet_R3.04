@@ -6,16 +6,30 @@ import models.services.Service;
 public class Zombie extends Creature {
     /**
      * Constructor of the class Zombie
-     * @param name name of a zombie
-     * @param is_male gender of a zombie
-     * @param age age of a Zombie
-     * @param weight poids of a Zomboe
-     * @param height height of a zombie
-     * @param morale morale of a zombie
-     * @param illnesses list of illnesses of a zombie
+     * @param name the name of a zombie
+     * @param is_male the gender of a zombie
+     * @param age the age of a Zombie
+     * @param weight the weight of a Zomboe
+     * @param height the height of a zombie
+     * @param morale the morale of a zombie
+     * @param illnesses the illnesses of a zombie
      */
-    public Zombie(String name, boolean is_male, int age, int weight, int height, int morale, Illness[] illnesses) {
+    public Zombie(String name, boolean is_male, int age, float weight, float height, int morale, Illness[] illnesses) {
         super(name, is_male, age, weight, height, morale, illnesses);
+    }
+
+    /**
+     * Second constructor of the class Zombie
+     *
+     * @param name      the name of a zombie
+     * @param is_male   the sexe of a zombie
+     * @param age       the age of a zombie
+     * @param weight    the weight of a zombie
+     * @param height    the height of a zombie
+     * @param illnesses the illnesses of a zombie
+     */
+    public Zombie(String name, boolean is_male, int age, float weight, float height, Illness[] illnesses) {
+        super(name, is_male, age, weight, height, illnesses);
     }
 
     /**

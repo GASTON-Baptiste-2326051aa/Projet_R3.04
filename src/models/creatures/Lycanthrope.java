@@ -3,8 +3,6 @@ package models.creatures;
 import models.Illness;
 import models.services.Service;
 
-import java.util.Random;
-
 public class Lycanthrope extends Creature {
     /**
      * Constructor of the class Lycanthrope
@@ -13,11 +11,24 @@ public class Lycanthrope extends Creature {
      * @param age the age of the lycanthrope
      * @param weight the weight of the lycanthrope
      * @param height the height of the lycanthrope
-     * @param moral the moral of the lycanthrope
+     * @param morale the morale of the lycanthrope
      * @param illnesses the illnesses of the lycanthrope
      */
-    public Lycanthrope(String name, boolean is_male, int age, float weight, float height, int moral, Illness[] illnesses) {
-        super(name, is_male, age, weight, height, moral, illnesses);
+    public Lycanthrope(String name, boolean is_male, int age, float weight, float height, int morale, Illness[] illnesses) {
+        super(name, is_male, age, weight, height, morale, illnesses);
+    }
+
+    /**
+     * Second constructor of the class Lycanthrope
+     * @param name the name of the lycanthrope
+     * @param is_male the sexe of the lycanthrope
+     * @param age the age of the lycanthrope
+     * @param weight the weight of the lycanthrope
+     * @param height the height of the lycanthrope
+     * @param illnesses the illnesses of the lycanthrope
+     */
+    public Lycanthrope(String name, boolean is_male, int age, float weight, float height, Illness[] illnesses) {
+        super(name, is_male, age, weight, height, illnesses);
     }
 
     /**

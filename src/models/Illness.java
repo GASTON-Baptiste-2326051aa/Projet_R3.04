@@ -1,30 +1,21 @@
 package models;
 
-public enum Illness {
-    MDC("MDC", "Maladie débilitante chronique", 0, 7),
-    FOMO("FOMO", "Fear of missing out", 0, 10),
-    DRS("DRS", "Dépendance aux réseaux sociaux", 0, 6),
-    PEC("PEC", "Porphyrie érythropoïétique congénitale", 0, 5),
-    ZPL("ZPL", "Zoopathie paraphrénique lycanthropique", 0, 4),
-    NDMAD("NDMAD", "Not Defined Maladie A Définir", 0, 2);
+public class Illness {
 
-    private String name;
-    private String fullName;
+    private final String name;
+    private final String fullName;
     private int lvl;
     private final int lvlMax;
 
     /**
-     * the constructor of the enum class Illness
-     * @param name the name of Illness
-     * @param fullName the full name of Illness
-     * @param lvl the level of the Illness
-     * @param lvlMax the max level of the Illness
+     * Constructor of the class Illness
+     * @param illnesses the base of the creature's illness
      */
-    Illness(String name, String fullName, int lvl, int lvlMax) {
-        this.name = name;
-        this.fullName = fullName;
-        this.lvl = lvl;
-        this.lvlMax = lvlMax;
+    public Illness(Illnesses illnesses) {
+        this.name = illnesses.getName();
+        this.fullName = illnesses.getFullName();
+        this.lvl = 0;
+        this.lvlMax = illnesses.getLvlMax();
     }
 
     /**
@@ -36,87 +27,68 @@ public enum Illness {
     }
 
     /**
-     * redefine the new value of this.fullName
-     * @param fullName the new value of this.fullName
-     */
-    public void setFullName(String fullName) {
-        this.fullName = fullName;
-    }
-
-    /**
-     * return this.name
-     * @return this.name
+     * Return the name of an illness
+     * @return the name of an illness
      */
     public String getName() {
         return name;
     }
 
     /**
-     * define the new value of this.name
-     * @param name the new value of this.name
-     */
-    public void setName(String name) {
-        this.name = name;
-    }
-
-    /**
-     * return this.lvl
-     * @return this.lvl
+     * Return the level of an illness
+     * @return the level of an illness
      */
     public int getLvl() {
         return lvl;
     }
 
     /**
-     * define the new value of this.lvl
-     * @param lvl the new value of this.lvl
+     * Set the level of an illness
+     * @param lvl the level of an illness
      */
     public void setLvl(int lvl) {
         this.lvl = lvl;
-        if (this.lvl <= 0)
-            System.out.println(this.fullName + " guéri");
-        else
-            System.out.println(this.fullName + " a atteint le niveau " + this.lvl);
+        if (this.lvl > lvlMax) {
+            this.lvl = lvlMax;
+        } else if (this.lvl < 0) {
+            this.lvl = 0;
+        }
     }
 
     /**
-     * return max level of the illness
-     * @return max level of the illness
+     * Return the max level of an illness
+     * @return the max level of an illness
      */
     public int getLvlMax() {
         return lvlMax;
     }
 
     /**
-     * decrease illness level if possible
+     * Increase the level of an illness
      */
-    public void decrease() {
-        if (this.lvl > 0) {
-            this.lvl--;
+    public void increase() {
+        if (lvl < lvlMax) {
+            setLvl(lvl + 1);
         }
     }
 
     /**
-     * increase illness level
+     * Decrease the level of an illness
      */
-    public void increase() {
-        this.lvl++;
+    public void decrease() {
+        if (lvl > 0) {
+            setLvl(lvl - 1);
+        }
     }
 
     /**
-     * Return if illness is mortal or not
-     * @return if illness is mortal or not
+     * Return if the illness is mortal
+     * @return if the illness is mortal
      */
     public boolean is_mortal() {
-        return this.lvl == this.lvlMax;
+        return lvl == lvlMax;
     }
 
-    /**
-     * return "Illness{name='name', fullName='fullName', lvl=0, lvlMax=2}"
-     * with this.name='name', this.fullName='fullName', this.lvl=0 and this.lvlMax=2
-     * @return "Illness{name='name', fullName='fullName', lvl=0, lvlMax=2}"
-     */
-    @Override
     public String toString() {
         return "Illness{" +
                 "name='" + name + '\'' +

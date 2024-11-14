@@ -16,8 +16,8 @@ public class Crypt extends Service {
         super(name, surface, creatureMax, creatureNow, creatures, budget);
     }
 
-    @Override
+    /*@Override
     public void setBudget(int budget) {
 
-    }
+    }*/
 }

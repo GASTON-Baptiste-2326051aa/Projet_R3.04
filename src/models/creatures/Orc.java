@@ -11,11 +11,25 @@ public class Orc extends Creature {
      * @param age the age of the orc
      * @param weight the weight of the orc
      * @param height the height of the orc
-     * @param moral the moral of the orc
+     * @param morale the morale of the orc
      * @param illnesses the illnesses of the orc
      */
-    public Orc(String name, boolean is_male, int age, int weight, int height, int moral, Illness[] illnesses) {
-        super(name, is_male, age, weight, height, moral, illnesses);
+    public Orc(String name, boolean is_male, int age, float weight, float height, int morale, Illness[] illnesses) {
+        super(name, is_male, age, weight, height, morale, illnesses);
+    }
+
+    /**
+     * Second constructor of the class Orc
+     *
+     * @param name      the name of the orc
+     * @param is_male   the sexe of the orc
+     * @param age       the age of the orc
+     * @param weight    the weight of the orc
+     * @param height    the height of the orc
+     * @param illnesses the illnesses of the orc
+     */
+    public Orc(String name, boolean is_male, int age, float weight, float height, Illness[] illnesses) {
+        super(name, is_male, age, weight, height, illnesses);
     }
 
     /**

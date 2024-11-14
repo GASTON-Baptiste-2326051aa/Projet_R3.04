@@ -64,16 +64,16 @@ public abstract class Creature {
      * @param weight the weight of the creature
      * @param height the height of the creature
      * @param age the age of the creature
-     * @param maladies the illnesses of the creature
+     * @param illnesses the illnesses of the creature
      */
-    public Creature(String name, boolean is_male, float weight, float height, int age, Illness[] maladies) {
+    public Creature(String name, boolean is_male, int age, float weight, float height, Illness[] illnesses) {
         this.name = name;
         this.is_male = is_male;
         this.weight = weight;
         this.height = height;
         this.age = age;
         this.moral = MORAL_MAX;
-        this.illnesses = maladies;
+        this.illnesses = illnesses;
     }
 
     /**
@@ -120,7 +120,7 @@ public abstract class Creature {
      * Set the gender of a creature
      * @param is_male : if it is true, it is a male, otherwise it is a female
      */
-    public void setIs_Male(boolean is_male) {
+    public void setMale(boolean is_male) {
         this.is_male = is_male;
     }
 
@@ -364,8 +364,10 @@ public abstract class Creature {
      */
     public void demoralize(Service service){
         for (Creature creature : service.getCreatures()) {
-            if (random.nextBoolean())
+            if (random.nextBoolean()) {
                 creature.setMoral(creature.getMoral() - DEMORALIZE_DECREASE);
+                System.out.println(this.getName() + " demoralize " + creature.getName());
+            }
         }
     }
 
