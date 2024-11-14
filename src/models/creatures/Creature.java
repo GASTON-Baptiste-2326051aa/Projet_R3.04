@@ -27,14 +27,14 @@ public abstract class Creature {
     /**
      * The random object
      */
-    private final Random random = new Random();
+    protected final Random random = new Random();
 
     private String name;
     private boolean is_male;
     private float weight;
     private float height;
     private int age;
-    private int moral;
+    private int morale;
     private Illness[] illnesses;
 
     /**
@@ -44,16 +44,16 @@ public abstract class Creature {
      * @param age the age of the creature
      * @param weight the weight of the creature
      * @param height the height of the creature
-     * @param moral the moral of the creature
+     * @param morale the moral of the creature
      * @param illnesses the illnesses of the creature
      */
-    public Creature(String name, boolean is_male, int age, float weight, float height, int moral, Illness[] illnesses) {
+    public Creature(String name, boolean is_male, int age, float weight, float height, int morale, Illness[] illnesses) {
         this.name = name;
         this.is_male = is_male;
         this.weight = weight;
         this.height = height;
         this.age = age;
-        this.moral = moral;
+        this.morale = morale;
         this.illnesses = illnesses;
     }
 
@@ -72,7 +72,7 @@ public abstract class Creature {
         this.weight = weight;
         this.height = height;
         this.age = age;
-        this.moral = MORAL_MAX;
+        this.morale = MORAL_MAX;
         this.illnesses = maladies;
     }
 
@@ -88,7 +88,7 @@ public abstract class Creature {
         this.weight = DEFAULT_WEIGHT;
         this.height = DEFAULT_HEIGHT;
         this.age = age;
-        this.moral = MORAL_MAX;
+        this.morale = MORAL_MAX;
         this.illnesses = new Illness[0];
     }
 
@@ -176,18 +176,18 @@ public abstract class Creature {
      * Return the moral of a creature
      * @return the moral of the creature
      */
-    public int getMoral() {
-        return moral;
+    public int getMorale() {
+        return morale;
     }
 
     /**
      * Set the moral of a creature
-     * @param moral the moral of the creature
+     * @param morale the moral of the creature
      */
-    public void setMoral(int moral) {
-        if (moral > MORAL_MAX) {
-            this.moral = MORAL_MAX;
-        } else this.moral = Math.max(moral, MORAL_MIN);
+    public void setMorale(int morale) {
+        if (morale > MORAL_MAX) {
+            this.morale = MORAL_MAX;
+        } else this.morale = Math.max(morale, MORAL_MIN);
     }
 
     /**
@@ -226,10 +226,10 @@ public abstract class Creature {
     /**
      * Increase all the illnesses of a creature
      */
-    public void worseAllIllness() {
+    public void increaseAllIllness() {
         for (Illness illness : this.illnesses) {
             illness.increase();
-            this.moral -= 10;
+            this.morale -= 10;
         }
     }
 
@@ -237,11 +237,11 @@ public abstract class Creature {
      * Increase an illness to a creature
      * @param illness the illness to increase
      */
-    public void worseIllness(Illness illness) {
+    public void increaseIllness(Illness illness) {
         for (Illness illnesses : this.illnesses) {
             if (illnesses.getName().equals(illness.getName())) {
                 illnesses.increase();
-                this.moral -= 10;
+                this.morale -= 10;
             }
         }
     }
@@ -252,7 +252,7 @@ public abstract class Creature {
     public void cureAllIllness() {
         for (Illness illness : this.illnesses) {
             illness.decrease();
-            this.moral += 10;
+            this.morale += 10;
         }
     }
 
@@ -264,9 +264,9 @@ public abstract class Creature {
         for (Illness illnesses : this.illnesses) {
             if (illnesses.getName().equals(illness.getName())) {
                 illnesses.decrease();
-                this.moral += 10;
+                this.morale += 10;
             }
-            this.moral += 20; // Since the creature is being cured, his moral increased
+            this.morale += 20; // Since the creature is being cured, his moral increased
         }
     }
 
@@ -274,14 +274,16 @@ public abstract class Creature {
      * The creature wait
      * @param service the service where the creature is
      */
-    public void waitATime(Service service) {
-        this.moral--;
-        if (this.moral <= MORAL_MIN) {
+    public void waitATime(Service service) throws InterruptedException {
+        this.morale--;
+        wait(10000);
+        if (this.morale <= MORAL_MIN) {
             this.carriedAway();
-        } else if (this.moral == 0) {
+        } else if (this.morale <= 0) {
             this.scream();
         } else {
             System.out.println(this.name + " wait a time");
+
         }
     }
 
@@ -289,15 +291,17 @@ public abstract class Creature {
      * The creature scream in pain if it's moral is at it's lowest
      */
     public void scream() {
-        System.out.println(this.name + " scream in pain");
+        System.out.println(this.name + " scream in pain ! ");
     }
 
     /**
      * The creature gets carried away if it screams too many times
      */
     public void carriedAway() {
-
-        System.out.println(this.name + " get carried away");
+        System.out.println(this.name + " get carried away ! ");
+        for (int i = 0; i < 6; ++i){
+            scream();
+        }
     }
 
     /**
@@ -316,7 +320,7 @@ public abstract class Creature {
             }
         }
         if (isDead) {
-            System.out.println(this.name + " pass away");
+            System.out.println(this.name + " passes away.");
         }
         return isDead;
     }
@@ -337,19 +341,7 @@ public abstract class Creature {
         return mortalIllnesses;
     }
 
-    /**
-     * the creature contaminate another creature of the service
-     */
-    public void contaminate(Service service){
-        Illness illness = getMortalIllnesses()[random.nextInt(getMortalIllnesses().length)];
-        for (Creature creature : service.getCreatures()) {
-            if (random.nextBoolean()) {
-                creature.addIllness(illness);
-                System.out.println(getName() + "infects another creature !");
-                break;
-            }
-        }
-    }
+
 
     /**
      * the creature revive
@@ -360,12 +352,12 @@ public abstract class Creature {
     }
 
     /**
-     * the creature some of the creatures inside the service
+     * the creature demoralize some of the creatures inside the service
      */
     public void demoralize(Service service){
         for (Creature creature : service.getCreatures()) {
             if (random.nextBoolean())
-                creature.setMoral(creature.getMoral() - DEMORALIZE_DECREASE);
+                creature.setMorale(creature.getMorale() - DEMORALIZE_DECREASE);
         }
     }
 
@@ -377,7 +369,7 @@ public abstract class Creature {
                 ", weight=" + weight +
                 ", height=" + height +
                 ", age=" + age +
-                ", moral=" + moral +
+                ", moral=" + morale +
                 ", illnesses=" + Arrays.toString(illnesses) +
                 '}';
     }

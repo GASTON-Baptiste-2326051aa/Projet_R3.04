@@ -5,7 +5,7 @@ import models.services.Service;
 
 import java.util.Random;
 
-public class Vampire extends Creature {
+public class Vampire extends Creature implements UndeadCreature, BestialCreature {
     /**
      * Constructor of the class Vampire
      * @param name the name of a vampire
@@ -21,6 +21,15 @@ public class Vampire extends Creature {
     }
 
     /**
+     * the creature revive
+     */
+    @Override
+    public void revive(Service service){
+        service.addCreature(this);
+        System.out.println(this.getName() + " revive !");
+    }
+
+    /**
      * the vampire pass away, contaminate a creature, demoralize the creatures inside the service and revive
      */
     @Override
@@ -33,5 +42,19 @@ public class Vampire extends Creature {
             revive(service);
         }
         return isDead;
+    }
+
+    @Override
+    public void contaminate(Service service) {
+        Illness illness = getMortalIllnesses()[random.nextInt(getMortalIllnesses().length)];
+        Random random = new Random();
+        int randomNumber = random.nextInt(101);
+        for (Creature creature : service.getCreatures()) {
+            if (random.nextInt() < 21) {
+                creature.addIllness(illness);
+                System.out.println(getName() + "infects another creature !");
+                break;
+            }
+        }
     }
 }
