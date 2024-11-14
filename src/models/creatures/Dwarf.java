@@ -3,7 +3,7 @@ package models.creatures;
 import models.Illness;
 import models.services.Service;
 
-public class Dwarf extends Creature {
+public class Dwarf extends Creature implements VIPCreature{
     /**
      * Constructor of the class Dwarf
      * @param name the name of the dwarf
@@ -27,5 +27,10 @@ public class Dwarf extends Creature {
         if (isDead)
             service.removeCreature(this);
         return isDead;
+    }
+
+    @Override
+    public void waitATime() {
+
     }
 }

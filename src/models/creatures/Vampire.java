@@ -5,7 +5,7 @@ import models.services.Service;
 
 import java.util.Random;
 
-public class Vampire extends Creature implements UndeadCreature, BestialCreature {
+public class Vampire extends Creature implements UndeadCreature, BestialCreature, VIPCreature {
     /**
      * Constructor of the class Vampire
      * @param name the name of a vampire
@@ -44,6 +44,8 @@ public class Vampire extends Creature implements UndeadCreature, BestialCreature
         return isDead;
     }
 
+
+
     @Override
     public void contaminate(Service service) {
         Illness illness = getMortalIllnesses()[random.nextInt(getMortalIllnesses().length)];
@@ -56,5 +58,10 @@ public class Vampire extends Creature implements UndeadCreature, BestialCreature
                 break;
             }
         }
+    }
+
+    @Override
+    public void waitATime() {
+
     }
 }

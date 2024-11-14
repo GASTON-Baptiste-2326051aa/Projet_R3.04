@@ -3,7 +3,7 @@ package models.creatures;
 import models.Illness;
 import models.services.Service;
 
-public class Reptilian extends Creature {
+public class Reptilian extends Creature, VIPCreature {
     /**
      * Constructor of the class Reptilian
      * @param name the name of the reptilian
@@ -27,5 +27,10 @@ public class Reptilian extends Creature {
         if (isDead)
             service.removeCreature(this);
         return isDead;
+    }
+
+    @Override
+    public void waitATime() {
+
     }
 }

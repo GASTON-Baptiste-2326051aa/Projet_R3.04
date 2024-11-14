@@ -2,7 +2,7 @@ package models.creatures;
 import models.Illness;
 import models.services.Service;
 
-public class Elf extends Creature {
+public class Elf extends Creature implements IntimidatingCreature, VIPCreature {
     /**
      * Constructor for the class Elf
      * @param name the name of the elf
@@ -18,6 +18,17 @@ public class Elf extends Creature {
     }
 
     /**
+     * the creature demoralize some of the creatures inside the service
+     */
+    @Override
+    public void demoralize(Service service){
+        for (Creature creature : service.getCreatures()) {
+            if (random.nextBoolean())
+                creature.setMorale(creature.getMorale() - DEMORALIZE_DECREASE);
+        }
+    }
+
+    /**
      * the elf pass away and demoralize the creatures inside the service
      */
     @Override
@@ -28,5 +39,10 @@ public class Elf extends Creature {
             demoralize(service);
         }
         return isDead;
+    }
+
+    @Override
+    public void waitATime() {
+
     }
 }

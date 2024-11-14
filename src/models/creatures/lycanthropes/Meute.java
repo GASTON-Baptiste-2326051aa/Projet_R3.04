@@ -1,15 +1,15 @@
 package models.creatures.lycanthropes;
 
-import models.creatures.Lycanthrope;
+import models.creatures.Werewolf;
 
 import java.util.List;
 
 public class Meute {
     private String lieu;
     private String nom;
-    private Lycanthrope maleAlpha;
-    private Lycanthrope femaleAlpha;
-    private List<Lycanthrope> meute;
+    private Werewolf maleAlpha;
+    private Werewolf femaleAlpha;
+    private List<Werewolf> meute;
 
 
     public Meute(String lieu, String nom) {
@@ -33,36 +33,36 @@ public class Meute {
         this.nom = nom;
     }
 
-    public Lycanthrope getMaleAlpha() {
+    public Werewolf getMaleAlpha() {
         return maleAlpha;
     }
 
-    public void setMaleAlpha(Lycanthrope maleAlpha) {
+    public void setMaleAlpha(Werewolf maleAlpha) {
         this.maleAlpha = maleAlpha;
     }
 
-    public Lycanthrope getFemaleAlpha() {
+    public Werewolf getFemaleAlpha() {
         return femaleAlpha;
     }
 
-    public void setFemaleAlpha(Lycanthrope femaleAlpha) {
+    public void setFemaleAlpha(Werewolf femaleAlpha) {
         this.femaleAlpha = femaleAlpha;
     }
 
-    public List<Lycanthrope> getMeute() {
+    public List<Werewolf> getMeute() {
         return meute;
     }
 
-    public void setMeute(List<Lycanthrope> meute) {
+    public void setMeute(List<Werewolf> meute) {
         this.meute = meute;
     }
 
-    public void addLycanthrope(Lycanthrope lycanthrope) {
-        this.meute.add(lycanthrope);
+    public void addLycanthrope(Werewolf werewolf) {
+        this.meute.add(werewolf);
     }
 
-    public void removeLycanthrope(Lycanthrope lycanthrope){
-        this.meute.remove(lycanthrope);
+    public void removeLycanthrope(Werewolf werewolf){
+        this.meute.remove(werewolf);
     }
 
     public boolean isEmpty(){

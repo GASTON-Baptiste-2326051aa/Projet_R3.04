@@ -5,8 +5,7 @@ import models.services.Service;
 
 import java.util.Random;
 
-public class BeastMan extends Creature implements BestialCreature {
-    private Random random = new Random();
+public class BeastMan extends Creature implements BestialCreature, TriageCreature {
     /**
      * Constructor of the class BeastMan
      * @param name the name of the beastman
@@ -21,6 +20,10 @@ public class BeastMan extends Creature implements BestialCreature {
         super(name, is_male, age, weight, height, moral, illnesses);
     }
 
+    /**
+     * the creature contaminate another creature of the service
+     * @param service
+     */
     @Override
     public void contaminate(Service service) {
         Illness illness = getMortalIllnesses()[random.nextInt(getMortalIllnesses().length)];
@@ -46,6 +49,11 @@ public class BeastMan extends Creature implements BestialCreature {
             contaminate(service);
         }
         return isDead;
+
+    }
+
+    @Override
+    public void waitATime() {
 
     }
 }

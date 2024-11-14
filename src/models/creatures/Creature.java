@@ -10,19 +10,19 @@ public abstract class Creature {
     /**
      * The maximum and minimum moral of a creature
      */
-    private static final int MORAL_MAX = 100;
-    private static final int MORAL_MIN = -5;
+    protected static final int MORAL_MAX = 100;
+    protected static final int MORAL_MIN = -5;
 
     /**
      * The default weight and height of a creature
      */
-    private static final float DEFAULT_WEIGHT = 70.8F;
-    private static final float DEFAULT_HEIGHT = 1.80F;
+    protected static final float DEFAULT_WEIGHT = 70.8F;
+    protected static final float DEFAULT_HEIGHT = 1.80F;
 
     /**
      * The decrease of the moral of the creatures inside the service
      */
-    private static final int DEMORALIZE_DECREASE = 5;
+    protected static final int DEMORALIZE_DECREASE = 5;
 
     /**
      * The random object
@@ -341,25 +341,6 @@ public abstract class Creature {
         return mortalIllnesses;
     }
 
-
-
-    /**
-     * the creature revive
-     */
-    public void revive(Service service){
-        service.addCreature(this);
-        System.out.println(this.getName() + " revive !");
-    }
-
-    /**
-     * the creature demoralize some of the creatures inside the service
-     */
-    public void demoralize(Service service){
-        for (Creature creature : service.getCreatures()) {
-            if (random.nextBoolean())
-                creature.setMorale(creature.getMorale() - DEMORALIZE_DECREASE);
-        }
-    }
 
     @Override
     public String toString() {

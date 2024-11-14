@@ -3,7 +3,7 @@ package models.creatures;
 import models.Illness;
 import models.services.Service;
 
-public class Zombie extends Creature {
+public class Zombie extends Creature implements TriageCreature{
     /**
      * Constructor of the class Zombie
      * @param name name of a zombie
@@ -29,5 +29,10 @@ public class Zombie extends Creature {
             revive(service);
         }
         return isDead;
+    }
+
+    @Override
+    public void waitATime() {
+
     }
 }

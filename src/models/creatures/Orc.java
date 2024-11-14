@@ -3,7 +3,9 @@ package models.creatures;
 import models.Illness;
 import models.services.Service;
 
-public class Orc extends Creature {
+import java.util.Random;
+
+public class Orc extends Creature implements BestialCreature, TriageCreature{
     /**
      * Constructor of the class Orc
      * @param name the name of the orc
@@ -29,5 +31,28 @@ public class Orc extends Creature {
             contaminate(service);
         }
         return isDead;
+    }
+
+    /**
+     * the creature contaminate another creature of the service
+     * @param service
+     */
+    @Override
+    public void contaminate(Service service) {
+        Illness illness = getMortalIllnesses()[random.nextInt(getMortalIllnesses().length)];
+        Random random = new Random();
+        int randomNumber = random.nextInt(101);
+        for (Creature creature : service.getCreatures()) {
+            if (random.nextInt() < 21) {
+                creature.addIllness(illness);
+                System.out.println(getName() + "infects another creature !");
+                break;
+            }
+        }
+    }
+
+    @Override
+    public void waitATime() {
+
     }
 }

@@ -4,10 +4,9 @@ import models.Illness;
 import models.creatures.lycanthropes.Meute;
 import models.services.Service;
 
-import java.util.Arrays;
 import java.util.Random;
 
-public class Lycanthrope extends Creature {
+public class Werewolf extends Creature implements BestialCreature, TriageCreature {
 
     private int rank;
     private String dominationFactor;
@@ -28,7 +27,7 @@ public class Lycanthrope extends Creature {
      * @param moral the moral of the lycanthrope
      * @param illnesses the illnesses of the lycanthrope
      */
-    public Lycanthrope(String name, boolean is_male, int age, float weight, float height, int moral, Illness[] illnesses) {
+    public Werewolf(String name, boolean is_male, int age, float weight, float height, int moral, Illness[] illnesses) {
         super(name, is_male, age, weight, height, moral, illnesses);
     }
 
@@ -44,7 +43,7 @@ public class Lycanthrope extends Creature {
      * @param rank
      * @param dominationFactor
      */
-    public Lycanthrope(String name, boolean is_male, int age, float weight, float height, int moral, Illness[] illnesses, int rank, String dominationFactor, int strenght, int level, String impetuosityFactor, boolean isAlone, Meute meute) {
+    public Werewolf(String name, boolean is_male, int age, float weight, float height, int moral, Illness[] illnesses, int rank, String dominationFactor, int strenght, int level, String impetuosityFactor, boolean isAlone, Meute meute) {
         super(name, is_male, age, weight, height, moral, illnesses);
         this.rank = rank;
         this.dominationFactor = dominationFactor;
@@ -113,4 +112,26 @@ public class Lycanthrope extends Creature {
     }
 
 
+    /**
+     * the creature contaminate another creature of the service
+     * @param service
+     */
+    @Override
+    public void contaminate(Service service) {
+        Illness illness = getMortalIllnesses()[random.nextInt(getMortalIllnesses().length)];
+        Random random = new Random();
+        int randomNumber = random.nextInt(101);
+        for (Creature creature : service.getCreatures()) {
+            if (random.nextInt() < 21) {
+                creature.addIllness(illness);
+                System.out.println(getName() + "infects another creature !");
+                break;
+            }
+        }
+    }
+
+    @Override
+    public void waitATime() {
+        
+    }
 }
