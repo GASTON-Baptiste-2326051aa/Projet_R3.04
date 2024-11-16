@@ -303,6 +303,7 @@ public abstract class Creature {
     /**
      * The creature passes away
      * @param service the service where the creature is
+     * A FINALISER
      */
     public boolean passAway(Service service) {
         boolean isDead = false;

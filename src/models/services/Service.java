@@ -1,14 +1,15 @@
 package models.services;
 
+import models.Illness;
 import models.creatures.Creature;
 
 import java.util.Arrays;
 
-public abstract class Service {
+public class Service {
     private String name;
     private float surface;
     private final int creatureMax;
-    private int creatureNow;
+    private int creatureNow = 0;
     private Creature[] creatures;
     private int budget;
 
@@ -17,16 +18,13 @@ public abstract class Service {
      * @param name the name of the service
      * @param surface the surface of the service
      * @param creatureMax the max amount of creature than the service could get
-     * @param creatureNow the actual amount of creature than the service could get
-     * @param creatures the list of creature actually inside the service
      * @param budget the budget of the service
      */
-    public Service(String name, float surface, int creatureMax, int creatureNow, Creature[] creatures, int budget) {
+    public Service(String name, float surface, int creatureMax, int budget) {
         this.name = name;
         this.surface = surface;
         this.creatureMax = creatureMax;
-        this.creatureNow = creatureNow;
-        this.creatures = creatures;
+        this.creatures = new Creature[creatureMax];
         this.budget = budget;
     }
 
@@ -115,6 +113,7 @@ public abstract class Service {
      */
     public void setBudget(int budget) {
         this.budget = budget;
+        System.out.println("The budget of the service is now " + budgetToString(budget));
     }
 
     /**
@@ -134,12 +133,27 @@ public abstract class Service {
 
     /**
      * Add a creature inside a service
-     * @param creature a creature to add to the service
+     * @param creature a creature to add to the service if it's possible
      */
     public void addCreature(Creature creature) {
         if (this.creatureNow < this.creatureMax) {
-            this.creatures[this.creatureNow] = creature;
-            this.creatureNow++;
+            if(this.creatureNow == 0) {
+                this.creatures[0] = creature;
+                this.creatureNow++;
+            }
+            if (creature.getClass()==creatures[0].getClass())
+            {
+                this.creatures[this.creatureNow] = creature;
+                this.creatureNow++;
+            }
+            else
+            {
+                System.out.println("This service is only for "+creatures[0].getClass());
+            }
+        }
+        else
+        {
+            System.out.println("The service is full");
         }
     }
 
@@ -157,6 +171,23 @@ public abstract class Service {
                 break;
             }
         }
+    }
+    /**
+     * Cure a creature from an illness
+     * @param creature a creature to cure
+     * @param illness an illness to cure
+     */
+    public void cureCreature(Creature creature, Illness illness)
+    {
+        creature.cureIllness(illness);
+    }
+    /**
+     * Cure a creature from all its illness
+     * @param creature a creature to cure
+     */
+    public void cureFullyCreature(Creature creature)
+    {
+        creature.cureAllIllness();
     }
 
     @Override
