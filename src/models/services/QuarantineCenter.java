@@ -2,52 +2,76 @@ package models.services;
 
 import models.creatures.Creature;
 
+import java.util.Arrays;
+
 public class QuarantineCenter extends Service {
-    private double ventilationLevel;
-    private double temperature;
+    private boolean isolation;
 
     /**
-     * Constructor of the QuarantineCenter class
-     * @param name the name of the service
-     * @param surface the surface of the service
-     * @param creatureMax the maximum number of creatures that can be in the service
-     * @param creatureNow the current number of creatures in the service
-     * @param creatures the creatures in the service
-     * @param budget the budget of the service
+     * Constructor of a quarantine center
+     * @param name the name of the quarantine center
+     * @param surface the surface of the center
+     * @param creatureMax the max number of creatures
+     * @param budget the budget of the center
+     * @param isolation whether the center is isolated or not
      */
-    public QuarantineCenter(String name, float surface, int creatureMax, int creatureNow, Creature[] creatures, int budget) {
-        super(name, surface, creatureMax, creatureNow, creatures, budget);
+    public QuarantineCenter(String name, float surface, int creatureMax, int budget, boolean isolation) {
+        super(name, surface, creatureMax, budget);
+        this.isolation = isolation;
     }
 
     /**
-     * return the temperature of the Quarantine Center
-     * @return the temperature of the Quarantine Center
+     * Check if the center is in isolation
+     * @return true if the center is isolated, false otherwise
      */
-    public double getTemperature() {
-        return temperature;
+    public boolean isIsolation() {
+        return isolation;
     }
 
     /**
-     * set the temperature of the Quarantine Center
-     * @param temperature the temperature of the Quarantine Center
+     * Set the isolation state of the center
+     * @param isolation the new isolation state
      */
-    public void setTemperature(double temperature) {
-        this.temperature = temperature;
+    public void setIsolation(boolean isolation) {
+        this.isolation = isolation;
     }
 
     /**
-     * return the ventilation level of the Quarantine Center
-     * @return the ventilation level of the Quarantine Center
+     * Override the addCreature method to ensure only contagious creatures can be added
+     * @param creature a creature to add
      */
-    public double getVentilationLevel() {
-        return ventilationLevel;
+    @Override
+    public void addCreature(Creature creature) {
+        if (creature.isContagious()) { //Il faut tester si c'est une créature bestiale
+            super.addCreature(creature);
+        } else {
+            System.out.println("Only contagious creatures are allowed in a quarantine center.");
+        }
     }
 
     /**
-     * set the ventilation level of the Quarantine Center
-     * @param ventilationLevel the ventilation level of the Quarantine Center
+     * Override the budget revision to include the isolation factor
      */
-    public void setVentilationLevel(double ventilationLevel) {
-        this.ventilationLevel = ventilationLevel;
+    @Override
+    public void setBudget(int budget) {
+        if (isolation) {
+            super.setBudget(budget+10);
+        }
+        else {
+            super.setBudget(budget);
+        }
+    }
+
+    @Override
+    public String toString() {
+        return "QuarantineCenter{" +
+                "name='" + getName() + '\'' +
+                ", surface=" + getSurface() +
+                ", creatureMax=" + getCreatureMax() +
+                ", creatureNow=" + getCreatureNow() +
+                ", budget='" + budgetToString(getBudget()) +
+                "', isolation=" + isolation +
+                ", creatures=" + Arrays.toString(getCreatures()) +
+                "}";
     }
 }
