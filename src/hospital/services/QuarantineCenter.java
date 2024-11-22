@@ -1,12 +1,15 @@
-package hospital.services.type;
+package hospital.services;
 
-import hospital.services.Service;
-import hospital.race.Creature;
+import hospital.entity.Creature;
+import hospital.race.behavior.Contaminate;
 
 import java.util.Arrays;
 
+/**
+ * QuarantineCenter
+ */
 public class QuarantineCenter extends Service {
-    private boolean isolation;
+    private int isolation;
 
     /**
      * Constructor of a quarantine center
@@ -16,7 +19,7 @@ public class QuarantineCenter extends Service {
      * @param budget the budget of the center
      * @param isolation whether the center is isolated or not
      */
-    public QuarantineCenter(String name, float surface, int creatureMax, int budget, boolean isolation) {
+    public QuarantineCenter(String name, float surface, int creatureMax, int budget, int isolation) {
         super(name, surface, creatureMax, budget);
         this.isolation = isolation;
     }
@@ -25,7 +28,7 @@ public class QuarantineCenter extends Service {
      * Check if the center is in isolation
      * @return true if the center is isolated, false otherwise
      */
-    public boolean isIsolation() {
+    public int isIsolation() {
         return isolation;
     }
 
@@ -33,7 +36,7 @@ public class QuarantineCenter extends Service {
      * Set the isolation state of the center
      * @param isolation the new isolation state
      */
-    public void setIsolation(boolean isolation) {
+    public void setIsolation(int isolation) {
         this.isolation = isolation;
     }
 
@@ -43,7 +46,7 @@ public class QuarantineCenter extends Service {
      */
     @Override
     public void addCreature(Creature creature) {
-        if (creature.isContagious()) { //Il faut tester si c'est une créature bestiale
+        if (creature instanceof Contaminate) { //Il faut tester si c'est une créature bestiale
             super.addCreature(creature);
         } else {
             System.out.println("Only contagious creatures are allowed in a quarantine center.");
@@ -55,14 +58,14 @@ public class QuarantineCenter extends Service {
      */
     @Override
     public void setBudget(int budget) {
-        if (isolation) {
-            super.setBudget(budget+10);
-        }
-        else {
-            super.setBudget(budget);
-        }
+        super.setBudget(budget);
+        isolation = budget;
     }
 
+    /**
+     * Return the string representation of the quarantine center
+     * @return the string representation of the quarantine center
+     */
     @Override
     public String toString() {
         return "QuarantineCenter{" +

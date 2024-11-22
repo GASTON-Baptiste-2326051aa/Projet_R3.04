@@ -1,5 +1,8 @@
 package hospital.illness;
 
+/**
+ * The Illnesses enum class
+ */
 public enum Illnesses {
     MDC("MDC", "Maladie débilitante chronique", 7),
     FOMO("FOMO", "Fear of missing out", 10),
@@ -8,8 +11,17 @@ public enum Illnesses {
     ZPL("ZPL", "Zoopathie paraphrénique lycanthropique", 4),
     NDMAD("NDMAD", "Not Defined Maladie A Définir", 2);
 
+    /**
+     * the name of the Illness
+     */
     private final String name;
+    /**
+     * the full name of the Illness
+     */
     private final String fullName;
+    /**
+     * the level of the Illness
+     */
     private final int lvlMax;
 
     /**
@@ -17,7 +29,6 @@ public enum Illnesses {
      *
      * @param name     the name of Illness
      * @param fullName the full name of Illness
-     * @param lvl      the level of the Illness
      * @param lvlMax   the max level of the Illness
      */
     Illnesses(String name, String fullName, int lvlMax) {

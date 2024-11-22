@@ -1,10 +1,30 @@
 package hospital.illness;
 
+/**
+ * The Illness class
+ */
 public class Illness {
 
+    /**
+     * The amount of illnesses
+     */
+    public final static int AMOUNT = Illnesses.values().length;
+
+    /**
+     * The name of an illness
+     */
     private final String name;
+    /**
+     * The full name of an illness
+     */
     private final String fullName;
+    /**
+     * The level of an illness
+     */
     private int lvl;
+    /**
+     * The max level of an illness
+     */
     private final int lvlMax;
 
     /**
@@ -89,6 +109,10 @@ public class Illness {
         return lvl == lvlMax;
     }
 
+    /**
+     * Return the string representation of an illness
+     * @return the string representation of an illness
+     */
     public String toString() {
         return "Illness{" +
                 "name='" + name + '\'' +

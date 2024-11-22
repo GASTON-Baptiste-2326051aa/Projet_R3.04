@@ -1,16 +1,37 @@
 package hospital.services;
 
+import hospital.entity.Creature;
 import hospital.illness.Illness;
-import hospital.race.Creature;
 
 import java.util.Arrays;
 
+/**
+ * Service
+ */
 public class Service {
+    /**
+     * The name of the service
+     */
     private String name;
+    /**
+     * The surface of the service
+     */
     private float surface;
+    /**
+     * The max amount of creature than the service could get
+     */
     private final int creatureMax;
+    /**
+     * The actual number of creatures inside the service
+     */
     private int creatureNow = 0;
+    /**
+     * The creatures inside the service
+     */
     private Creature[] creatures;
+    /**
+     * The budget of the service
+     */
     private int budget;
 
     /**
@@ -172,6 +193,7 @@ public class Service {
             }
         }
     }
+
     /**
      * Cure a creature from an illness
      * @param creature a creature to cure
@@ -181,6 +203,7 @@ public class Service {
     {
         creature.cureIllness(illness);
     }
+
     /**
      * Cure a creature from all its illness
      * @param creature a creature to cure
@@ -190,6 +213,10 @@ public class Service {
         creature.cureAllIllness();
     }
 
+    /**
+     * Return the string representation of a service
+     * @return the string representation of a service
+     */
     @Override
     public String toString() {
         return "Service{" +

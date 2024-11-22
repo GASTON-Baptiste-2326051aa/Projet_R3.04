@@ -1,12 +1,22 @@
-package hospital.services.type;
+package hospital.services;
 
-import hospital.services.Service;
-import hospital.race.Creature;
+import hospital.entity.Creature;
+import hospital.race.Zombie;
+import hospital.race.behavior.Revive;
 
 import java.util.Arrays;
 
+/**
+ * Crypt
+ */
 public class Crypt extends Service {
+    /**
+     * The ventilation level of the crypt
+     */
     private int ventilationLevel; // Niveau de ventilation (de 1 à 10, par exemple)
+    /**
+     * The temperature of the crypt
+     */
     private float temperature; // Température en degrés Celsius
 
     /**
@@ -66,7 +76,7 @@ public class Crypt extends Service {
      */
     @Override
     public void addCreature(Creature creature) {
-        if (creature.isRegenerative()) { // vérifier si c'est un mort vivant
+        if (creature instanceof Revive) { // vérifier si c'est un mort vivant
             super.addCreature(creature);
         } else {
             System.out.println("Only regenerative creatures are allowed in a crypt.");
@@ -83,6 +93,11 @@ public class Crypt extends Service {
         System.out.println("Budget revised considering ventilation (Level " + ventilationLevel
                 + ") and temperature (" + temperature + "°C).");
     }
+
+    /**
+     * Return the string representation of the crypt
+     * @return the string representation of the crypt
+     */
     @Override
     public String toString() {
         return "Crypt{" +
