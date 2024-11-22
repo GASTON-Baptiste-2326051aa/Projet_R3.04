@@ -82,7 +82,6 @@ public class Crypt extends Service {
         System.out.println("Budget revised considering ventilation (Level " + ventilationLevel
                 + ") and temperature (" + temperature + "°C).");
     }
-
     @Override
     public String toString() {
         return "Crypt{" +
