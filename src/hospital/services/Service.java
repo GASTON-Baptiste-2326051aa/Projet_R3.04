@@ -295,6 +295,5 @@ public class Service extends Thread {
             creature.run();
         }
         System.out.println(getName() + " is running");
-
     }
 }
