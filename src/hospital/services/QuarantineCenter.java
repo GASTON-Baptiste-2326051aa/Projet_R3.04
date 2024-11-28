@@ -28,7 +28,7 @@ public class QuarantineCenter extends Service {
      *
      * @return true if the center is isolated, false otherwise
      */
-    public boolean isIsolation() {
+    public boolean isIsolate() {
         return isolation;
     }
 
@@ -84,13 +84,12 @@ public class QuarantineCenter extends Service {
     @Override
     public String toString() {
         return "QuarantineCenter{" +
-                "name='" + getName() + '\'' +
+                "name=" + getName() +
                 ", surface=" + getSurface() +
                 ", creatureMax=" + getCreatureMax() +
                 ", creatureNow=" + getCreatureNow() +
-                ", budget='" + budgetToString(getBudget()) +
-                "', isolation=" + isolation +
-                ", creatures=" + getCreatures() +
+                ", budget=" + budgetToString(getBudget()) +
+                ", isolation=" + isolation +
                 "}";
     }
 }
