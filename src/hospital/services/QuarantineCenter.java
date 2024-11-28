@@ -1,6 +1,6 @@
 package hospital.services;
 
-import hospital.entity.Creature;
+import hospital.entity.Patient;
 import hospital.race.behavior.Contaminate;
 
 import java.util.Arrays;
@@ -45,7 +45,7 @@ public class QuarantineCenter extends Service {
      * @param creature a creature to add
      */
     @Override
-    public void addCreature(Creature creature) {
+    public void addCreature(Patient creature) {
         if (creature instanceof Contaminate) { //Il faut tester si c'est une créature bestiale
             super.addCreature(creature);
         } else {

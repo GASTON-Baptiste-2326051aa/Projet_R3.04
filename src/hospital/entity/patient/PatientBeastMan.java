@@ -3,30 +3,32 @@ package hospital.entity.patient;
 import hospital.entity.Creature;
 import hospital.entity.Patient;
 import hospital.illness.Illness;
+import hospital.illness.SetIllness;
 import hospital.race.BeastMan;
 import hospital.services.Service;
 
 public class PatientBeastMan extends Creature implements Patient, BeastMan {
 
     private int morale;
-    private Illness[] illnesses;
+    private SetIllness illnesses;
 
-    public PatientBeastMan(String name, boolean isMale,  int age, int weight, int height, int morale, Illness[] illnesses) {
+    public PatientBeastMan(String name, boolean isMale, int age, float weight, float height, int morale, SetIllness illnesses) {
         super(name, isMale, age, weight, height);
         this.morale = morale;
         this.illnesses = illnesses;
     }
 
-    public PatientBeastMan(String name, boolean isMale, int age, int weight, int height) {
+    public PatientBeastMan(String name, boolean isMale, int age, float weight, float height) {
         super(name, isMale, age, weight, height);
         this.morale = MORALE_MAX;
-        this.illnesses = new Illness[Illness.AMOUNT];
+        this.illnesses = new SetIllness();
     }
+
 
     public PatientBeastMan(String name, boolean isMale, int age) {
         super(name, isMale, age);
         this.morale = MORALE_MAX;
-        this.illnesses = new Illness[Illness.AMOUNT];
+        this.illnesses = new SetIllness();
     }
 
     /**
@@ -53,7 +55,7 @@ public class PatientBeastMan extends Creature implements Patient, BeastMan {
      * @return the illnesses of the patient
      */
     @Override
-    public Illness[] getIllnesses() {
+    public SetIllness getIllnesses() {
         return this.illnesses;
     }
 
@@ -63,7 +65,7 @@ public class PatientBeastMan extends Creature implements Patient, BeastMan {
      * @param illnesses the illnesses of the patient
      */
     @Override
-    public void setIllnesses(Illness[] illnesses) {
+    public void setIllnesses(SetIllness illnesses) {
         this.illnesses = illnesses;
     }
 
@@ -74,14 +76,7 @@ public class PatientBeastMan extends Creature implements Patient, BeastMan {
      */
     @Override
     public void addIllness(Illness illness) {
-        if (this.illnesses == null) {
-            this.illnesses = new Illness[]{illness};
-        } else {
-            Illness[] tmp = new Illness[this.illnesses.length + 1];
-            System.arraycopy(this.illnesses, 0, tmp, 0, this.illnesses.length);
-            tmp[tmp.length - 1] = illness;
-            this.illnesses = tmp;
-        }
+        this.illnesses.add(illness);
     }
 
     /**
@@ -91,17 +86,7 @@ public class PatientBeastMan extends Creature implements Patient, BeastMan {
      */
     @Override
     public void removeIllness(Illness illness) {
-        if (this.illnesses != null) {
-            for (int i = 0; i < this.illnesses.length; i++) {
-                if (this.illnesses[i].equals(illness)) {
-                    Illness[] tmp = new Illness[this.illnesses.length - 1];
-                    System.arraycopy(this.illnesses, 0, tmp, 0, i);
-                    System.arraycopy(this.illnesses, i + 1, tmp, i, this.illnesses.length - i - 1);
-                    this.illnesses = tmp;
-                    break;
-                }
-            }
-        }
+        this.illnesses.remove(illness);
     }
 
     /**
@@ -143,7 +128,7 @@ public class PatientBeastMan extends Creature implements Patient, BeastMan {
      */
     @Override
     public void contaminate(Service service) {
-
+        service.contaminate(this);
     }
 
 

@@ -1,6 +1,7 @@
 package hospital.entity;
 
 import hospital.illness.Illness;
+import hospital.illness.SetIllness;
 
 /**
  * The Patient interface
@@ -32,15 +33,16 @@ public interface Patient extends Entity {
 
     /**
      * The illnesses of the patient
+     *
      * @return the illnesses of the patient
      */
-    Illness[] getIllnesses();
+    SetIllness getIllnesses();
 
     /**
      * Set the illnesses of the patient
      * @param illnesses the illnesses of the patient
      */
-    void setIllnesses(Illness[] illnesses);
+    void setIllnesses(SetIllness illnesses);
 
     /**
      * Add an illness to the patient

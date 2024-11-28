@@ -3,6 +3,7 @@ package hospital.entity.patient;
 import hospital.entity.Creature;
 import hospital.entity.Patient;
 import hospital.illness.Illness;
+import hospital.illness.SetIllness;
 import hospital.illness.Illnesses;
 import hospital.race.Dwarf;
 
@@ -12,26 +13,24 @@ import static java.lang.Thread.sleep;
 
 public class PatientDwarf extends Creature implements Patient, Dwarf {
     private int morale;
-    private Illness[] illnesses;
+    private SetIllness illnesses;
 
-    public PatientDwarf(String name, boolean isMale, int age, int weight, int height, int morale, Illness[] illnesses) {
+    public PatientDwarf(String name, boolean isMale, int age, float weight, float height, int morale, SetIllness illnesses) {
         super(name, isMale, age, weight, height);
         this.morale = morale;
         this.illnesses = illnesses;
     }
 
-    public PatientDwarf(String name, boolean isMale, int age, int weight, int height) {
+    public PatientDwarf(String name, boolean isMale, int age, float weight, float height) {
         super(name, isMale, age, weight, height);
         this.morale = MORALE_MAX;
-        this.illnesses = new Illness[1];
-        this.illnesses[0] = Illnesses.getRandomIllness();
+        this.illnesses = new SetIllness();
     }
 
     public PatientDwarf(String name, boolean isMale, int age) {
         super(name, isMale, age);
         this.morale = MORALE_MAX;
-        this.illnesses = new Illness[1];
-        this.illnesses[0] = Illnesses.getRandomIllness();
+        this.illnesses = new SetIllness();
     }
 
     /**
@@ -58,7 +57,7 @@ public class PatientDwarf extends Creature implements Patient, Dwarf {
      * @return the illnesses of the patient
      */
     @Override
-    public Illness[] getIllnesses() {
+    public SetIllness getIllnesses() {
         return this.illnesses;
     }
 
@@ -68,7 +67,7 @@ public class PatientDwarf extends Creature implements Patient, Dwarf {
      * @param illnesses the illnesses of the patient
      */
     @Override
-    public void setIllnesses(Illness[] illnesses) {
+    public void setIllnesses(SetIllness illnesses) {
         this.illnesses = illnesses;
     }
 
@@ -80,13 +79,10 @@ public class PatientDwarf extends Creature implements Patient, Dwarf {
     @Override
     public void addIllness(Illness illness) {
         if (this.illnesses == null) {
-            this.illnesses = new Illness[]{illness};
-        } else {
-            Illness[] newIllnesses = new Illness[this.illnesses.length + 1];
-            System.arraycopy(this.illnesses, 0, newIllnesses, 0, this.illnesses.length);
-            newIllnesses[this.illnesses.length] = illness;
-            this.illnesses = newIllnesses;
+            this.illnesses = new SetIllness();
+
         }
+        this.illnesses.add(illness);
     }
 
     /**
@@ -97,15 +93,7 @@ public class PatientDwarf extends Creature implements Patient, Dwarf {
     @Override
     public void removeIllness(Illness illness) {
         if (this.illnesses != null) {
-            Illness[] newIllnesses = new Illness[this.illnesses.length - 1];
-            int j = 0;
-            for (Illness i : this.illnesses) {
-                if (i != illness) {
-                    newIllnesses[j] = i;
-                    j++;
-                }
-            }
-            this.illnesses = newIllnesses;
+            this.illnesses.remove(illness);
         }
     }
 
@@ -143,35 +131,6 @@ public class PatientDwarf extends Creature implements Patient, Dwarf {
      */
     @Override
     public void carriedAway() {
-        System.out.println("The patient " + this.getName() + " has been carried away.");
-    }
-    /**
-     * Thread of the patient
-     */
-    @Override
-    public void run() {
-        boolean isRunning = true;
-        while (isRunning) {
-            waitATime();
-            if(this.morale <= MORALE_SCREAM) {
-                scream();
-            }
-            if(this.morale <= MORALE_MIN) {
-                carriedAway();
-            }
-            for (Illness illness : this.illnesses) {
-                if (illness.is_mortal()) {
-                    passAway();
-                    isRunning = false;
-                }
-            }
-            Random random = new Random();
-            if (random.nextInt(100) < 10) {
-                Illness illness = this.illnesses[random.nextInt(illnesses.length)];
-                illness.setLvl(illness.getLvl() + 1);
-                System.out.println("The patient " + this.getName() + " has an illness " + illness.getName() + " at level " + illness.getLvl());
-            }
-        }
 
     }
 }

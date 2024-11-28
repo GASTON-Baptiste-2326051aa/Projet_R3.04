@@ -6,11 +6,11 @@ import org.junit.jupiter.api.Test;
 import static org.junit.jupiter.api.Assertions.*;
 
 class LycanthropeTest {
-    private Lycanthrope lycanthrope;
+    private Werewolf lycanthrope;
 
     @BeforeEach
     void setUp() {
-        this.lycanthrope = new Lycanthrope(true, 0, 10, Rank.ALPHA, 0, null);
+        this.lycanthrope = new Werewolf(true, 0, 10, Rank.ALPHA, 0, null);
     }
 
     @Test
@@ -111,9 +111,9 @@ class LycanthropeTest {
 
     @Test
     void setMeute() {
-        Lycanthrope lycanthrope = new Lycanthrope(false, 0, 10, Rank.ALPHA, 0, null);
-        Lycanthrope lycanthrope2 = new Lycanthrope(true, 0, 10, Rank.ALPHA, 0, null);
-        Meute meute = new Meute(new CoupleLycanthrope(lycanthrope, lycanthrope2), new Lycanthrope[100], new World());
+        Werewolf lycanthrope = new Werewolf(false, 0, 10, Rank.ALPHA, 0, null);
+        Werewolf lycanthrope2 = new Werewolf(true, 0, 10, Rank.ALPHA, 0, null);
+        Meute meute = new Meute(new CoupleWerewolf(lycanthrope, lycanthrope2), new Werewolf[100], new World());
         this.lycanthrope.setMeute(meute);
         assertEquals(meute, this.lycanthrope.getMeute());
     }
@@ -139,7 +139,7 @@ class LycanthropeTest {
     @Test
     void testHurle() {
         World world = new World();
-        Lycanthrope to = new Lycanthrope(false, 0, 10, Rank.ALPHA, 0, null);
+        Werewolf to = new Werewolf(false, 0, 10, Rank.ALPHA, 0, null);
         this.lycanthrope.hurle(world, to, Message.LOVE);
         assertEquals(this.lycanthrope, world.getHurlements()[0].getFrom());
         assertEquals(to, world.getHurlements()[0].getTo());
@@ -148,7 +148,7 @@ class LycanthropeTest {
 //    @Test
 //    void entendre() {
 //        World world = new World();
-//        Lycanthrope from = new Lycanthrope(false, 0, 10, Rank.ALPHA, 0, null);
+//        Werewolf from = new Werewolf(false, 0, 10, Rank.ALPHA, 0, null);
 //        from.hurle(world, Message.LOVE);
 //        this.lycanthrope.entendre(world);
 //        assertEquals(2, world.getHurlementCount());
@@ -162,7 +162,7 @@ class LycanthropeTest {
     @Test
     void creerMeute() {
         World world = new World();
-        Lycanthrope lycanthropes = new Lycanthrope(false, 0, 10, Rank.ALPHA, 0, null);
+        Werewolf lycanthropes = new Werewolf(false, 0, 10, Rank.ALPHA, 0, null);
         this.lycanthrope.creerMeute(world, lycanthropes);
         assertEquals(1, world.getMeutes()[0].getLycanthropeCount());
     }
@@ -170,8 +170,8 @@ class LycanthropeTest {
     @Test
     void rejoindreMeute() {
         World world = new World();
-        Lycanthrope lycanthropes = new Lycanthrope(false, 0, 10, Rank.ALPHA, 0, null);
-        Lycanthrope lycanthropes2 = new Lycanthrope(true, 0, 10, Rank.ALPHA, 0, null);
+        Werewolf lycanthropes = new Werewolf(false, 0, 10, Rank.ALPHA, 0, null);
+        Werewolf lycanthropes2 = new Werewolf(true, 0, 10, Rank.ALPHA, 0, null);
         lycanthropes2.creerMeute(world, lycanthropes);
         this.lycanthrope.rejoindreMeute(world, lycanthropes2.getMeute());
         assertEquals(2, world.getMeutes()[0].getLycanthropeCount());
@@ -180,8 +180,8 @@ class LycanthropeTest {
     @Test
     void quitterMeute() {
         World world = new World();
-        Lycanthrope lycanthropes = new Lycanthrope(false, 0, 10, Rank.ALPHA, 0, null);
-        Lycanthrope lycanthropes2 = new Lycanthrope(true, 0, 10, Rank.ALPHA, 0, null);
+        Werewolf lycanthropes = new Werewolf(false, 0, 10, Rank.ALPHA, 0, null);
+        Werewolf lycanthropes2 = new Werewolf(true, 0, 10, Rank.ALPHA, 0, null);
         lycanthropes2.creerMeute(world, lycanthropes);
         this.lycanthrope.rejoindreMeute(world, lycanthropes2.getMeute());
         this.lycanthrope.quitterMeute(world);

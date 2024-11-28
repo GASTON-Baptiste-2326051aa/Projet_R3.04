@@ -3,14 +3,15 @@ package hospital.entity.patient;
 import hospital.entity.Creature;
 import hospital.entity.Patient;
 import hospital.illness.Illness;
+import hospital.illness.SetIllness;
 import hospital.race.Werewolf;
 import hospital.services.Service;
 
 public class PatientWerewolf extends Creature implements Patient, Werewolf {
     public int morale;
-    public Illness[] illnesses;
+    public SetIllness illnesses;
 
-    public PatientWerewolf(String name, boolean isMale, int age, float weight, float height, int morale, Illness[] illnesses) {
+    public PatientWerewolf(String name, boolean isMale, int age, float weight, float height, int morale, SetIllness illnesses) {
         super(name, isMale, age, weight, height);
         this.morale = morale;
         this.illnesses = illnesses;
@@ -19,13 +20,13 @@ public class PatientWerewolf extends Creature implements Patient, Werewolf {
     public PatientWerewolf(String name, boolean isMale, int age, float weight, float height) {
         super(name, isMale, age, weight, height);
         this.morale = MORALE_MAX;
-        this.illnesses = new Illness[Illness.AMOUNT];
+        this.illnesses = new SetIllness();
     }
 
     public PatientWerewolf(String name, boolean isMale, int age) {
         super(name, isMale, age);
         this.morale = MORALE_MAX;
-        this.illnesses = new Illness[Illness.AMOUNT];
+        this.illnesses = new SetIllness();
     }
 
     /**
@@ -52,7 +53,7 @@ public class PatientWerewolf extends Creature implements Patient, Werewolf {
      * @return the illnesses of the patient
      */
     @Override
-    public Illness[] getIllnesses() {
+    public SetIllness getIllnesses() {
         return this.illnesses;
     }
 
@@ -62,7 +63,7 @@ public class PatientWerewolf extends Creature implements Patient, Werewolf {
      * @param illnesses the illnesses of the patient
      */
     @Override
-    public void setIllnesses(Illness[] illnesses) {
+    public void setIllnesses(SetIllness illnesses) {
         this.illnesses = illnesses;
     }
 
@@ -74,13 +75,9 @@ public class PatientWerewolf extends Creature implements Patient, Werewolf {
     @Override
     public void addIllness(Illness illness) {
         if (illness == null) {
-            this.illnesses = new Illness[]{illness};
-        } else {
-            Illness[] newIllnesses = new Illness[this.illnesses.length + 1];
-            System.arraycopy(this.illnesses, 0, newIllnesses, 0, this.illnesses.length);
-            newIllnesses[this.illnesses.length] = illness;
-            this.illnesses = newIllnesses;
+            this.illnesses = new SetIllness();
         }
+        this.illnesses.add(illness);
     }
 
     /**
@@ -91,15 +88,7 @@ public class PatientWerewolf extends Creature implements Patient, Werewolf {
     @Override
     public void removeIllness(Illness illness) {
         if (this.illnesses != null) {
-            Illness[] newIllnesses = new Illness[this.illnesses.length - 1];
-            int j = 0;
-            for (Illness i : this.illnesses) {
-                if (i != illness) {
-                    newIllnesses[j] = i;
-                    j++;
-                }
-            }
-            this.illnesses = newIllnesses;
+            this.illnesses.remove(illness);
         }
     }
 

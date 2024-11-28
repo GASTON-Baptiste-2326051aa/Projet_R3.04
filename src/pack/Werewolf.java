@@ -2,7 +2,7 @@ package pack;
 
 import java.util.Random;
 
-public class Lycanthrope extends Thread {
+public class Werewolf extends Thread {
 
     public static Random random = new Random();
     private boolean isMale;
@@ -16,7 +16,16 @@ public class Lycanthrope extends Thread {
     private boolean enCouple;
     private World world;
 
-    public Lycanthrope(boolean isMale, int catAge, int force, Rank rang, int impetuosite, Meute meute) {
+    /**
+     * Constructor the Werewolf class
+     * @param isMale
+     * @param catAge
+     * @param force
+     * @param rang
+     * @param impetuosite
+     * @param meute
+     */
+    public Werewolf(boolean isMale, int catAge, int force, Rank rang, int impetuosite, Meute meute) {
         this.isMale = isMale;
         this.catAge = catAge;
         this.force = force;
@@ -27,7 +36,17 @@ public class Lycanthrope extends Thread {
         setDomination();
     }
 
-    public Lycanthrope(boolean isMale, int catAge, int force, Rank rang, int impetuosite, Meute meute, World world) {
+    /**
+     *
+     * @param isMale
+     * @param catAge
+     * @param force
+     * @param rang
+     * @param impetuosite
+     * @param meute
+     * @param world
+     */
+    public Werewolf(boolean isMale, int catAge, int force, Rank rang, int impetuosite, Meute meute, World world) {
         this.isMale = isMale;
         this.catAge = catAge;
         this.force = force;
@@ -39,13 +58,22 @@ public class Lycanthrope extends Thread {
         setDomination();
     }
 
+    /**
+     * Return true if the werewolf is a male, otherwise it is false
+     * @return the sex of the werewolf
+     */
     public boolean isMale() {
         return this.isMale;
     }
 
+    /**
+     * Set the gender of the werewolf
+     * @param isMale true if it is a male, otherwise false if it is a female
+     */
     public void setMale(boolean isMale) {
         this.isMale = isMale;
     }
+
 
     public int getCatAge() {
         return this.catAge;
@@ -56,6 +84,10 @@ public class Lycanthrope extends Thread {
         setLvl();
     }
 
+    /**
+     * Increments the age of the cat. It dies if it's older than 3 years old
+     * @param world
+     */
     public void vieillir(World world) {
         this.catAge++;
         if (this.catAge >= 3)
@@ -65,12 +97,16 @@ public class Lycanthrope extends Thread {
 
     public String catAgeToString(int catAge) {
         return switch (catAge) {
-            case 0 -> "Jeune";
-            case 1 -> "Adulte";
-            default -> "Vieux";
+            case 0 -> "Young";
+            case 1 -> "Adult";
+            default -> "Old";
         };
     }
 
+    /**
+     * Return the force of a werewolf
+     * @return
+     */
     public int getForce() {
         return this.force;
     }
@@ -89,7 +125,7 @@ public class Lycanthrope extends Thread {
     public void setDomination() {
         this.domination = 0;
         if (this.meute != null)
-            for (Lycanthrope lycanthrope : meute.getLycanthropes()) {
+            for (Werewolf lycanthrope : meute.getLycanthropes()) {
                 if (lycanthrope != null && lycanthrope != this)
                     if (this.rang != null && lycanthrope.rang != null)
                         this.domination += lycanthrope.rang.getValue() - this.rang.getValue();
@@ -110,6 +146,9 @@ public class Lycanthrope extends Thread {
         return this.lvl;
     }
 
+    /**
+     *
+     */
     public void setLvl() {
         this.lvl = this.catAge + this.force + this.domination + (this.rang != null ? this.rang.getValue() : 0);
     }
@@ -142,12 +181,12 @@ public class Lycanthrope extends Thread {
 
     public void hurle(World world, Message message) {
         world.addHurlement(new Hurlement(this, message));
-        System.out.println("Un Lycanthrope vient de hurler un message : " + message);
+        System.out.println("A Werewolf just yelled a message: " + message);
     }
 
-    public void hurle(World world, Lycanthrope to, Message message) {
+    public void hurle(World world, Werewolf to, Message message) {
         world.addHurlement(new Hurlement(this, to, message));
-        System.out.println("Un Lycanthrope vient de répondre à un autre Lycanthrope : " + message);
+        System.out.println("A Werewolf just responded to another Werewolf : " + message);
     }
 
     public void entendre(World world) {
@@ -205,7 +244,7 @@ public class Lycanthrope extends Thread {
     }
 
     public void meurt(World world) {
-        System.out.println("un Lycanthrope vient de mourir...");
+        System.out.println("un Werewolf vient de mourir...");
         this.meute.removeLycanthrope(this);
         world.removeLycanthrope(this);
         try {
@@ -215,8 +254,8 @@ public class Lycanthrope extends Thread {
         }
     }
 
-    public void defier(World world, Lycanthrope lycanthrope) {
-        System.out.println("un Lycanthrope vient de défier un autre Lycanthrope...");
+    public void defier(World world, Werewolf lycanthrope) {
+        System.out.println("un Werewolf vient de défier un autre Werewolf...");
         if (this.getForce() > lycanthrope.getForce()) {
             System.out.println("Le défi a réussi !");
             Rank tmp = lycanthrope.getRang();
@@ -240,10 +279,10 @@ public class Lycanthrope extends Thread {
             lycanthrope.quitterMeute(world);
     }
 
-    public void creerMeute(World world, Lycanthrope lycanthrope) {
+    public void creerMeute(World world, Werewolf lycanthrope) {
         if (this.isMale()) {
-            CoupleLycanthrope tmp = new CoupleLycanthrope(this, lycanthrope);
-            Meute meute = new Meute(tmp, new Lycanthrope[1000], world);
+            CoupleWerewolf tmp = new CoupleWerewolf(this, lycanthrope);
+            Meute meute = new Meute(tmp, new Werewolf[1000], world);
             world.addMeute(meute);
             this.meute = meute;
             this.setRang(Rank.ALPHA);
@@ -260,7 +299,7 @@ public class Lycanthrope extends Thread {
         Rank[] ranks = this.meute.firstRankAvailable();
         this.setRang(ranks[random.nextInt(ranks.length)]);
         meute.addLycanthrope(this);
-        System.out.println("Un Lycanthrope a rejoint une meute !");
+        System.out.println("Un Werewolf a rejoint une meute !");
     }
 
     public void quitterMeute(World world) {
@@ -269,12 +308,12 @@ public class Lycanthrope extends Thread {
         this.meute = null;
         this.rang = null;
         world.addLycanthrope(this);
-        System.out.println("Un Lycanthrope a quitté une meute !");
+        System.out.println("Un Werewolf a quitté une meute !");
     }
 
     @Override
     public String toString() {
-        return "Lycanthrope{" +
+        return "Werewolf{" +
                 "isMale=" + this.isMale +
                 ", catAge=" + this.catAge +
                 ", force=" + this.force +
@@ -291,7 +330,7 @@ public class Lycanthrope extends Thread {
     @Override
     public void run() {
         while (this.getWorld().isRunning()) {
-            Lycanthrope lycanthrope = this.meute.getAllLycanthropes()[random.nextInt(this.meute.getLycanthropeCount())];
+            Werewolf lycanthrope = this.meute.getAllLycanthropes()[random.nextInt(this.meute.getLycanthropeCount())];
             if (lycanthrope != this) {
                 if (this.meute != null && !this.isEnCouple() && random.nextBoolean() &&
                         this.getForce() >= lycanthrope.getForce() && random.nextInt(impetuosite) == 0) {

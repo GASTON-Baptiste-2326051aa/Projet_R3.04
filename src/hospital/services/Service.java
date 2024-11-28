@@ -1,15 +1,16 @@
 package hospital.services;
 
 import hospital.entity.Creature;
+import hospital.entity.Patient;
 
 import java.util.ArrayList;
 import java.util.Arrays;
-import java.util.Collection;
+import java.util.List;
 
 /**
  * Service
  */
-public class Service implements Runnable{
+public class Service {
     /**
      * The name of the service
      */
@@ -29,7 +30,7 @@ public class Service implements Runnable{
     /**
      * The creatures inside the service
      */
-    private Collection<Creature> creatures = new ArrayList<>();
+    private Patient[] creatures;
     /**
      * The budget of the service
      */
@@ -46,6 +47,7 @@ public class Service implements Runnable{
         this.name = name;
         this.surface = surface;
         this.creatureMax = creatureMax;
+        this.creatures = new Patient[creatureMax];
         this.budget = budget;
     }
 
@@ -101,14 +103,14 @@ public class Service implements Runnable{
      * Set the number of creatures inside a service
      */
     public void setCreatureNow() {
-        this.creatureNow = this.creatures.size();
+        this.creatureNow = this.creatures.length;
     }
 
     /**
      * Return all the creatures inside a service
      * @return all the creatures inside a service
      */
-    public Collection<Creature> getCreatures() {
+    public Patient[] getCreatures() {
         return creatures;
     }
 
@@ -116,7 +118,7 @@ public class Service implements Runnable{
      * Set all the creature inside a service
      * @param creatures all the creature inside a service
      */
-    public void setCreatures(Collection<Creature> creatures) {
+    public void setCreatures(Patient[] creatures) {
         this.creatures = creatures;
     }
 
@@ -156,21 +158,26 @@ public class Service implements Runnable{
      * Add a creature inside a service
      * @param creature a creature to add to the service if it's possible
      */
-    public void addCreature(Creature creature) {
-        if (this.creatures == null) {
-            this.creatures = new ArrayList<>();
+    public void addCreature(Patient creature) {
+        if (this.creatureNow < this.creatureMax) {
+            if(this.creatureNow == 0) {
+                this.creatures[0] = creature;
+                this.creatureNow++;
+            }
+            if (creature.getClass()==creatures[0].getClass())
+            {
+                this.creatures[this.creatureNow] = creature;
+                this.creatureNow++;
+            }
+            else
+            {
+                System.out.println("This service is only for "+creatures[0].getClass());
+            }
         }
-        if (this.creatureNow >= this.creatureMax) {
+        else
+        {
             System.out.println("The service is full");
-            return;
         }
-        if (!creatures.isEmpty() && !creatures.iterator().next().getClass().equals(creature.getClass())) {
-            System.out.println("This service is only for " + creatures.iterator().next().getClass().getSimpleName());
-            return;
-        }
-        this.creatures.add(creature);
-        this.creatureNow++;
-        System.out.println(creature.getName() + " has been added to the service.");
     }
 
     /**
@@ -178,30 +185,26 @@ public class Service implements Runnable{
      * @param creature a creature to remove from the service
      */
     public void removeCreature(Creature creature) {
-        if (this.creatures.remove(creature)) {
-            this.creatureNow--;
+        for (int i = 0; i < this.creatureNow; i++) {
+            if (this.creatures[i].equals(creature)) {
+                for (int j = i; j < this.creatureNow - 1; j++) {
+                    this.creatures[j] = this.creatures[j + 1];
+                }
+                this.creatureNow--;
+                break;
+            }
         }
     }
-    /*
-    /**
-     * Cure a creature from an illness
-     * @param creature a creature to cure
-     * @param illness an illness to cure
-
-    public void cureCreature(Creature creature, Illness illness)
-    {
-        creature.cureIllness(illness);
-    }
 
     /**
-     * Cure a creature from all its illness
-     * @param creature a creature to cure
-
-    public void cureFullyCreature(Creature creature)
-    {
-        creature.cureAllIllness();
-    }
+     * Function allowing us to swap elements in an array, used for sorting
+     * @param patients the array of patient
+     * @param i index to swap
+     * @param j index to swap
      */
+    public void swap(Patient[] patients, int i, int j) {
+
+    }
 
     /**
      * Return the string representation of a service
@@ -214,7 +217,7 @@ public class Service implements Runnable{
                 ", surface=" + surface +
                 ", creatureMax=" + creatureMax +
                 ", creatureNow=" + creatureNow +
-                ", creatures=" + creatures +
+                ", creatures=" + Arrays.toString(creatures) +
                 ", budget='" + budgetToString(budget) +
                 "'}";
     }

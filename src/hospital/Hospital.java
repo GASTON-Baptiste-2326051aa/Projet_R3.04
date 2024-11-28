@@ -1,5 +1,8 @@
 package hospital;
 
+import hospital.entity.Doctor;
+import hospital.entity.Patient;
+import hospital.services.Service;
 
 import hospital.entity.Creature;
 import hospital.entity.Doctor;
@@ -114,11 +117,11 @@ public class Hospital implements Runnable {
      * Return the list of creatures in the hospital
      * @return the creatures in the hospital
      */
-    public Creature[] getCreatures() {
-        Creature[] creatures = new Creature[getCreatureNow()];
+    public Patient[] getCreatures() {
+        Patient[] creatures = new Patient[getCreatureNow()];
         int i = 0;
         for (Service service : services) {
-            for (Creature creature : service.getCreatures()) {
+            for (Patient creature : service.getCreatures()) {
                 creatures[i++] = creature;
             }
         }
@@ -141,7 +144,6 @@ public class Hospital implements Runnable {
         //run the service
         services[0].run();
     }
-
 
     public static void main(String[] args) {
         Hospital hospital = new Hospital(10);

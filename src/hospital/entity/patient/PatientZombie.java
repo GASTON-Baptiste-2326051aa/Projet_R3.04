@@ -1,16 +1,20 @@
 package hospital.entity.patient;
 
 import hospital.entity.Creature;
+import hospital.entity.Entity;
 import hospital.entity.Patient;
 import hospital.illness.Illness;
+import hospital.illness.SetIllness;
 import hospital.race.Zombie;
 import hospital.services.Service;
 
+import java.util.Objects;
+
 public class PatientZombie extends Creature implements Patient, Zombie {
     public int morale;
-    public Illness[] illnesses;
+    public SetIllness illnesses;
 
-    public PatientZombie(String name, boolean isMale, int age, float weight, float height, int morale, Illness[] illnesses) {
+    public PatientZombie(String name, boolean isMale, int age, float weight, float height, int morale, SetIllness illnesses) {
         super(name, isMale, age, weight, height);
         this.morale = morale;
         this.illnesses = illnesses;
@@ -19,13 +23,13 @@ public class PatientZombie extends Creature implements Patient, Zombie {
     public PatientZombie(String name, boolean isMale, int age, float weight, float height) {
         super(name, isMale, age, weight, height);
         this.morale = MORALE_MAX;
-        this.illnesses = new Illness[Illness.AMOUNT];
+        this.illnesses = new SetIllness();
     }
 
     public PatientZombie(String name, boolean isMale, int age) {
         super(name, isMale, age);
         this.morale = MORALE_MAX;
-        this.illnesses = new Illness[Illness.AMOUNT];
+        this.illnesses = new SetIllness();
     }
 
     /**
@@ -52,7 +56,7 @@ public class PatientZombie extends Creature implements Patient, Zombie {
      * @return the illnesses of the patient
      */
     @Override
-    public Illness[] getIllnesses() {
+    public SetIllness getIllnesses() {
         return this.illnesses;
     }
 
@@ -62,7 +66,7 @@ public class PatientZombie extends Creature implements Patient, Zombie {
      * @param illnesses the illnesses of the patient
      */
     @Override
-    public void setIllnesses(Illness[] illnesses) {
+    public void setIllnesses(SetIllness illnesses) {
         this.illnesses = illnesses;
     }
 
@@ -74,13 +78,9 @@ public class PatientZombie extends Creature implements Patient, Zombie {
     @Override
     public void addIllness(Illness illness) {
         if (illness == null) {
-            this.illnesses = new Illness[Illness.AMOUNT];
-        } else {
-            Illness[] newIllnesses = new Illness[this.illnesses.length + 1];
-            System.arraycopy(this.illnesses, 0, newIllnesses, 0, this.illnesses.length);
-            newIllnesses[this.illnesses.length] = illness;
-            this.illnesses = newIllnesses;
+            this.illnesses = new SetIllness();
         }
+        this.illnesses.add(illness);
     }
 
     /**
@@ -91,15 +91,7 @@ public class PatientZombie extends Creature implements Patient, Zombie {
     @Override
     public void removeIllness(Illness illness) {
         if (this.illnesses != null) {
-            Illness[] newIllnesses = new Illness[this.illnesses.length - 1];
-            int j = 0;
-            for (Illness i : this.illnesses) {
-                if (i != illness) {
-                    newIllnesses[j] = i;
-                    j++;
-                }
-            }
-            this.illnesses = newIllnesses;
+            this.illnesses.remove(illness);
         }
     }
 
@@ -142,13 +134,6 @@ public class PatientZombie extends Creature implements Patient, Zombie {
      */
     @Override
     public void revive(Service service) {
-
-    }
-    /**
-     * Thread of the patient
-     */
-    @Override
-    public void run() {
 
     }
 }

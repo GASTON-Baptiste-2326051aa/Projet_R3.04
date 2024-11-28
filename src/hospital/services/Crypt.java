@@ -1,7 +1,6 @@
 package hospital.services;
 
-import hospital.entity.Creature;
-import hospital.race.Zombie;
+import hospital.entity.Patient;
 import hospital.race.behavior.Revive;
 
 import java.util.Arrays;
@@ -75,7 +74,7 @@ public class Crypt extends Service {
      * @param creature a creature to add
      */
     @Override
-    public void addCreature(Creature creature) {
+    public void addCreature(Patient creature) {
         if (creature instanceof Revive) { // vérifier si c'est un mort vivant
             super.addCreature(creature);
         } else {

@@ -1,5 +1,7 @@
 package hospital.entity;
 
+import java.util.Objects;
+
 /**
  * The Entity interface
  */
@@ -70,4 +72,14 @@ public interface Entity extends Runnable{
      * @return the string representation of the entity
      */
     String toString();
+
+    /**
+     * Compare two entities
+     *
+     * @param entity the entity to compare
+     * @return true if the entities are equal
+     */
+    default boolean equals(Entity entity) {
+        return Objects.equals(this, entity);
+    }
 }

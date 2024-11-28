@@ -1,12 +1,12 @@
 package pack;
 
-public class CoupleLycanthrope {
-    private Lycanthrope male, female;
+public class CoupleWerewolf {
+    private Werewolf male, female;
 
     public CoupleLycanthrope(Lycanthrope male, Lycanthrope female) {
         if (male.isMale()) {
             this.male = male;
-            this.male.setEnCouple(true);
+            this.male.setIsCouple(true);
             this.male.setRang(Rank.ALPHA);
         }
         if (!female.isMale()) {
@@ -16,11 +16,11 @@ public class CoupleLycanthrope {
         }
     }
 
-    public Lycanthrope getMale() {
+    public Werewolf getMale() {
         return this.male;
     }
 
-    public void setMale(Lycanthrope male) {
+    public void setMale(Werewolf male) {
         this.male.setEnCouple(false);
         if (male.isMale()) {
             this.male = male;
@@ -29,12 +29,12 @@ public class CoupleLycanthrope {
         }
     }
 
-    public Lycanthrope getFemale() {
+    public Werewolf getFemale() {
         return this.female;
     }
 
-    public void setFemale(Lycanthrope female) {
-        this.female.setEnCouple(false);
+    public void setFemale(Werewolf female) {
+        this.female.setInRelationship(false);
         if (!female.isMale()) {
             this.female = female;
             this.female.setEnCouple(true);
@@ -43,10 +43,10 @@ public class CoupleLycanthrope {
     }
 
     public void reproduction() {
-        Lycanthrope lycanthrope = new Lycanthrope(Lycanthrope.random.nextBoolean(), 0,
-                Lycanthrope.random.nextInt(Math.max(this.male.getForce() + 1, this.female.getForce() + 1)),
-                Rank.values()[Lycanthrope.random.nextInt(1, Rank.values().length)],
-                Lycanthrope.random.nextInt(Math.max(this.male.getImpetuosite() + 1,
+        Werewolf lycanthrope = new Werewolf(Werewolf.random.nextBoolean(), 0,
+                Werewolf.random.nextInt(Math.max(this.male.getForce() + 1, this.female.getForce() + 1)),
+                Rank.values()[Werewolf.random.nextInt(1, Rank.values().length)],
+                Werewolf.random.nextInt(Math.max(this.male.getImpetuosite() + 1,
                         this.female.getImpetuosite()) + 1), this.male.getMeute(), this.male.getWorld());
         lycanthrope.start();
         System.out.println("Un nouveau lycanthrope est né !");

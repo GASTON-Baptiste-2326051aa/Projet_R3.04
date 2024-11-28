@@ -1,30 +1,35 @@
 package pack;
 
 public class Hurlement {
-    private final Lycanthrope from;
-    private final Lycanthrope to;
+    private final Werewolf from;
+    private final Werewolf to;
     private final Message message;
     private final long time;
 
-    public Hurlement(Lycanthrope from, Message message) {
+    /**
+     * Constructor of the Howling class
+     * @param from
+     * @param message
+     */
+    public Hurlement(Werewolf from, Message message) {
         this.from = from;
         this.to = null;
         this.message = message;
         this.time = System.currentTimeMillis();
     }
 
-    public Hurlement(Lycanthrope from, Lycanthrope to, Message message) {
+    public Hurlement(Werewolf from, Werewolf to, Message message) {
         this.from = from;
         this.to = to;
         this.message = message;
         this.time = System.currentTimeMillis();
     }
 
-    public Lycanthrope getFrom() {
+    public Werewolf getFrom() {
         return this.from;
     }
 
-    public Lycanthrope getTo() {
+    public Werewolf getTo() {
         return this.to;
     }
 

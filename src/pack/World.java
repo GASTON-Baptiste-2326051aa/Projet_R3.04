@@ -6,13 +6,13 @@ public class World {
 
     private final Hurlement[] hurlements;
     private final Meute[] meutes;
-    private final Lycanthrope[] lycanthropes;
+    private final Werewolf[] lycanthropes;
     private boolean isRunning;
 
     public World() {
         this.hurlements = new Hurlement[10000];
         this.meutes = new Meute[1000];
-        this.lycanthropes = new Lycanthrope[5000];
+        this.lycanthropes = new Werewolf[5000];
         this.isRunning = false;
     }
 
@@ -20,17 +20,17 @@ public class World {
         int minutes = 0;
         World world = new World();
         world.setRunning(true);
-        Lycanthrope l1 = new Lycanthrope(true, 0, 0, Rank.ALPHA, 0, null, world);
-        Lycanthrope l2 = new Lycanthrope(false, 0, 0, Rank.ALPHA, 0, null, world);
-        Lycanthrope l3 = new Lycanthrope(true, 0, 0, Rank.ALPHA, 0, null, world);
-        Lycanthrope l4 = new Lycanthrope(false, 0, 0, Rank.ALPHA, 0, null, world);
+        Werewolf l1 = new Werewolf(true, 0, 0, Rank.ALPHA, 0, null, world);
+        Werewolf l2 = new Werewolf(false, 0, 0, Rank.ALPHA, 0, null, world);
+        Werewolf l3 = new Werewolf(true, 0, 0, Rank.ALPHA, 0, null, world);
+        Werewolf l4 = new Werewolf(false, 0, 0, Rank.ALPHA, 0, null, world);
         l1.creerMeute(world, l2);
         l3.creerMeute(world, l4);
         for (Meute meute : world.getMeutes()) {
             if (meute != null)
                 meute.start();
         }
-        for (Lycanthrope lycanthrope : world.getLycanthropes()) {
+        for (Werewolf lycanthrope : world.getLycanthropes()) {
             if (lycanthrope != null)
                 lycanthrope.start();
         }
@@ -40,12 +40,12 @@ public class World {
                 minutes++;
                 for (Meute meute : world.getMeutes()) {
                     if (meute != null)
-                        for (Lycanthrope lycanthrope : meute.getAllLycanthropes()) {
+                        for (Werewolf lycanthrope : meute.getAllLycanthropes()) {
                             if (lycanthrope != null)
                                 lycanthrope.vieillir(world);
                         }
                 }
-                for (Lycanthrope lycanthrope : world.getLycanthropes()) {
+                for (Werewolf lycanthrope : world.getLycanthropes()) {
                     if (lycanthrope != null)
                         lycanthrope.vieillir(world);
                 }
@@ -63,7 +63,7 @@ public class World {
             if (meute != null)
                 lycanthropeCount += meute.getLycanthropeCount() + 1;
         }
-        for (Lycanthrope lycanthrope : world.getLycanthropes()) {
+        for (Werewolf lycanthrope : world.getLycanthropes()) {
             if (lycanthrope != null)
                 lycanthropeCount++;
         }
@@ -145,11 +145,11 @@ public class World {
         return count;
     }
 
-    public Lycanthrope[] getLycanthropes() {
+    public Werewolf[] getLycanthropes() {
         return lycanthropes;
     }
 
-    public void addLycanthrope(Lycanthrope lycanthrope) {
+    public void addLycanthrope(Werewolf lycanthrope) {
         for (int i = 0; i < lycanthropes.length; i++) {
             if (lycanthropes[i] == null) {
                 lycanthropes[i] = lycanthrope;
@@ -159,7 +159,7 @@ public class World {
         System.out.println("il y a maintenant " + getLycanthropeCount() + " lycanthropes solitaires.");
     }
 
-    public void removeLycanthrope(Lycanthrope lycanthrope) {
+    public void removeLycanthrope(Werewolf lycanthrope) {
         int nullCount = 0;
         for (int i = 0; i < lycanthropes.length; i++) {
             if (lycanthropes[i] != null && lycanthropes[i] == lycanthrope) {
@@ -177,7 +177,7 @@ public class World {
 
     public int getLycanthropeCount() {
         int count = 0;
-        for (Lycanthrope lycanthrope : lycanthropes) {
+        for (Werewolf lycanthrope : lycanthropes) {
             if (lycanthrope != null) {
                 count++;
             }

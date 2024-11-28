@@ -1,17 +1,27 @@
 package pack;
 
 public class Meute extends Thread {
-    private Lycanthrope[] lycanthropes;
-    private final CoupleLycanthrope coupleLycanthrope;
+    private Werewolf[] lycanthropes;
+    private final CoupleWerewolf coupleLycanthrope;
     private final World world;
 
-    public Meute(CoupleLycanthrope coupleLycanthrope, Lycanthrope[] lycanthropes, World world) {
+    /**
+     * Constructor of the Pack class
+     * @param coupleLycanthrope
+     * @param lycanthropes
+     * @param world
+     */
+    public Meute(CoupleWerewolf coupleLycanthrope, Werewolf[] lycanthropes, World world) {
         this.coupleLycanthrope = coupleLycanthrope;
         this.lycanthropes = lycanthropes;
         this.world = world;
     }
 
-    public Lycanthrope[] getLycanthropes() {
+    /**
+     * Return the list of werewolves in the pack
+     * @return
+     */
+    public Werewolf[] getLycanthropes() {
         return this.lycanthropes;
     }
 
@@ -19,7 +29,11 @@ public class Meute extends Thread {
         return this.coupleLycanthrope;
     }
 
-    public void addLycanthrope(Lycanthrope lycanthrope) {
+    /**
+     * Add a werewolve to the pack
+     * @param lycanthrope
+     */
+    public void addLycanthrope(Werewolf lycanthrope) {
         for (int i = 0; i < lycanthropes.length; i++) {
             if (lycanthropes[i] == null) {
                 lycanthropes[i] = lycanthrope;
@@ -30,7 +44,7 @@ public class Meute extends Thread {
         System.out.println("La meute contient maintenant " + getLycanthropeCount() + " lycanthropes.");
     }
 
-    public void removeLycanthrope(Lycanthrope lycanthrope) {
+    public void removeLycanthrope(Werewolf lycanthrope) {
         for (int i = 0; i < lycanthropes.length; i++) {
             if (lycanthropes[i] == lycanthrope) {
                 lycanthropes[i] = null;
@@ -43,7 +57,7 @@ public class Meute extends Thread {
 
     public int getLycanthropeCount() {
         int count = 1;
-        for (Lycanthrope lycanthrope : lycanthropes) {
+        for (Werewolf lycanthrope : lycanthropes) {
             if (lycanthrope != null) {
                 count++;
             }
@@ -51,9 +65,13 @@ public class Meute extends Thread {
         return count;
     }
 
-    public Lycanthrope getBestRankFemale() {
-        Lycanthrope bestRankFemale = lycanthropes[0];
-        for (Lycanthrope lycanthrope : lycanthropes) {
+    /**
+     * Return the best rank among the females werewolves
+     * @return
+     */
+    public Werewolf getBestRankFemale() {
+        Werewolf bestRankFemale = lycanthropes[0];
+        for (Werewolf lycanthrope : lycanthropes) {
             if (lycanthrope != null && !lycanthrope.isMale() && lycanthrope.getRang().getValue() > bestRankFemale.getRang().getValue()) {
                 bestRankFemale = lycanthrope;
             }
@@ -61,11 +79,11 @@ public class Meute extends Thread {
         return bestRankFemale;
     }
 
-    public Lycanthrope[] getAllLycanthropes() {
-        Lycanthrope[] allLycanthropes = new Lycanthrope[lycanthropes.length + 1];
+    public Werewolf[] getAllLycanthropes() {
+        Werewolf[] allLycanthropes = new Werewolf[lycanthropes.length + 1];
         allLycanthropes[0] = coupleLycanthrope.getMale();
         int i = 1;
-        for (Lycanthrope lycanthrope : lycanthropes) {
+        for (Werewolf lycanthrope : lycanthropes) {
             if (lycanthrope != null) {
                 allLycanthropes[i++] = lycanthrope;
             }
@@ -74,10 +92,10 @@ public class Meute extends Thread {
     }
 
     public void sortLycanthropes() {
-        Lycanthrope[] sortedLycanthropes = new Lycanthrope[lycanthropes.length];
+        Werewolf[] sortedLycanthropes = new Werewolf[lycanthropes.length];
         int i = 0;
         for (Rank rank : Rank.values()) {
-            for (Lycanthrope lycanthrope : lycanthropes) {
+            for (Werewolf lycanthrope : lycanthropes) {
                 if (lycanthrope != null && lycanthrope.getRang() == rank) {
                     sortedLycanthropes[i++] = lycanthrope;
                 }
@@ -88,7 +106,7 @@ public class Meute extends Thread {
 
     public Rank[] firstRankAvailable() {
         Rank[] ranks = Rank.values();
-        for (Lycanthrope lycanthrope : getAllLycanthropes()) {
+        for (Werewolf lycanthrope : getAllLycanthropes()) {
             if (lycanthrope != null && lycanthrope.getRang().getValue() == ranks[0].getValue()) {
                 ranks[0] = ranks[1];
             }
@@ -102,7 +120,7 @@ public class Meute extends Thread {
 
     @Override
     public void run() {
-        for (Lycanthrope lycanthrope : lycanthropes) {
+        for (Werewolf lycanthrope : lycanthropes) {
             if (lycanthrope != null) {
                 lycanthrope.start();
             }
