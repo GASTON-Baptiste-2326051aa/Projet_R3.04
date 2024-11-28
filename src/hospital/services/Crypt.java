@@ -5,6 +5,7 @@ import hospital.race.Zombie;
 import hospital.race.behavior.Revive;
 
 import java.util.Arrays;
+import java.util.Collection;
 
 /**
  * Crypt
@@ -73,16 +74,39 @@ public class Crypt extends Service {
     /**
      * Override the addCreature method to ensure only regenerative creatures can be added
      * @param creature a creature to add
+     * @throws IllegalArgumentException if the creature is not a regenerative creature
+     * @throws IllegalStateException if the service is full or the creature is already in the service
      */
     @Override
-    public void addCreature(Creature creature) {
+    public void addCreature(Creature creature) throws IllegalArgumentException{
         if (creature instanceof Revive) { // vérifier si c'est un mort vivant
             super.addCreature(creature);
         } else {
             System.out.println("Only regenerative creatures are allowed in a crypt.");
+            throw new IllegalArgumentException("Only regenerative creatures are allowed in a crypt");
         }
     }
 
+    @Override
+    public void setCreatures(Collection<Creature> creatures) {
+        Creature creature1;
+        if (creatures == null) {
+            throw new IllegalArgumentException("The creatures list is empty");
+        }
+        if (creatures.isEmpty()) {
+            throw new IllegalArgumentException("The creatures list is empty");
+        }
+        creature1 = creatures.iterator().next();
+        if (!(creature1 instanceof Revive)) {
+            throw new IllegalArgumentException("Only regenerative creatures are allowed in a crypt");
+        }
+        for (Creature creature : creatures) {
+            if (!creature.getClass().equals(creature1.getClass())) {
+                throw new IllegalArgumentException("The creatures are not the same type");
+            }
+        }
+        super.setCreatures(creatures);
+    }
     /**
      * Override the budget revision to include ventilation and temperature checks
      * Faut finir la méthode
@@ -93,7 +117,6 @@ public class Crypt extends Service {
         System.out.println("Budget revised considering ventilation (Level " + ventilationLevel
                 + ") and temperature (" + temperature + "°C).");
     }
-
 
     /**
      * Run the crypt
@@ -113,14 +136,13 @@ public class Crypt extends Service {
     @Override
     public String toString() {
         return "Crypt{" +
-                "name='" + getName() + '\'' +
+                "name=" + getName()  +
                 ", surface=" + getSurface() +
                 ", creatureMax=" + getCreatureMax() +
                 ", creatureNow=" + getCreatureNow() +
-                ", budget='" + budgetToString(getBudget()) +
-                "', ventilationLevel=" + ventilationLevel +
+                ", budget=" + budgetToString(getBudget()) +
+                ", ventilationLevel=" + ventilationLevel +
                 ", temperature=" + temperature +
-                ", creatures=" + getCreatures() +
                 "}";
     }
 }
