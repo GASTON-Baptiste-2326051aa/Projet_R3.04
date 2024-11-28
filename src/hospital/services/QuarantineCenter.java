@@ -3,8 +3,6 @@ package hospital.services;
 import hospital.entity.Patient;
 import hospital.race.behavior.Contaminate;
 
-import java.util.Arrays;
-
 /**
  * QuarantineCenter
  */
@@ -71,7 +69,7 @@ public class QuarantineCenter extends Service {
      */
     @Override
     public void run(){
-        for(Creature creature : getCreatures()) {
+        for (Patient creature : getCreatures()) {
             creature.run();
         }
         System.out.println(getName() + " is running");

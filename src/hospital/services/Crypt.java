@@ -3,8 +3,6 @@ package hospital.services;
 import hospital.entity.Patient;
 import hospital.race.behavior.Revive;
 
-import java.util.Arrays;
-
 /**
  * Crypt
  */
@@ -99,7 +97,7 @@ public class Crypt extends Service {
      */
     @Override
     public void run(){
-        for(Creature creature : getCreatures()) {
+        for (Patient creature : getCreatures()) {
             creature.run();
         }
         System.out.println(getName() + " is running");

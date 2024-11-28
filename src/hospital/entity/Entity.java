@@ -67,6 +67,7 @@ public interface Entity extends Runnable{
     void setHeight(float height);
 
     void run();
+
     /**
      * Return the string representation of the entity
      * @return the string representation of the entity

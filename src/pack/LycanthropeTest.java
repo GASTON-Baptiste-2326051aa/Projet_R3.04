@@ -125,7 +125,7 @@ class LycanthropeTest {
 
     @Test
     void setEnCouple() {
-        this.lycanthrope.setEnCouple(true);
+        this.lycanthrope.setIsCouple(true);
         assertTrue(this.lycanthrope.isEnCouple());
     }
 

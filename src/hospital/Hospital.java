@@ -140,7 +140,7 @@ public class Hospital implements Runnable {
         //creation of the creatures
         Creature creature = new PatientDwarf("Yousra", false, 19);
         //add the creature to the service
-        services[0].addCreature(creature);
+        services[0].addCreature((Patient) creature);
         //run the service
         services[0].run();
     }

@@ -26,10 +26,10 @@ public class CoupleWerewolf {
     }
 
     public void setMale(Werewolf male) {
-        this.male.setEnCouple(false);
+        this.male.setIsCouple(false);
         if (male.isMale()) {
             this.male = male;
-            this.male.setInRelationship(true);
+            this.male.setIsCouple(true);
             this.male.setRang(Rank.ALPHA);
         }
     }
@@ -39,10 +39,10 @@ public class CoupleWerewolf {
     }
 
     public void setFemale(Werewolf female) {
-        this.female.setInRelationship(false);
+        this.female.setIsCouple(false);
         if (!female.isMale()) {
             this.female = female;
-            this.female.setInRelationship(true);
+            this.female.setIsCouple(true);
             this.female.setRang(Rank.ALPHA);
         }
     }

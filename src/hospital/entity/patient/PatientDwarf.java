@@ -133,4 +133,12 @@ public class PatientDwarf extends Creature implements Patient, Dwarf {
     public void carriedAway() {
 
     }
+
+    /**
+     *
+     */
+    @Override
+    public void run() {
+
+    }
 }

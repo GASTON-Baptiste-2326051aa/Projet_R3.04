@@ -11,4 +11,12 @@ public class DoctorOrc extends Creature implements Doctor {
     public DoctorOrc(String name, boolean isMale, int age) {
         super(name, isMale, age);
     }
+
+    /**
+     *
+     */
+    @Override
+    public void run() {
+
+    }
 }

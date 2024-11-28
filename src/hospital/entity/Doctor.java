@@ -34,11 +34,11 @@ public interface Doctor extends Entity {
 
     default Patient choosePatient(Service service) {
         System.out.println("Choose a patient :");
-        for (int i = 0; i < service.getCreatures().length; i++) {
-            System.out.println((i + 1) + " : " + service.getCreatures()[i]);
+        for (int i = 0; i < service.getCreatures().size(); i++) {
+            System.out.println((i + 1) + " : " + service.getCreatures().toArray()[i]);
         }
         int resp = Integer.parseInt(input.nextLine());
-        return service.getCreatures()[resp - 1];
+        return (Patient) service.getCreatures().toArray()[resp - 1];
     }
 
     default Service chooseService(Hospital hospital) {

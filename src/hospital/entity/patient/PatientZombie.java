@@ -136,4 +136,12 @@ public class PatientZombie extends Creature implements Patient, Zombie {
     public void revive(Service service) {
 
     }
+
+    /**
+     *
+     */
+    @Override
+    public void run() {
+
+    }
 }

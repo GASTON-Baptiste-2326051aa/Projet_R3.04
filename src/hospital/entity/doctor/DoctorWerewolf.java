@@ -12,4 +12,12 @@ public class DoctorWerewolf extends Creature implements Doctor {
     public DoctorWerewolf(String name, boolean isMale, int age) {
         super(name, isMale, age);
     }
+
+    /**
+     *
+     */
+    @Override
+    public void run() {
+
+    }
 }

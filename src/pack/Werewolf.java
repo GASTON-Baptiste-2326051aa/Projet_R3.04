@@ -54,7 +54,7 @@ public class Werewolf extends Thread {
         this.setImpetuosite(impetuosite);
         this.meute = meute;
         this.world = world;
-        this.InRelationship = false;
+        this.inRelationship = false;
         setDomination();
     }
 
@@ -172,11 +172,11 @@ public class Werewolf extends Thread {
     }
 
     public boolean isEnCouple() {
-        return this.InRelationship;
+        return this.inRelationship;
     }
 
-    public void setEnCouple(boolean InRelationship) {
-        this.InRelationship = InRelationship;
+    public void setIsCouple(boolean InRelationship) {
+        this.inRelationship = InRelationship;
     }
 
     public void hurle(World world, Message message) {
