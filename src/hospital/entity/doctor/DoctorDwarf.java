@@ -56,4 +56,10 @@ public class DoctorDwarf extends Creature implements Doctor, Dwarf {
     public void checkHospital(Hospital hospital) {
 
     }
+    /**
+     * Thread of the patient
+     */
+    @Override
+    public void run() {
+    }
 }

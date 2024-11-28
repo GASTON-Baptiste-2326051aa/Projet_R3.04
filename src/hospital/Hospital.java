@@ -1,10 +1,17 @@
 package hospital;
 
-import models.creatures.Creature;
-import models.creatures.Doctor;
-import models.services.Service;
 
-public class Hospital {
+import hospital.entity.Creature;
+import hospital.entity.Doctor;
+import hospital.entity.doctor.DoctorDwarf;
+import hospital.entity.doctor.DoctorElf;
+import hospital.entity.doctor.DoctorVampire;
+import hospital.entity.patient.PatientDwarf;
+import hospital.services.Crypt;
+import hospital.services.QuarantineCenter;
+import hospital.services.Service;
+
+public class Hospital implements Runnable {
     private String name;
     private final int serviceMax;
     private Service[] services;
@@ -122,8 +129,19 @@ public class Hospital {
      * start the hospital
      */
     public void run() {
-        // TODO
+        //creation of the services
+        services[0] = new Service("Service 1", 100, 10, 1000);
+        //creation of the doctors
+        doctors = new Doctor[1];
+        doctors[0] = new DoctorElf("Legolas", true, 1000);
+        //creation of the creatures
+        Creature creature = new PatientDwarf("Yousra", false, 19);
+        //add the creature to the service
+        services[0].addCreature(creature);
+        //run the service
+        services[0].run();
     }
+
 
     public static void main(String[] args) {
         Hospital hospital = new Hospital(10);

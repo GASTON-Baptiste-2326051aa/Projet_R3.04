@@ -135,4 +135,10 @@ public class PatientReptilian extends Creature implements Patient, Reptilian {
     public void carriedAway() {
 
     }
+    /**
+     * Thread of the patient
+     */
+    @Override
+    public void run() {
+    }
 }

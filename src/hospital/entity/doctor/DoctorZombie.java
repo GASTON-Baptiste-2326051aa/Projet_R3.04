@@ -7,7 +7,7 @@ import hospital.entity.Patient;
 import hospital.race.Zombie;
 import hospital.services.Service;
 
-public class DoctorZombie extends Creature implements Doctor, Zombie {
+public class DoctorZombie extends Creature implements Doctor, Zombie, Runnable {
 
     public DoctorZombie(String name, boolean isMale, int age, float weight, float height) {
         super(name, isMale, age, weight, height);
@@ -65,5 +65,11 @@ public class DoctorZombie extends Creature implements Doctor, Zombie {
     @Override
     public void revive(Service service) {
 
+    }
+    /**
+     * Thread of the patient
+     */
+    @Override
+    public void run() {
     }
 }

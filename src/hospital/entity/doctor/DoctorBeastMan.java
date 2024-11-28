@@ -66,4 +66,10 @@ public class DoctorBeastMan extends Creature implements Doctor, BeastMan {
     public void contaminate(Service service) {
 
     }
+    /**
+     * Thread of the patient
+     */
+    @Override
+    public void run() {
+    }
 }

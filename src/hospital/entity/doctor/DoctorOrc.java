@@ -65,4 +65,10 @@ public class DoctorOrc extends Creature implements Doctor, Orc {
     public void contaminate(Service service) {
 
     }
+    /**
+     * Thread of the patient
+     */
+    @Override
+    public void run() {
+    }
 }

@@ -56,4 +56,11 @@ public class DoctorReptilian extends Creature implements Doctor, Reptilian {
     public void checkHospital(Hospital hospital) {
 
     }
+
+    /**
+     * Thread of the patient
+     */
+    @Override
+    public void run() {
+    }
 }

@@ -94,6 +94,18 @@ public class Crypt extends Service {
                 + ") and temperature (" + temperature + "°C).");
     }
 
+
+    /**
+     * Run the crypt
+     */
+    @Override
+    public void run(){
+        for(Creature creature : getCreatures()) {
+            creature.run();
+        }
+        System.out.println(getName() + " is running");
+    }
+
     /**
      * Return the string representation of the crypt
      * @return the string representation of the crypt
@@ -108,7 +120,7 @@ public class Crypt extends Service {
                 ", budget='" + budgetToString(getBudget()) +
                 "', ventilationLevel=" + ventilationLevel +
                 ", temperature=" + temperature +
-                ", creatures=" + Arrays.toString(getCreatures()) +
+                ", creatures=" + getCreatures() +
                 "}";
     }
 }

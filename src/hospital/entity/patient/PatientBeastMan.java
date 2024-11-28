@@ -145,4 +145,12 @@ public class PatientBeastMan extends Creature implements Patient, BeastMan {
     public void contaminate(Service service) {
 
     }
+
+
+    /**
+     * Thread of the patient
+     */
+    @Override
+    public void run() {
+    }
 }

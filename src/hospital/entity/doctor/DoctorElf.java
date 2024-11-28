@@ -65,4 +65,10 @@ public class DoctorElf extends Creature implements Doctor, Elf {
     public void contaminate(Service service) {
 
     }
+    /**
+     * Thread of the patient
+     */
+    @Override
+    public void run() {
+    }
 }

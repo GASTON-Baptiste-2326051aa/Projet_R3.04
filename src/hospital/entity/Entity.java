@@ -3,7 +3,7 @@ package hospital.entity;
 /**
  * The Entity interface
  */
-public interface Entity {
+public interface Entity extends Runnable{
     /**
      * The name of the entity
      * @return the name of the entity
@@ -64,6 +64,7 @@ public interface Entity {
      */
     void setHeight(float height);
 
+    void run();
     /**
      * Return the string representation of the entity
      * @return the string representation of the entity

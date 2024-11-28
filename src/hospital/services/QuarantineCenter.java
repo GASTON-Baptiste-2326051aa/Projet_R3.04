@@ -9,7 +9,7 @@ import java.util.Arrays;
  * QuarantineCenter
  */
 public class QuarantineCenter extends Service {
-    private int isolation;
+    private boolean isolation;
 
     /**
      * Constructor of a quarantine center
@@ -17,18 +17,18 @@ public class QuarantineCenter extends Service {
      * @param surface the surface of the center
      * @param creatureMax the max number of creatures
      * @param budget the budget of the center
-     * @param isolation whether the center is isolated or not
      */
-    public QuarantineCenter(String name, float surface, int creatureMax, int budget, int isolation) {
+    public QuarantineCenter(String name, float surface, int creatureMax, int budget) {
         super(name, surface, creatureMax, budget);
-        this.isolation = isolation;
+        this.isolation = false;
     }
 
     /**
      * Check if the center is in isolation
+     *
      * @return true if the center is isolated, false otherwise
      */
-    public int isIsolation() {
+    public boolean isIsolation() {
         return isolation;
     }
 
@@ -36,7 +36,7 @@ public class QuarantineCenter extends Service {
      * Set the isolation state of the center
      * @param isolation the new isolation state
      */
-    public void setIsolation(int isolation) {
+    public void setIsolation(boolean isolation) {
         this.isolation = isolation;
     }
 
@@ -58,8 +58,23 @@ public class QuarantineCenter extends Service {
      */
     @Override
     public void setBudget(int budget) {
-        super.setBudget(budget);
-        isolation = budget;
+        if(isolation) {
+            super.setBudget((int) (budget * 1.1));
+        }
+        else {
+            super.setBudget(budget);
+        }
+    }
+
+    /**
+     * Run the quarantine center
+     */
+    @Override
+    public void run(){
+        for(Creature creature : getCreatures()) {
+            creature.run();
+        }
+        System.out.println(getName() + " is running");
     }
 
     /**
@@ -75,7 +90,7 @@ public class QuarantineCenter extends Service {
                 ", creatureNow=" + getCreatureNow() +
                 ", budget='" + budgetToString(getBudget()) +
                 "', isolation=" + isolation +
-                ", creatures=" + Arrays.toString(getCreatures()) +
+                ", creatures=" + getCreatures() +
                 "}";
     }
 }

@@ -3,7 +3,12 @@ package hospital.entity.patient;
 import hospital.entity.Creature;
 import hospital.entity.Patient;
 import hospital.illness.Illness;
+import hospital.illness.Illnesses;
 import hospital.race.Dwarf;
+
+import java.util.Random;
+
+import static java.lang.Thread.sleep;
 
 public class PatientDwarf extends Creature implements Patient, Dwarf {
     private int morale;
@@ -18,13 +23,15 @@ public class PatientDwarf extends Creature implements Patient, Dwarf {
     public PatientDwarf(String name, boolean isMale, int age, int weight, int height) {
         super(name, isMale, age, weight, height);
         this.morale = MORALE_MAX;
-        this.illnesses = new Illness[Illness.AMOUNT];
+        this.illnesses = new Illness[1];
+        this.illnesses[0] = Illnesses.getRandomIllness();
     }
 
     public PatientDwarf(String name, boolean isMale, int age) {
         super(name, isMale, age);
         this.morale = MORALE_MAX;
-        this.illnesses = new Illness[Illness.AMOUNT];
+        this.illnesses = new Illness[1];
+        this.illnesses[0] = Illnesses.getRandomIllness();
     }
 
     /**
@@ -107,7 +114,7 @@ public class PatientDwarf extends Creature implements Patient, Dwarf {
      */
     @Override
     public void scream() {
-
+        System.out.println("The patient " + this.getName() + " is screaming.");
     }
 
     /**
@@ -115,7 +122,12 @@ public class PatientDwarf extends Creature implements Patient, Dwarf {
      */
     @Override
     public void waitATime() {
-
+        this.morale--;
+        try {
+            sleep(1000);
+        } catch (InterruptedException e) {
+            throw new RuntimeException(e);
+        }
     }
 
     /**
@@ -123,7 +135,7 @@ public class PatientDwarf extends Creature implements Patient, Dwarf {
      */
     @Override
     public void passAway() {
-
+        System.out.println("The patient " + this.getName() + " has passed away.");
     }
 
     /**
@@ -131,6 +143,35 @@ public class PatientDwarf extends Creature implements Patient, Dwarf {
      */
     @Override
     public void carriedAway() {
+        System.out.println("The patient " + this.getName() + " has been carried away.");
+    }
+    /**
+     * Thread of the patient
+     */
+    @Override
+    public void run() {
+        boolean isRunning = true;
+        while (isRunning) {
+            waitATime();
+            if(this.morale <= MORALE_SCREAM) {
+                scream();
+            }
+            if(this.morale <= MORALE_MIN) {
+                carriedAway();
+            }
+            for (Illness illness : this.illnesses) {
+                if (illness.is_mortal()) {
+                    passAway();
+                    isRunning = false;
+                }
+            }
+            Random random = new Random();
+            if (random.nextInt(100) < 10) {
+                Illness illness = this.illnesses[random.nextInt(illnesses.length)];
+                illness.setLvl(illness.getLvl() + 1);
+                System.out.println("The patient " + this.getName() + " has an illness " + illness.getName() + " at level " + illness.getLvl());
+            }
+        }
 
     }
 }

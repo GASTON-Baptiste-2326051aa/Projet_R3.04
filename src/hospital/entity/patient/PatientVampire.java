@@ -164,4 +164,10 @@ public class PatientVampire extends Creature implements Patient, Vampire {
     public void revive(Service service) {
 
     }
+    /**
+     * Thread of the patient
+     */
+    @Override
+    public void run() {
+    }
 }

@@ -66,4 +66,10 @@ public class DoctorWerewolf extends Creature implements Doctor, Werewolf {
     public void contaminate(Service service) {
 
     }
+    /**
+     * Thread of the patient
+     */
+    @Override
+    public void run() {
+    }
 }
