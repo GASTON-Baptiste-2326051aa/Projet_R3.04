@@ -7,6 +7,7 @@ import hospital.illness.SetIllness;
  * The Patient interface
  */
 public interface Patient extends Entity {
+
     /**
      * The maximum morale
      */
@@ -72,7 +73,38 @@ public interface Patient extends Entity {
     void passAway();
 
     /**
-     * The patient is carried away
+     * The patient is getting carried away
      */
     void carriedAway();
+
+    /**
+     * Compare two patients according to their morale
+     *
+     * @param patient the other patient
+     * @return true if this patient has a lower morale than the other patient
+     */
+    default boolean compareMorale(Patient patient) {
+        return this.getMorale() < patient.getMorale();
+    }
+
+    /**
+     * Compare two patients according to their illness level
+     *
+     * @param patient the other patient
+     * @return true if this patient has a higher illness level than the other patient
+     */
+    default boolean compareIllnessLevel(Patient patient) {
+        return this.getIllnesses().getIllnessesLvlSum() > patient.getIllnesses().getIllnessesLvlSum();
+    }
+
+    /**
+     * Compare two patients according to their morale and illness level
+     *
+     * @param patient the other patient
+     * @return true if this patient has a lower morale and a higher illness level than the other patient
+     */
+    default boolean compareMoraleAndIllnessLevel(Patient patient) {
+        return this.compareIllnessLevel(patient) & this.compareMorale(patient);
+    }
+
 }

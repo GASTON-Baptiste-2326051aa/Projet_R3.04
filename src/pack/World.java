@@ -9,6 +9,9 @@ public class World {
     private final Werewolf[] lycanthropes;
     private boolean isRunning;
 
+    /**
+     * Constructor of the World class, allowing us to create a world in our program.
+     */
     public World() {
         this.hurlements = new Hurlement[10000];
         this.meutes = new Meute[1000];
@@ -16,6 +19,10 @@ public class World {
         this.isRunning = false;
     }
 
+    /**
+     * Main method, to launch the program
+     * @param args
+     */
     public static void main(String[] args) {
         int minutes = 0;
         World world = new World();

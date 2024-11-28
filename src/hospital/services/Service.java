@@ -207,6 +207,65 @@ public class Service {
     }
 
     /**
+     * Sort every creature in the service according to their morale
+     * Use a bubble sort
+     */
+    public void sortMorale() {
+        int n = getCreatures().length;
+        for (int i = 0; i < n - 1; i++) {
+            for (int j = 0; j < n - i - 1; j++) {
+                if (getCreatures()[j].getMorale() > getCreatures()[j + 1].getMorale())
+                    swap(getCreatures(), j, j + 1);
+            }
+        }
+    }
+
+    /**
+     * Sort every creature in the service according to their illness level
+     * Use a bubble sort
+     */
+    public void sortIllnessLevel() {
+        int n = getCreatures().length;
+        for (int i = 0; i < n - 1; i++) {
+            for (int j = 0; j < n - i - 1; j++) {
+                if (getCreatures()[j].compareIllnessLevel(getCreatures()[j + 1]))
+                    swap(getCreatures(), j, j + 1);
+            }
+        }
+    }
+
+    public void sortIllnessAndMorale() {
+        this.creatures = sortIllnessAndMorale(getCreatures());
+    }
+
+    /**
+     * sort the patient by Illness level and Morale using Quicksort
+     *
+     * @param creatures the patient to sort
+     * @return the patient sort by Illness level and Morale
+     */
+    private Patient[] sortIllnessAndMorale(Patient[] creatures) {
+        List<Patient> less = new ArrayList<>();
+        List<Patient> more = new ArrayList<>();
+        Patient pivot = creatures[0];
+
+        if (creatures.length < 2) {
+            for (Patient patient : creatures) {
+                if (patient.compareMoraleAndIllnessLevel(pivot))
+                    more.add(patient);
+                else less.add(patient);
+            }
+            List<Patient> tmp = new ArrayList<>(List.of(sortIllnessAndMorale((Patient[]) less.toArray())));
+            tmp.addAll(List.of(sortIllnessAndMorale((Patient[]) more.toArray())));
+            return (Patient[]) tmp.toArray();
+        } else return creatures;
+    }
+
+    public void contaminate(Creature from) {
+
+    }
+
+    /**
      * Return the string representation of a service
      * @return the string representation of a service
      */

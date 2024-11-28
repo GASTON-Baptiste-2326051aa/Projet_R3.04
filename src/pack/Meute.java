@@ -25,7 +25,11 @@ public class Meute extends Thread {
         return this.lycanthropes;
     }
 
-    public CoupleLycanthrope getCoupleLycanthrope() {
+    /**
+     * Return a couple of werewolves
+     * @return
+     */
+    public CoupleWerewolf getCoupleLycanthrope() {
         return this.coupleLycanthrope;
     }
 
@@ -41,7 +45,7 @@ public class Meute extends Thread {
             }
         }
         sortLycanthropes();
-        System.out.println("La meute contient maintenant " + getLycanthropeCount() + " lycanthropes.");
+        System.out.println("The pack contains " + getLycanthropeCount() + " werewolves.");
     }
 
     public void removeLycanthrope(Werewolf lycanthrope) {
@@ -52,9 +56,13 @@ public class Meute extends Thread {
             }
         }
         sortLycanthropes();
-        System.out.println("La meute contient maintenant " + getLycanthropeCount() + " lycanthropes.");
+        System.out.println("The pack contains " + getLycanthropeCount() + " werewolves.");
     }
 
+    /**
+     * Return the number of werewolves
+     * @return
+     */
     public int getLycanthropeCount() {
         int count = 1;
         for (Werewolf lycanthrope : lycanthropes) {
@@ -91,6 +99,9 @@ public class Meute extends Thread {
         return allLycanthropes;
     }
 
+    /**
+     * Sort the werewolves by their rank
+     */
     public void sortLycanthropes() {
         Werewolf[] sortedLycanthropes = new Werewolf[lycanthropes.length];
         int i = 0;
@@ -114,10 +125,17 @@ public class Meute extends Thread {
         return ranks;
     }
 
+    /**
+     * Return the world
+     * @return
+     */
     public World getWorld() {
         return world;
     }
 
+    /**
+     * Run the program
+     */
     @Override
     public void run() {
         for (Werewolf lycanthrope : lycanthropes) {

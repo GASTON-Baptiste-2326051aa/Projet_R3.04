@@ -8,8 +8,8 @@ import hospital.race.Vampire;
 import hospital.services.Service;
 
 public class PatientVampire extends Creature implements Patient, Vampire {
-    public int morale;
-    public Illness[] illnesses;
+    private int morale;
+    private SetIllness illnesses;
 
     public PatientVampire(String name, boolean isMale, int age, float weight, float height, int morale, SetIllness illnesses) {
         super(name, isMale, age, weight, height);

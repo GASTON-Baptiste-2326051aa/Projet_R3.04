@@ -44,9 +44,9 @@ class LycanthropeTest {
 
     @Test
     void catAgeToString() {
-        assertEquals("Jeune", this.lycanthrope.catAgeToString(0));
-        assertEquals("Adulte", this.lycanthrope.catAgeToString(1));
-        assertEquals("Vieux", this.lycanthrope.catAgeToString(2));
+        assertEquals("Young", this.lycanthrope.catAgeToString(0));
+        assertEquals("Adult", this.lycanthrope.catAgeToString(1));
+        assertEquals("Old", this.lycanthrope.catAgeToString(2));
     }
 
     @Test

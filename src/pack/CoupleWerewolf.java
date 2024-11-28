@@ -3,7 +3,12 @@ package pack;
 public class CoupleWerewolf {
     private Werewolf male, female;
 
-    public CoupleLycanthrope(Lycanthrope male, Lycanthrope female) {
+    /**
+     * Constructor of the Werewolf couple class
+     * @param male
+     * @param female
+     */
+    public CoupleWerewolf(Werewolf male, Werewolf female) {
         if (male.isMale()) {
             this.male = male;
             this.male.setIsCouple(true);
@@ -11,7 +16,7 @@ public class CoupleWerewolf {
         }
         if (!female.isMale()) {
             this.female = female;
-            this.female.setEnCouple(true);
+            this.female.setIsCouple(true);
             this.female.setRang(Rank.ALPHA);
         }
     }
@@ -24,7 +29,7 @@ public class CoupleWerewolf {
         this.male.setEnCouple(false);
         if (male.isMale()) {
             this.male = male;
-            this.male.setEnCouple(true);
+            this.male.setInRelationship(true);
             this.male.setRang(Rank.ALPHA);
         }
     }
@@ -37,7 +42,7 @@ public class CoupleWerewolf {
         this.female.setInRelationship(false);
         if (!female.isMale()) {
             this.female = female;
-            this.female.setEnCouple(true);
+            this.female.setInRelationship(true);
             this.female.setRang(Rank.ALPHA);
         }
     }

@@ -13,7 +13,7 @@ public class Werewolf extends Thread {
     private int lvl;
     private int impetuosite;
     private Meute meute;
-    private boolean enCouple;
+    private boolean inRelationship;
     private World world;
 
     /**
@@ -32,7 +32,7 @@ public class Werewolf extends Thread {
         this.rang = rang;
         this.setImpetuosite(impetuosite);
         this.meute = meute;
-        this.enCouple = false;
+        this.inRelationship = false;
         setDomination();
     }
 
@@ -54,7 +54,7 @@ public class Werewolf extends Thread {
         this.setImpetuosite(impetuosite);
         this.meute = meute;
         this.world = world;
-        this.enCouple = false;
+        this.InRelationship = false;
         setDomination();
     }
 
@@ -172,11 +172,11 @@ public class Werewolf extends Thread {
     }
 
     public boolean isEnCouple() {
-        return this.enCouple;
+        return this.InRelationship;
     }
 
-    public void setEnCouple(boolean enCouple) {
-        this.enCouple = enCouple;
+    public void setEnCouple(boolean InRelationship) {
+        this.InRelationship = InRelationship;
     }
 
     public void hurle(World world, Message message) {
@@ -322,7 +322,7 @@ public class Werewolf extends Thread {
                 ", lvl=" + this.lvl +
                 ", impetuosite=" + this.impetuosite +
                 ", meute=" + this.meute +
-                ", enCouple=" + this.enCouple +
+                ", inRelationship=" + this.inRelationship +
                 ", world=" + this.world +
                 '}';
     }
@@ -337,7 +337,7 @@ public class Werewolf extends Thread {
                     this.defier(meute.getWorld(), lycanthrope);
                 }
             }
-            if (!enCouple)
+            if (!inRelationship)
                 hurle(this.getWorld(), Message.values()[random.nextInt(Message.values().length)]);
             else if (random.nextBoolean())
                 hurle(this.getWorld(), Message.values()[random.nextInt(1, Message.values().length)]);
