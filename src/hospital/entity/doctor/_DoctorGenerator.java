@@ -5,7 +5,7 @@ import hospital.entity._Generator;
 import hospital.race.Race;
 
 public class _DoctorGenerator extends _Generator {
-    public Doctor generateDoctor(int race, String name, boolean isMale, int age, float weight, float height) {
+    public static Doctor generateDoctor(int race, String name, boolean isMale, int age, float weight, float height) {
         return switch (race) {
             case 0 -> new DoctorBeastMan(name, isMale, age, weight, height);
             case 1 -> new DoctorDwarf(name, isMale, age, weight, height);
@@ -19,7 +19,7 @@ public class _DoctorGenerator extends _Generator {
         };
     }
 
-    public Doctor generateDoctor(int race) {
+    public static Doctor generateDoctor(int race) {
         int rdm = race;
         if (race == -1) rdm = random.nextInt(Race.RACES);
         return switch (rdm) {
@@ -29,9 +29,10 @@ public class _DoctorGenerator extends _Generator {
                     new DoctorDwarf(generateName(), generateSex(), generateAgeDwarf(), generateWeightDwarf(), generateHeightDwarf());
             case 2 ->
                     new DoctorElf(generateName(), generateSex(), generateAgeElf(), generateWeightElf(), generateHeightElf());
-            case 3 -> new DoctorOrc(generateName(), generateSex(), generateAge(), generateWeight(), generateHeight());
+            case 3 ->
+                    new DoctorOrc(generateName(), generateSex(), generateAgeOrc(), generateWeightOrc(), generateHeightOrc());
             case 4 ->
-                    new DoctorReptilian(generateName(), generateSex(), generateAge(), generateWeight(), generateHeight());
+                    new DoctorReptilian(generateName(), generateSex(), generateAgeReptilian(), generateWeightReptilian(), generateHeightReptilian());
             case 5 ->
                     new DoctorVampire(generateName(), generateSex(), generateAgeVampire(), generateWeightVampire(), generateHeightVampire());
             case 6 ->
@@ -42,11 +43,11 @@ public class _DoctorGenerator extends _Generator {
         };
     }
 
-    public Doctor generateDoctor() {
+    public static Doctor generateDoctor() {
         return generateDoctor(random.nextInt(Race.RACES));
     }
 
-    public Doctor[] generateDoctors(int max) {
+    public static Doctor[] generateDoctors(int max) {
         int rdm = random.nextInt(max + 1);
         Doctor[] doctors = new Doctor[rdm];
         for (int i = 0; i < rdm; i++) {

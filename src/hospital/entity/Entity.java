@@ -5,7 +5,7 @@ import java.util.Objects;
 /**
  * The Entity interface
  */
-public interface Entity extends Runnable{
+public interface Entity {
     /**
      * The name of the entity
      * @return the name of the entity
@@ -65,8 +65,6 @@ public interface Entity extends Runnable{
      * @param height the height of the entity
      */
     void setHeight(float height);
-
-    void run();
 
     /**
      * Return the string representation of the entity

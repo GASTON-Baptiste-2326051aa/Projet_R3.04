@@ -1,6 +1,6 @@
-.idea/*
+/.idea/*
 *.iml
-out/*
+/out/*
 /out/
 /out/production/
 /out/production/Projet_R3.04/
