@@ -1,12 +1,11 @@
-package pack;
+package werewolf_colony;
 
 public enum Message {
-    LOVE("love"),
-    HATE("hate"),
-    FEAR("fear"),
-    ANGER("anger"),
-    HAPPINESS("happiness"),
-    SADNESS("sadness");
+    PACK("werewolf_colony"),
+    PACK_ANSWER("pack_answer"),
+    DOMINATION("domination"),
+    SUBMISSION("submission"),
+    ANGRY("angry");
 
     private final String value;
 

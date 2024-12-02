@@ -42,4 +42,17 @@ public class _PatientGenerator extends _Generator {
             default -> getEasterEggPatient();
         };
     }
+
+    public Patient generatePatient() {
+        return generatePatient(random.nextInt(Race.RACES));
+    }
+
+    public Patient[] generatePatients(int max) {
+        int rdm = random.nextInt(max + 1);
+        Patient[] patients = new Patient[rdm];
+        for (int i = 0; i < rdm; i++) {
+            patients[i] = generatePatient();
+        }
+        return patients;
+    }
 }

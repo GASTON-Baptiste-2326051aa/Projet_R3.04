@@ -2,9 +2,9 @@ package hospital;
 
 import hospital.entity.Doctor;
 import hospital.entity.Patient;
+import hospital.entity.doctor._DoctorGenerator;
 import hospital.services.Service;
 
-import javax.print.Doc;
 import java.util.Random;
 import java.util.Scanner;
 
@@ -15,10 +15,10 @@ public class Hospital {
     private final static int SERVICE_MAX = 10;
     private static final int ACTION_MAX = 10;
 
-    private static int CHECK_ACTION = 0;
-    private static int CHOOSE_ACTION = 1;
-    private static int TREAT_ACTION = 1;
-    private static int CHANGE_ACTION = 2;
+    private static final int CHECK_ACTION = 0;
+    private static final int CHOOSE_ACTION = 1;
+    private static final int TREAT_ACTION = 1;
+    private static final int CHANGE_ACTION = 2;
 
     private static final int BUDGET_DEFAULT = 2;
 
@@ -44,8 +44,8 @@ public class Hospital {
     public Hospital(String name, int serviceMax, Service[] services, Doctor[] doctors) {
         this.name = name;
         this.serviceMax = serviceMax;
-        this.services = services != null ? services : new Service[serviceMax];
-        this.doctors = doctors != null ? doctors : new Doctor[0];
+        this.services = services;
+        this.doctors = doctors;
         this.maxBudget = BUDGET_DEFAULT;
         setTotalBudget();
     }
@@ -254,7 +254,9 @@ public class Hospital {
     }
 
     public static void main(String[] args) {
-        Hospital hospital = new Hospital();
+        Hospital hospital = new Hospital("The Hospital", 3, new Service[]{
+                new Service("Service", 15.2F, 800, 1)},
+                new Doctor[]{new _DoctorGenerator().generateDoctor()});
         hospital.run();
     }
 }

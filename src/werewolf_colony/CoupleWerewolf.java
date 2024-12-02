@@ -1,4 +1,4 @@
-package pack;
+package werewolf_colony;
 
 public class CoupleWerewolf {
     private Werewolf male, female;
@@ -12,12 +12,12 @@ public class CoupleWerewolf {
         if (male.isMale()) {
             this.male = male;
             this.male.setIsCouple(true);
-            this.male.setRang(Rank.ALPHA);
+            this.male.setRank(Rank.ALPHA);
         }
         if (!female.isMale()) {
             this.female = female;
             this.female.setIsCouple(true);
-            this.female.setRang(Rank.ALPHA);
+            this.female.setRank(Rank.ALPHA);
         }
     }
 
@@ -30,7 +30,7 @@ public class CoupleWerewolf {
         if (male.isMale()) {
             this.male = male;
             this.male.setIsCouple(true);
-            this.male.setRang(Rank.ALPHA);
+            this.male.setRank(Rank.ALPHA);
         }
     }
 
@@ -43,18 +43,18 @@ public class CoupleWerewolf {
         if (!female.isMale()) {
             this.female = female;
             this.female.setIsCouple(true);
-            this.female.setRang(Rank.ALPHA);
+            this.female.setRank(Rank.ALPHA);
         }
     }
 
     public void reproduction() {
-        Werewolf lycanthrope = new Werewolf(Werewolf.random.nextBoolean(), 0,
-                Werewolf.random.nextInt(Math.max(this.male.getForce() + 1, this.female.getForce() + 1)),
+        Werewolf werewolf = new Werewolf(Werewolf.random.nextBoolean(), 0,
+                Werewolf.random.nextInt(Math.max(this.male.getStrength() + 1, this.female.getStrength() + 1)),
                 Rank.values()[Werewolf.random.nextInt(1, Rank.values().length)],
-                Werewolf.random.nextInt(Math.max(this.male.getImpetuosite() + 1,
-                        this.female.getImpetuosite()) + 1), this.male.getMeute(), this.male.getWorld());
-        lycanthrope.start();
-        System.out.println("Un nouveau lycanthrope est né !");
-        this.male.getMeute().addLycanthrope(lycanthrope);
+                Werewolf.random.nextInt(Math.max(this.male.getImpetuosity() + 1,
+                        this.female.getImpetuosity()) + 1), this.male.getPack());
+        werewolf.start();
+        System.out.println("Un nouveau werewolf est né !");
+        this.male.getPack().addWerewolf(werewolf);
     }
 }

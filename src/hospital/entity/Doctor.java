@@ -18,7 +18,7 @@ public interface Doctor extends Entity {
      */
     default void treatPatient(Service service, Patient patient) {
         Illness toCure = chooseIllness(patient);
-        for (int i = 0; i < service.getBudget(); i++) {
+        for (int i = 0; i < service.getBudget() + 1; i++) {
             toCure.decrease();
         }
     }

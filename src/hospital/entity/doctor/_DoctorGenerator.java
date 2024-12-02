@@ -41,4 +41,17 @@ public class _DoctorGenerator extends _Generator {
             default -> getEasterEggDoctor();
         };
     }
+
+    public Doctor generateDoctor() {
+        return generateDoctor(random.nextInt(Race.RACES));
+    }
+
+    public Doctor[] generateDoctors(int max) {
+        int rdm = random.nextInt(max + 1);
+        Doctor[] doctors = new Doctor[rdm];
+        for (int i = 0; i < rdm; i++) {
+            doctors[i] = generateDoctor();
+        }
+        return doctors;
+    }
 }
