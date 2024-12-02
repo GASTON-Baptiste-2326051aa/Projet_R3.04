@@ -8,7 +8,6 @@ import hospital.race.BeastMan;
 import hospital.services.Service;
 
 public class PatientBeastMan extends Creature implements Patient, BeastMan {
-
     private int morale;
     private SetIllness illnesses;
 
@@ -67,75 +66,5 @@ public class PatientBeastMan extends Creature implements Patient, BeastMan {
     @Override
     public void setIllnesses(SetIllness illnesses) {
         this.illnesses = illnesses;
-    }
-
-    /**
-     * Add an illness to the patient
-     *
-     * @param illness the illness to add
-     */
-    @Override
-    public void addIllness(Illness illness) {
-        this.illnesses.add(illness);
-    }
-
-    /**
-     * Remove an illness from the patient
-     *
-     * @param illness the illness to remove
-     */
-    @Override
-    public void removeIllness(Illness illness) {
-        this.illnesses.remove(illness);
-    }
-
-    /**
-     * The patient screams
-     */
-    @Override
-    public void scream() {
-
-    }
-
-    /**
-     * The patient waits
-     */
-    @Override
-    public void waitATime() {
-
-    }
-
-    /**
-     * The patient passes away
-     */
-    @Override
-    public void passAway() {
-
-    }
-
-    /**
-     * The patient is carried away
-     */
-    @Override
-    public void carriedAway() {
-
-    }
-
-    /**
-     * the creature contaminate a part of the service
-     *
-     * @param service the service to contaminate
-     */
-    @Override
-    public void contaminate(Service service) {
-        service.contaminate(this);
-    }
-
-
-    /**
-     * Thread of the patient
-     */
-    @Override
-    public void run() {
     }
 }

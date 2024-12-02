@@ -10,5 +10,7 @@ public interface Contaminate {
      * the creature contaminate a part of the service
      * @param service the service to contaminate
      */
-    void contaminate(Service service);
+    default void contaminate(Service service){
+        service.contaminate(this);
+    }
 }

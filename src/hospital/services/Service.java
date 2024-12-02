@@ -1,8 +1,12 @@
 package hospital.services;
 
+import hospital.Hospital;
 import hospital.entity.Creature;
 import hospital.entity.Patient;
 import hospital.entity.PatientCollection;
+import hospital.race.behavior.Contaminate;
+import hospital.race.behavior.Demoralize;
+import hospital.race.behavior.Revive;
 
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -36,6 +40,10 @@ public class Service extends Thread {
      * The budget of the service
      */
     private int budget;
+    /**
+     * The Hospital
+     */
+    private final Hospital hospital;
 
     /**
      * Constructor of a medical service
@@ -44,12 +52,13 @@ public class Service extends Thread {
      * @param creatureMax the max amount of creature than the service could get
      * @param budget the budget of the service
      */
-    public Service(String name, float surface, int creatureMax, int budget) {
+    public Service(String name, float surface, int creatureMax, int budget, Hospital hospital) {
         this.name = name;
         this.surface = surface;
         this.creatureMax = creatureMax;
         this.creatures = new PatientCollection();
         this.budget = budget;
+        this.hospital = hospital;
     }
 
     /**
@@ -61,12 +70,13 @@ public class Service extends Thread {
      * @param budget      the budget of the service
      * @param creatures   the creatures inside the service
      */
-    public Service(String name, float surface, int creatureMax, int budget, PatientCollection creatures) {
+    public Service(String name, float surface, int creatureMax, int budget, PatientCollection creatures, Hospital hospital) {
         this.name = name;
         this.surface = surface;
         this.creatureMax = creatureMax;
         this.creatures = creatures;
         this.budget = budget;
+        this.hospital = hospital;
     }
 
     /**
@@ -170,6 +180,14 @@ public class Service extends Thread {
     public void setBudget(int budget) {
         this.budget = budget;
         System.out.println("The budget of the service is now " + budgetToString(budget));
+    }
+
+    /**
+     * return the hospital where the service is
+     * @return the hospital where the service is
+     */
+    public Hospital getHospital() {
+        return this.hospital;
     }
 
     /**
@@ -284,6 +302,9 @@ public class Service extends Thread {
         }
     }
 
+    /**
+     * sort the patient by Illness level and Morale using Quicksort
+     */
     public void sortIllnessAndMorale() {
         Patient[] patients = (Patient[]) getCreatures().toArray();
         Patient[] sortedPatients = sortIllnessAndMorale(patients);
@@ -313,7 +334,24 @@ public class Service extends Thread {
         } else return creatures;
     }
 
-    public void contaminate(Creature from) {
+    /**
+     * a creature contaminate the service
+     */
+    public void contaminate(Contaminate contaminate) {
+
+    }
+
+    /**
+     * a creature demoralise the service
+     */
+    public void demoralize(Demoralize demoralize) {
+
+    }
+
+    /**
+     * a creature revive in the service
+     */
+    public void revive(Revive revive) {
 
     }
 
@@ -338,12 +376,11 @@ public class Service extends Thread {
      */
     @Override
     public void run() {
-        for (Patient creature : creatures.toArray(new Patient[]{})) {
-            if (creature == null) {
-                break;
-            }
-            creature.run();
+        while(hospital.isRunning())
+            for (Patient creature : creatures.toArray(new Patient[]{})) {
+                if (creature != null) {
+                    creature.run();
+                }
         }
-        System.out.println(getName() + " is running");
     }
 }

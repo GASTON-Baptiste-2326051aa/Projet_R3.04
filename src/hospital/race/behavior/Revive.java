@@ -8,7 +8,10 @@ import hospital.services.Service;
 public interface Revive {
     /**
      * the creature revive
+     *
      * @param service the service where the creature revive
      */
-    void revive(Service service);
+    default void revive(Service service) {
+        service.revive(this);
+    }
 }

@@ -2,6 +2,7 @@ package hospital.entity;
 
 import hospital.illness.Illness;
 import hospital.illness.SetIllness;
+import hospital.services.Service;
 
 /**
  * The Patient interface
@@ -20,6 +21,10 @@ public interface Patient extends Entity {
      * The minimum morale
      */
     int MORALE_MIN = -5;
+    /**
+     * The ammount of morale than the creature lose while waiting
+     */
+    int WAIT_MORALE = 2;
 
     /**
      * The morale of the patient
@@ -47,35 +52,61 @@ public interface Patient extends Entity {
 
     /**
      * Add an illness to the patient
+     *
      * @param illness the illness to add
      */
-    void addIllness(Illness illness);
+    default void addIllness(Illness illness) {
+        getIllnesses().add(illness);
+    }
 
     /**
      * Remove an illness from the patient
+     *
      * @param illness the illness to remove
      */
-    void removeIllness(Illness illness);
+    default void removeIllness(Illness illness) {
+        getIllnesses().remove(illness);
+    }
 
     /**
      * The patient screams
      */
-    void scream();
+    default void scream() {
+        System.out.println(this + " screams...");
+    }
 
     /**
      * The patient waits
      */
-    void waitATime();
+    default void waitATime() {
+        if (getMorale() <= MORALE_SCREAM)
+            scream();
+        else
+            System.out.println(this + " wait a time...");
+        this.setMorale(getMorale() - WAIT_MORALE);
+    }
 
     /**
      * The patient passes away
      */
-    void passAway();
+    default void passAway(Service service) {
+        System.out.println(this + " pass away");
+        service.removeCreature((Creature) this);
+    }
 
     /**
      * The patient is getting carried away
      */
-    void carriedAway();
+    default void carriedAway() {
+        // TODO
+    }
+
+    /**
+     * The Patient do things
+     */
+    default void run() {
+        waitATime();
+    }
 
     /**
      * Compare two patients according to their morale
@@ -106,5 +137,4 @@ public interface Patient extends Entity {
     default boolean compareMoraleAndIllnessLevel(Patient patient) {
         return this.compareIllnessLevel(patient) & this.compareMorale(patient);
     }
-
 }

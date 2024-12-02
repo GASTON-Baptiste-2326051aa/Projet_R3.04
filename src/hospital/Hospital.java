@@ -253,6 +253,14 @@ public class Hospital {
         return doctor;
     }
 
+    public boolean isRunning(){
+        return this.isRunning;
+    }
+
+    public void setIsRunning(boolean running) {
+        this.isRunning = running;
+    }
+
     public static void main(String[] args) {
         Hospital hospital = new Hospital("The Hospital", 3, new Service[]{
                 new Service("Service", 15.2F, 800, 1)},
