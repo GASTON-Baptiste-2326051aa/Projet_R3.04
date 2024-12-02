@@ -45,11 +45,12 @@ public class QuarantineCenter extends Service {
      * @param creature a creature to add
      */
     @Override
-    public void addCreature(Creature creature) {
+    public void addCreature(Creature creature) throws IllegalArgumentException {
         if (creature instanceof Contaminate) { //Il faut tester si c'est une créature bestiale
             super.addCreature(creature);
         } else {
             System.out.println("Only contagious creatures are allowed in a quarantine center.");
+            throw new IllegalArgumentException("Only contagious creatures are allowed in a quarantine center");
         }
     }
 

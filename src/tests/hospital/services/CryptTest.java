@@ -1,4 +1,4 @@
-package services;
+package hospital.services;
 
 import hospital.entity.Creature;
 import hospital.entity.patient.PatientDwarf;

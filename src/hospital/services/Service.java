@@ -116,7 +116,7 @@ public class Service implements Runnable{
      * Set all the creature inside a service
      * @param creatures all the creature inside a service
      */
-    public void setCreatures(Collection<Creature> creatures) {
+    public void setCreatures(Collection<Creature> creatures) throws IllegalArgumentException {
         Creature creature1;
         if (creatures == null) {
             throw new IllegalArgumentException("The creatures list is empty");

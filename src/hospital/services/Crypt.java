@@ -88,7 +88,7 @@ public class Crypt extends Service {
     }
 
     @Override
-    public void setCreatures(Collection<Creature> creatures) {
+    public void setCreatures(Collection<Creature> creatures) throws IllegalArgumentException {
         Creature creature1;
         if (creatures == null) {
             throw new IllegalArgumentException("The creatures list is empty");
