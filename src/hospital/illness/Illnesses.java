@@ -9,7 +9,7 @@ public enum Illnesses {
     DRS("DRS", "Dépendance aux réseaux sociaux", 6),
     PEC("PEC", "Porphyrie érythropoïétique congénitale", 5),
     ZPL("ZPL", "Zoopathie paraphrénique lycanthropique", 4),
-    NDMAD("NDMAD", "Not Defined Maladie A Définir", 2);
+    NDMAD("NDMAD", "<Nom de maladie à définir>", 2);
 
     /**
      * the name of the Illness

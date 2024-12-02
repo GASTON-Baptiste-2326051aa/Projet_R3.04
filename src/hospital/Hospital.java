@@ -1,21 +1,38 @@
 package hospital;
 
-
-import hospital.entity.Creature;
 import hospital.entity.Doctor;
-import hospital.entity.doctor.DoctorDwarf;
-import hospital.entity.doctor.DoctorElf;
-import hospital.entity.doctor.DoctorVampire;
-import hospital.entity.patient.PatientDwarf;
-import hospital.services.Crypt;
-import hospital.services.QuarantineCenter;
+import hospital.entity.Patient;
+import hospital.entity.doctor._DoctorGenerator;
 import hospital.services.Service;
 
-public class Hospital implements Runnable {
+import java.util.Random;
+import java.util.Scanner;
+
+/**
+ *
+ */
+public class Hospital {
+    private final static int SERVICE_MAX = 10;
+    private static final int ACTION_MAX = 10;
+
+    private static final int CHECK_ACTION = 0;
+    private static final int CHOOSE_ACTION = 1;
+    private static final int TREAT_ACTION = 1;
+    private static final int CHANGE_ACTION = 2;
+
+    private static final int BUDGET_DEFAULT = 2;
+
     private String name;
     private final int serviceMax;
     private Service[] services;
     private Doctor[] doctors;
+
+    private int totalBudget = 0;
+    private int maxBudget = 0;
+
+    boolean isRunning = true;
+
+    private final Scanner scanner = new Scanner(System.in);
 
     /**
      * Constructor of the class Hospital
@@ -27,19 +44,22 @@ public class Hospital implements Runnable {
     public Hospital(String name, int serviceMax, Service[] services, Doctor[] doctors) {
         this.name = name;
         this.serviceMax = serviceMax;
-        this.services = services != null ? services : new Service[serviceMax];
-        this.doctors = doctors != null ? doctors : new Doctor[0];
+        this.services = services;
+        this.doctors = doctors;
+        this.maxBudget = BUDGET_DEFAULT;
+        setTotalBudget();
     }
 
     /**
      * Constructor of the class Hospital
-     * @param serviceMax the maximum number of services in the hospital
      */
-    public Hospital(int serviceMax) {
+    public Hospital() {
         this.name = null;
-        this.serviceMax = serviceMax;
-        this.services = new Service[serviceMax];
-        this.doctors = new Doctor[0];
+        this.serviceMax = Hospital.SERVICE_MAX;
+        this.services = new Service[]{};
+        this.doctors = new Doctor[]{};
+        this.maxBudget = BUDGET_DEFAULT;
+        setTotalBudget();
     }
 
     /**
@@ -114,37 +134,129 @@ public class Hospital implements Runnable {
      * Return the list of creatures in the hospital
      * @return the creatures in the hospital
      */
-    public Creature[] getCreatures() {
-        Creature[] creatures = new Creature[getCreatureNow()];
+    public Patient[] getCreatures() {
+        Patient[] creatures = new Patient[getCreatureNow()];
         int i = 0;
         for (Service service : services) {
-            for (Creature creature : service.getCreatures()) {
+            for (Patient creature : service.getCreatures()) {
                 creatures[i++] = creature;
             }
         }
         return creatures;
     }
 
+    public int getTotalBudget() {
+        return totalBudget;
+    }
+
+    public void setTotalBudget() {
+        this.totalBudget = 0;
+        for (Service service : services) {
+            this.totalBudget += service.getBudget();
+        }
+    }
+
+    public int getMaxBudget() {
+        return maxBudget;
+    }
+
+    public void setMaxBudget(int maxBudget) {
+        this.maxBudget = maxBudget;
+    }
+
     /**
      * start the hospital
      */
     public void run() {
-        //creation of the services
-        services[0] = new Service("Service 1", 100, 10, 1000);
-        //creation of the doctors
-        doctors = new Doctor[1];
-        doctors[0] = new DoctorElf("Legolas", true, 1000);
-        //creation of the creatures
-        Creature creature = new PatientDwarf("Yousra", false, 19);
-        //add the creature to the service
-        services[0].addCreature(creature);
-        //run the service
-        services[0].run();
+        Service actualService = null;
+        Doctor actualDoctor = null;
+        int action = ACTION_MAX;
+        for (Service service : services) {
+            service.start();
+        } actualDoctor =  chooseDoctor();
+        while (isRunning) {
+            System.out.println("What do you want to do ?");
+            System.out.println("1 - Check a service");
+            System.out.println("2 - Choose a service");
+            System.out.println("3 - Check a patient");
+            System.out.println("4 - Treat a patient");
+            System.out.println("5 - Change the Service Budget");
+            System.out.println("6 - Exit the Hospital");
+            int resp = Integer.parseInt(scanner.nextLine());
+            switch (resp) {
+                case 1:
+                    actualDoctor.checkService(actualDoctor.chooseService(this));
+                    action = action - CHECK_ACTION;
+                    break;
+                case 2:
+                    actualService = actualDoctor.chooseService(this);
+                    action = action - CHOOSE_ACTION;
+                    break;
+                case 3:
+                    if (actualService == null)
+                        actualService = actualDoctor.chooseService(this);
+                    System.out.println(actualDoctor.choosePatient(actualService));
+                    action = action - CHECK_ACTION;
+                    break;
+                case 4:
+                    if (actualService == null)
+                        actualService = actualDoctor.chooseService(this);
+                    actualDoctor.treatPatient(actualService, actualDoctor.choosePatient(actualService));
+                    action = action - TREAT_ACTION;
+                    break;
+                case 5:
+                    actualDoctor.changeServiceBudget(actualService);
+                    action = action - CHANGE_ACTION;
+                    break;
+                case 6:
+                    isRunning = false;
+                    break;
+                default:
+                    System.out.println("Invalid choice");
+            }
+            if (isRunning && action <= 0) {
+                System.out.println("Your Doctor is tired...");
+                actualDoctor = chooseDoctor();
+                action = ACTION_MAX;
+            }
+            if (new Random().nextInt(100) == 0) {
+                System.out.println("the Hospital got more budget !");
+                maxBudget++;
+                System.out.println("The list of the service in the hospital :");
+                actualDoctor.checkHospital(this);
+                System.out.println("did you want to change the budget of one of the services ?(-1 for no)");
+                resp = Integer.parseInt(scanner.nextLine());
+                while (resp != -1 || maxBudget > totalBudget) {
+                    actualDoctor.changeServiceBudget(actualDoctor.chooseService(this));
+                    System.out.println("The list of the service in the hospital :");
+                    actualDoctor.checkHospital(this);
+                    System.out.println("did you want to change the budget of one of the services ?(-1 for no)");
+                }
+            }
+        }
     }
 
+    private Doctor chooseDoctor() {
+        Doctor doctor;
+        System.out.println("Choose a doctor :");
+        for (int i = 0; i < doctors.length; i++) {
+            System.out.println((i + 1) + " - " + doctors[i].getName());
+        }
+        int choice = Integer.parseInt(scanner.nextLine());
+        if (choice > 0 && choice <= doctors.length) {
+            doctor = doctors[choice - 1];
+            System.out.println("You have chosen " + doctor.getName());
+        } else {
+            System.out.println("Invalid choice");
+            doctor = chooseDoctor();
+        }
+        return doctor;
+    }
 
     public static void main(String[] args) {
-        Hospital hospital = new Hospital(10);
+        Hospital hospital = new Hospital("The Hospital", 3, new Service[]{
+                new Service("Service", 15.2F, 800, 1)},
+                new Doctor[]{new _DoctorGenerator().generateDoctor()});
         hospital.run();
     }
 }

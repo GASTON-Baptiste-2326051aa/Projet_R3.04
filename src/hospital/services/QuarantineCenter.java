@@ -1,9 +1,8 @@
 package hospital.services;
 
-import hospital.entity.Creature;
+import hospital.entity.Patient;
+import hospital.entity.PatientCollection;
 import hospital.race.behavior.Contaminate;
-
-import java.util.Arrays;
 
 /**
  * QuarantineCenter
@@ -45,7 +44,7 @@ public class QuarantineCenter extends Service {
      * @param creature a creature to add
      */
     @Override
-    public void addCreature(Creature creature) throws IllegalArgumentException {
+    public void addCreature(Patient creature) throws IllegalArgumentException {
         if (creature instanceof Contaminate) { //Il faut tester si c'est une créature bestiale
             super.addCreature(creature);
         } else {
@@ -72,7 +71,7 @@ public class QuarantineCenter extends Service {
      */
     @Override
     public void run(){
-        for(Creature creature : getCreatures()) {
+        for (Patient creature : getCreatures()) {
             creature.run();
         }
         System.out.println(getName() + " is running");

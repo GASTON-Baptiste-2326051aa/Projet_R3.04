@@ -1,4 +1,4 @@
-package pack;
+package werewolf_colony;
 
 public enum Rank {
     ALPHA(0),

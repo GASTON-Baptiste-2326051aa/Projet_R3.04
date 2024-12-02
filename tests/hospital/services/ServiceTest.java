@@ -1,16 +1,10 @@
 package hospital.services;
 
-import hospital.entity.Creature;
+import hospital.entity.PatientCollection;
 import hospital.entity.patient.PatientDwarf;
 import hospital.entity.patient.PatientElf;
-import hospital.services.Service;
-import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
-
-import java.util.ArrayList;
-import java.util.Collection;
-
 import static org.junit.jupiter.api.Assertions.*;
 
 public class ServiceTest {
@@ -95,7 +89,7 @@ public class ServiceTest {
     }
     @Test
     public void setCreaturesTest() {
-        Collection<Creature> creatures = new ArrayList<>();
+        PatientCollection creatures = new PatientCollection();
         PatientDwarf yousra = new PatientDwarf("Yousra",false, 19, 47, 153);
         creatures.add(yousra);
         service.setCreatures(creatures);

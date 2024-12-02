@@ -1,11 +1,9 @@
 package hospital.services;
 
 import hospital.entity.Creature;
-import hospital.race.Zombie;
+import hospital.entity.Patient;
+import hospital.entity.PatientCollection;
 import hospital.race.behavior.Revive;
-
-import java.util.Arrays;
-import java.util.Collection;
 
 /**
  * Crypt
@@ -78,7 +76,7 @@ public class Crypt extends Service {
      * @throws IllegalStateException if the service is full or the creature is already in the service
      */
     @Override
-    public void addCreature(Creature creature) throws IllegalArgumentException{
+    public void addCreature(Patient creature) throws IllegalArgumentException{
         if (creature instanceof Revive) { // vérifier si c'est un mort vivant
             super.addCreature(creature);
         } else {
@@ -88,7 +86,7 @@ public class Crypt extends Service {
     }
 
     @Override
-    public void setCreatures(Collection<Creature> creatures) throws IllegalArgumentException {
+    public void setCreatures(PatientCollection creatures) throws IllegalArgumentException {
         Creature creature1;
         if (creatures == null) {
             throw new IllegalArgumentException("The creatures list is empty");
@@ -96,11 +94,11 @@ public class Crypt extends Service {
         if (creatures.isEmpty()) {
             throw new IllegalArgumentException("The creatures list is empty");
         }
-        creature1 = creatures.iterator().next();
+        creature1 = (Creature) creatures.iterator().next();
         if (!(creature1 instanceof Revive)) {
             throw new IllegalArgumentException("Only regenerative creatures are allowed in a crypt");
         }
-        for (Creature creature : creatures) {
+        for (Patient creature : creatures) {
             if (!creature.getClass().equals(creature1.getClass())) {
                 throw new IllegalArgumentException("The creatures are not the same type");
             }
@@ -123,7 +121,7 @@ public class Crypt extends Service {
      */
     @Override
     public void run(){
-        for(Creature creature : getCreatures()) {
+        for (Patient creature : getCreatures()) {
             creature.run();
         }
         System.out.println(getName() + " is running");

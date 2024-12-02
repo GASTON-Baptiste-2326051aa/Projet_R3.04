@@ -1,31 +1,29 @@
-package pack;
+package werewolf_colony;
 
-public class Hurlement {
-    private final Lycanthrope from;
-    private final Lycanthrope to;
+public class Howl {
+    private final Werewolf from;
     private final Message message;
     private final long time;
 
-    public Hurlement(Lycanthrope from, Message message) {
+    /**
+     * Constructor of the Howling class
+     * @param from
+     * @param message
+     */
+    public Howl(Werewolf from, Message message) {
         this.from = from;
-        this.to = null;
         this.message = message;
         this.time = System.currentTimeMillis();
     }
 
-    public Hurlement(Lycanthrope from, Lycanthrope to, Message message) {
+    public Howl(Werewolf from, Werewolf to, Message message) {
         this.from = from;
-        this.to = to;
         this.message = message;
         this.time = System.currentTimeMillis();
     }
 
-    public Lycanthrope getFrom() {
+    public Werewolf getFrom() {
         return this.from;
-    }
-
-    public Lycanthrope getTo() {
-        return this.to;
     }
 
     public Message getMessage() {

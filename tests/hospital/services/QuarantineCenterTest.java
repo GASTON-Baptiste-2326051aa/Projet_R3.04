@@ -1,16 +1,10 @@
 package hospital.services;
 
-import hospital.entity.Creature;
-import hospital.entity.patient.PatientDwarf;
+import hospital.entity.PatientCollection;
 import hospital.entity.patient.PatientElf;
 import hospital.entity.patient.PatientVampire;
-import hospital.entity.patient.PatientZombie;
-import hospital.services.QuarantineCenter;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
-
-import java.util.ArrayList;
-import java.util.Collection;
 
 import static org.junit.jupiter.api.Assertions.*;
 import static org.junit.jupiter.api.Assertions.assertTrue;
@@ -107,7 +101,7 @@ public class QuarantineCenterTest {
     }
     @Test
     public void setCreaturesTest() {
-        Collection<Creature> creatures = new ArrayList<>();
+        PatientCollection creatures = new PatientCollection();
         PatientVampire Baptiste = new PatientVampire("Baptiste", true, 19, 77, 180);
         creatures.add(Baptiste);
         center.setCreatures(creatures);
