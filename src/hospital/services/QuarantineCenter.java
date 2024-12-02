@@ -1,7 +1,6 @@
 package hospital.services;
 
 import hospital.entity.Patient;
-import hospital.entity.PatientCollection;
 import hospital.race.behavior.Contaminate;
 
 /**

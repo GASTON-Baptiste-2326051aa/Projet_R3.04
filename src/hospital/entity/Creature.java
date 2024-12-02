@@ -166,7 +166,7 @@ public abstract class Creature implements Entity {
      */
     @Override
     public String toString() {
-        return "Creature{" +
+        return this.getClass().getSimpleName() +"{" +
                 "name='" + name + '\'' +
                 ", isMale=" + isMale +
                 ", weight=" + weight +
