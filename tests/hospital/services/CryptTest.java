@@ -1,6 +1,7 @@
 package hospital.services;
 
 
+import hospital.Hospital;
 import hospital.entity.PatientCollection;
 import hospital.entity.patient.PatientElf;
 import hospital.entity.patient.PatientVampire;
@@ -13,11 +14,13 @@ import static org.junit.jupiter.api.Assertions.assertTrue;
 
 public class CryptTest {
 
+    private Hospital hospital;
     private Crypt crypt;
 
     @BeforeEach
     public void setUp() {
-        crypt = new Crypt("Crypt", 10, 10, 1, 5, 20);
+        hospital = new Hospital("Hospital");
+        crypt = new Crypt("Crypt", 10, 10, 1, 5, 20, hospital);
     }
 
     @Test

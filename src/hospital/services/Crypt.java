@@ -1,5 +1,6 @@
 package hospital.services;
 
+import hospital.Hospital;
 import hospital.entity.Creature;
 import hospital.entity.Patient;
 import hospital.entity.PatientCollection;
@@ -27,8 +28,8 @@ public class Crypt extends Service {
      * @param ventilationLevel the ventilation level of the crypt
      * @param temperature the temperature of the crypt
      */
-    public Crypt(String name, float surface, int creatureMax, int budget, int ventilationLevel, float temperature) {
-        super(name, surface, creatureMax, budget);
+    public Crypt(String name, float surface, int creatureMax, int budget, int ventilationLevel, float temperature, Hospital hospital) {
+        super(name, surface, creatureMax, budget, hospital);
         this.ventilationLevel = ventilationLevel;
         this.temperature = temperature;
     }
@@ -87,24 +88,16 @@ public class Crypt extends Service {
 
     @Override
     public void setCreatures(PatientCollection creatures) throws IllegalArgumentException {
-        Creature creature1;
-        if (creatures == null) {
-            throw new IllegalArgumentException("The creatures list is empty");
-        }
-        if (creatures.isEmpty()) {
-            throw new IllegalArgumentException("The creatures list is empty");
-        }
-        creature1 = (Creature) creatures.iterator().next();
-        if (!(creature1 instanceof Revive)) {
-            throw new IllegalArgumentException("Only regenerative creatures are allowed in a crypt");
-        }
         for (Patient creature : creatures) {
-            if (!creature.getClass().equals(creature1.getClass())) {
-                throw new IllegalArgumentException("The creatures are not the same type");
+            if (creature instanceof Revive) { // vérifier si c'est un mort vivant
+                super.addCreature(creature);
+            } else {
+                System.out.println("Only regenerative creatures are allowed in a crypt.");
+                throw new IllegalArgumentException("Only regenerative creatures are allowed in a crypt");
             }
         }
-        super.setCreatures(creatures);
     }
+
     /**
      * Override the budget revision to include ventilation and temperature checks
      * Faut finir la méthode
@@ -114,17 +107,6 @@ public class Crypt extends Service {
         super.setBudget(budget);
         System.out.println("Budget revised considering ventilation (Level " + ventilationLevel
                 + ") and temperature (" + temperature + "°C).");
-    }
-
-    /**
-     * Run the crypt
-     */
-    @Override
-    public void run(){
-        for (Patient creature : getCreatures()) {
-            creature.run();
-        }
-        System.out.println(getName() + " is running");
     }
 
     /**

@@ -1,5 +1,6 @@
 package hospital.services;
 
+import hospital.Hospital;
 import hospital.entity.PatientCollection;
 import hospital.entity.patient.PatientElf;
 import hospital.entity.patient.PatientVampire;
@@ -11,11 +12,13 @@ import static org.junit.jupiter.api.Assertions.assertTrue;
 
 public class QuarantineCenterTest {
 
+    private Hospital hospital;
     private QuarantineCenter center;
 
     @BeforeEach
     public void setUp() {
-        center = new QuarantineCenter("center", 10, 10, 1);
+        hospital = new Hospital("hospital");
+        center = new QuarantineCenter("center", 10, 10, 1, hospital);
     }
 
     @Test

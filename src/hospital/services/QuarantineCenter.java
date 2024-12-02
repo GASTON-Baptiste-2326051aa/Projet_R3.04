@@ -1,5 +1,6 @@
 package hospital.services;
 
+import hospital.Hospital;
 import hospital.entity.Patient;
 import hospital.entity.PatientCollection;
 import hospital.race.behavior.Contaminate;
@@ -17,8 +18,8 @@ public class QuarantineCenter extends Service {
      * @param creatureMax the max number of creatures
      * @param budget the budget of the center
      */
-    public QuarantineCenter(String name, float surface, int creatureMax, int budget) {
-        super(name, surface, creatureMax, budget);
+    public QuarantineCenter(String name, float surface, int creatureMax, int budget, Hospital hospital) {
+        super(name, surface, creatureMax, budget, hospital);
         this.isolation = false;
     }
 
@@ -54,6 +55,21 @@ public class QuarantineCenter extends Service {
     }
 
     /**
+     * Override the setCreatures method to ensure only contagious creatures can be added
+     * @param creatures all the creature inside a service
+     */
+    @Override
+    public void setCreatures(PatientCollection creatures) {
+        for (Patient creature : creatures) {
+            if (!(creature instanceof Contaminate)) {
+                System.out.println("Only contagious creatures are allowed in a quarantine center.");
+                throw new IllegalArgumentException("Only contagious creatures are allowed in a quarantine center");
+            }
+        }
+        super.setCreatures(creatures);
+    }
+
+    /**
      * Override the budget revision to include the isolation factor
      */
     @Override
@@ -64,17 +80,6 @@ public class QuarantineCenter extends Service {
         else {
             super.setBudget(budget);
         }
-    }
-
-    /**
-     * Run the quarantine center
-     */
-    @Override
-    public void run(){
-        for (Patient creature : getCreatures()) {
-            creature.run();
-        }
-        System.out.println(getName() + " is running");
     }
 
     /**

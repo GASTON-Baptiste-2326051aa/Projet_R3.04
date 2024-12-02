@@ -379,7 +379,7 @@ public class Service extends Thread {
         while(hospital.isRunning())
             for (Patient creature : creatures.toArray(new Patient[]{})) {
                 if (creature != null) {
-                    creature.run();
+                    creature.run(this);
                 }
         }
     }

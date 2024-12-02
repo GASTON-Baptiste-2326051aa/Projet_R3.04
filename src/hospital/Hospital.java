@@ -53,7 +53,7 @@ public class Hospital {
     /**
      * Constructor of the class Hospital
      */
-    public Hospital() {
+    public Hospital(String hospital) {
         this.name = null;
         this.serviceMax = Hospital.SERVICE_MAX;
         this.services = new Service[]{};

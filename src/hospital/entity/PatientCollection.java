@@ -5,16 +5,32 @@ import java.util.Collection;
 import java.util.Iterator;
 import java.util.function.IntFunction;
 
+/**
+ * The PatientCollection class
+ */
 public class PatientCollection implements Collection<Patient> {
-
+    /**
+     * The patients
+     */
     private Patient[] patients;
+    /**
+     * The size
+     */
     private int size;
 
+    /**
+     * Constructor of the PatientCollection class
+     */
     public PatientCollection() {
         this.patients = new Patient[]{};
         this.size = 0;
     }
 
+    /**
+     * Constructor of the PatientCollection class
+     *
+     * @param patients the patients
+     */
     public PatientCollection(Patient[] patients) {
         this.patients = patients;
         this.size = patients.length;
