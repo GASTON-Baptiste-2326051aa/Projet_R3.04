@@ -82,7 +82,7 @@ public interface Patient extends Entity {
     /**
      * The patient waits
      */
-    default void waitATime() {
+    default void waitATime(Service service) {
         if (getMorale() <= MORALE_SCREAM)
             scream();
         else
@@ -101,15 +101,17 @@ public interface Patient extends Entity {
     /**
      * The patient is getting carried away
      */
-    default void carriedAway() {
-        // TODO
+    default void carriedAway(Service from, Service to) {
+        System.out.println(this + " is getting carried away...");
+        from.removePatient((Patient) this);
+        to.addPatient((Patient) this);
     }
 
     /**
      * The Patient do things
      */
-    default void run() {
-        waitATime();
+    default void run(Service service) {
+        waitATime(service);
     }
 
     /**
