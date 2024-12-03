@@ -9,29 +9,82 @@ import java.util.Random;
 import java.util.Scanner;
 
 /**
- *
+ * The `Hospital` class represents a hospital.
  */
 public class Hospital {
+    /**
+     * The maximum number of services in the hospital.
+     */
     private final static int SERVICE_MAX = 10;
+
+    /**
+     * The maximum number of actions a doctor can perform.
+     */
     private static final int ACTION_MAX = 10;
 
+    /**
+     * The action value for checking a service.
+     */
     private static final int CHECK_ACTION = 0;
+
+    /**
+     * The action value for choosing a service.
+     */
     private static final int CHOOSE_ACTION = 1;
+
+    /**
+     * The action value for treating a patient.
+     */
     private static final int TREAT_ACTION = 1;
+
+    /**
+     * The action value for changing the service budget.
+     */
     private static final int CHANGE_ACTION = 2;
 
+    /**
+     * The default budget value.
+     */
     private static final int BUDGET_DEFAULT = 2;
 
+    /**
+     * The name of the hospital.
+     */
     private String name;
+
+    /**
+     * The maximum number of services in the hospital.
+     */
     private final int serviceMax;
+
+    /**
+     * The list of services in the hospital.
+     */
     private Service[] services;
+
+    /**
+     * The list of doctors in the hospital.
+     */
     private Doctor[] doctors;
 
+    /**
+     * The total budget of the hospital.
+     */
     private int totalBudget = 0;
+
+    /**
+     * The maximum budget of the hospital.
+     */
     private int maxBudget = 0;
 
+    /**
+     * Indicates whether the hospital is running.
+     */
     boolean isRunning = true;
 
+    /**
+     * The scanner for user input.
+     */
     private final Scanner scanner = new Scanner(System.in);
 
     /**
@@ -52,8 +105,22 @@ public class Hospital {
 
     /**
      * Constructor of the class Hospital
+     * @param name the name of the hospital
+     * @param serviceMax the maximum number of services in the hospital
      */
-    public Hospital(String hospital) {
+    public Hospital(String name, int serviceMax) {
+        this.name = name;
+        this.serviceMax = serviceMax;
+        this.services = new Service[]{};
+        this.doctors = new Doctor[]{};
+        this.maxBudget = BUDGET_DEFAULT;
+        setTotalBudget();
+    }
+
+    /**
+     * Constructor of the class Hospital
+     */
+    public Hospital() {
         this.name = null;
         this.serviceMax = Hospital.SERVICE_MAX;
         this.services = new Service[]{};
@@ -145,10 +212,17 @@ public class Hospital {
         return creatures;
     }
 
+    /**
+     * Return the total budget of the hospital
+     * @return the total budget of the hospital
+     */
     public int getTotalBudget() {
         return totalBudget;
     }
 
+    /**
+     * Set the total budget of the hospital
+     */
     public void setTotalBudget() {
         this.totalBudget = 0;
         for (Service service : services) {
@@ -156,16 +230,24 @@ public class Hospital {
         }
     }
 
+    /**
+     * Return the maximum budget of the hospital
+     * @return the maximum budget of the hospital
+     */
     public int getMaxBudget() {
         return maxBudget;
     }
 
+    /**
+     * Set the maximum budget of the hospital
+     * @param maxBudget the new maximum budget of the hospital
+     */
     public void setMaxBudget(int maxBudget) {
         this.maxBudget = maxBudget;
     }
 
     /**
-     * start the hospital
+     * Start the hospital
      */
     public void run() {
         Service actualService = null;
@@ -173,7 +255,8 @@ public class Hospital {
         int action = ACTION_MAX;
         for (Service service : services) {
             service.start();
-        } actualDoctor =  chooseDoctor();
+        }
+        actualDoctor = chooseDoctor();
         while (isRunning) {
             System.out.println("What do you want to do ?");
             System.out.println("1 - Check a service");
@@ -236,6 +319,10 @@ public class Hospital {
         }
     }
 
+    /**
+     * Choose a doctor from the list of doctors in the hospital
+     * @return the chosen doctor
+     */
     private Doctor chooseDoctor() {
         Doctor doctor;
         System.out.println("Choose a doctor :");
@@ -253,14 +340,26 @@ public class Hospital {
         return doctor;
     }
 
-    public boolean isRunning(){
+    /**
+     * Return whether the hospital is running
+     * @return `true` if the hospital is running, `false` otherwise
+     */
+    public boolean isRunning() {
         return this.isRunning;
     }
 
+    /**
+     * Set whether the hospital is running
+     * @param running the new running state of the hospital
+     */
     public void setIsRunning(boolean running) {
         this.isRunning = running;
     }
 
+    /**
+     * The main method to run the hospital
+     * @param args the command line arguments
+     */
     public static void main(String[] args) {
         Hospital hospital = new Hospital("The Hospital", 3, new Service[]{
                 new Service("Service", 15.2F, 800, 1)},

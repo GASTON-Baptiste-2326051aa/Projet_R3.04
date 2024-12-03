@@ -6,17 +6,21 @@ import hospital.entity.PatientCollection;
 import hospital.race.behavior.Contaminate;
 
 /**
- * QuarantineCenter
+ * The `QuarantineCenter` class represents a quarantine center service.
  */
 public class QuarantineCenter extends Service {
+    /**
+     * Indicates if the center is in isolation.
+     */
     private boolean isolation;
 
     /**
-     * Constructor of a quarantine center
+     * Constructs a `QuarantineCenter` with specified attributes.
      * @param name the name of the quarantine center
      * @param surface the surface of the center
      * @param creatureMax the max number of creatures
      * @param budget the budget of the center
+     * @param hospital the hospital to which the center belongs
      */
     public QuarantineCenter(String name, float surface, int creatureMax, int budget, Hospital hospital) {
         super(name, surface, creatureMax, budget, hospital);
@@ -24,8 +28,7 @@ public class QuarantineCenter extends Service {
     }
 
     /**
-     * Check if the center is in isolation
-     *
+     * Checks if the center is in isolation.
      * @return true if the center is isolated, false otherwise
      */
     public boolean isIsolate() {
@@ -33,7 +36,7 @@ public class QuarantineCenter extends Service {
     }
 
     /**
-     * Set the isolation state of the center
+     * Sets the isolation state of the center.
      * @param isolation the new isolation state
      */
     public void setIsolation(boolean isolation) {
@@ -41,12 +44,13 @@ public class QuarantineCenter extends Service {
     }
 
     /**
-     * Override the addCreature method to ensure only contagious creatures can be added
+     * Adds a creature to the quarantine center, ensuring only contagious creatures can be added.
      * @param creature a creature to add
+     * @throws IllegalArgumentException if the creature is not contagious
      */
     @Override
     public void addCreature(Patient creature) throws IllegalArgumentException {
-        if (creature instanceof Contaminate) { //Il faut tester si c'est une créature bestiale
+        if (creature instanceof Contaminate) {
             super.addCreature(creature);
         } else {
             System.out.println("Only contagious creatures are allowed in a quarantine center.");
@@ -55,8 +59,9 @@ public class QuarantineCenter extends Service {
     }
 
     /**
-     * Override the setCreatures method to ensure only contagious creatures can be added
-     * @param creatures all the creature inside a service
+     * Sets the creatures in the quarantine center, ensuring only contagious creatures can be added.
+     * @param creatures all the creatures inside the service
+     * @throws IllegalArgumentException if any creature is not contagious
      */
     @Override
     public void setCreatures(PatientCollection creatures) {
@@ -70,20 +75,20 @@ public class QuarantineCenter extends Service {
     }
 
     /**
-     * Override the budget revision to include the isolation factor
+     * Sets the budget of the quarantine center, including the isolation factor.
+     * @param budget the new budget
      */
     @Override
     public void setBudget(int budget) {
-        if(isolation) {
+        if (isolation) {
             super.setBudget((int) (budget * 1.1));
-        }
-        else {
+        } else {
             super.setBudget(budget);
         }
     }
 
     /**
-     * Return the string representation of the quarantine center
+     * Returns the string representation of the quarantine center.
      * @return the string representation of the quarantine center
      */
     @Override

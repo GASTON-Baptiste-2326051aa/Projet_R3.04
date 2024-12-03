@@ -377,6 +377,10 @@ public class SetIllness implements Set<Illness> {
         illnesses = new Illness[]{};
     }
 
+    /**
+     * return the max level of the illnesses
+     * @return the max level of the illnesses
+     */
     public int getIllnessesLvlMax() {
         int max = 0;
         for (Illness illness : illnesses) {
@@ -387,6 +391,10 @@ public class SetIllness implements Set<Illness> {
         return max;
     }
 
+    /**
+     * return the sum of the levels of the illnesses
+     * @return the sum of the levels of the illnesses
+     */
     public int getIllnessesLvlSum() {
         int sum = 0;
         for (Illness illness : illnesses) {
@@ -395,6 +403,10 @@ public class SetIllness implements Set<Illness> {
         return sum;
     }
 
+    /**
+     * return the min level of the illnesses
+     * @return the min level of the illnesses
+     */
     public int getIllnessesLvlMin() {
         int min = Integer.MAX_VALUE;
         for (Illness illness : illnesses) {
@@ -405,6 +417,10 @@ public class SetIllness implements Set<Illness> {
         return min;
     }
 
+    /**
+     * return the average level of the illnesses
+     * @return the average level of the illnesses
+     */
     public int getIllnessesLvlAvg() {
         return getIllnessesLvlSum() / size();
     }

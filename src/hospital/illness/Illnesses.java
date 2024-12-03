@@ -37,6 +37,11 @@ public enum Illnesses {
         this.lvlMax = lvlMax;
     }
 
+    /**
+     * Return a random illness
+     *
+     * @return a random illness
+     */
     public static Illness getRandomIllness() {
         return new Illness(Illnesses.values()[(int) (Math.random() * Illnesses.values().length)]);
     }
