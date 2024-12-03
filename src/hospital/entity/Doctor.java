@@ -54,8 +54,10 @@ public interface Doctor extends Entity {
      * check a service
      * @param service the service to check
      */
-    default void checkService(Service service) {
-        System.out.println(service);
+    default void checkServices(Hospital hospital) {
+        for (Service service : hospital.getServices()) {
+            System.out.println(service);
+        }
     }
 
     /**

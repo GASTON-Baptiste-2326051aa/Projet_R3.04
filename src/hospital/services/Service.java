@@ -403,11 +403,15 @@ public class Service extends Thread {
      */
     @Override
     public void run() {
-        while(hospital.isRunning())
-            for (Patient patient : patients.toArray(new Patient[]{})) {
-                if (patient != null) {
-                    patient.run();
+        while (hospital.isRunning()) {
+            for (Service service : getHospital().getServices()) {
+                if (!service.getPatients().isEmpty()) {
+                    for (Patient patient : service.getPatients()) {
+                        patient.run(service);
+                    }
                 }
             }
+
+        }
     }
 }

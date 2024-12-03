@@ -118,17 +118,6 @@ public class Crypt extends Service {
     }
 
     /**
-     * Run the crypt
-     */
-    @Override
-    public void run(){
-        for (Patient patient : getPatients()) {
-            patient.run();
-        }
-        System.out.println(getName() + " is running");
-    }
-
-    /**
      * Return the string representation of the crypt
      * @return the string representation of the crypt
      */
