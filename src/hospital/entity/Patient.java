@@ -91,7 +91,7 @@ public interface Patient extends Entity {
      */
     default void passAway(Service service) {
         System.out.println(this + " pass away");
-        service.removeCreature((Creature) this);
+        service.removePatient((Patient) this);
     }
 
     /**

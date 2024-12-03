@@ -1,12 +1,15 @@
 package hospital.services;
 
 
-import hospital.entity.PatientCollection;
+import hospital.entity.Patient;
 import hospital.entity.patient.PatientElf;
 import hospital.entity.patient.PatientVampire;
 import hospital.entity.patient.PatientZombie;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
+
+import java.util.ArrayList;
+import java.util.Collection;
 
 import static org.junit.jupiter.api.Assertions.*;
 import static org.junit.jupiter.api.Assertions.assertTrue;
@@ -22,49 +25,49 @@ public class CryptTest {
 
     @Test
     public void toStringTest() {
-        assertEquals("Crypt{name=Crypt, surface=10.0, creatureMax=10, creatureNow=0, budget=poor, ventilationLevel=5, temperature=20.0}", crypt.toString());
+        assertEquals("Crypt{name=Crypt, surface=10.0, patientMax=10, patientNow=0, budget=poor, ventilationLevel=5, temperature=20.0}", crypt.toString());
         }
     @Test
     public void getNameTest() {
-        assertEquals("Crypt", crypt.getName());
+        assertEquals("Crypt", crypt.getServiceName());
     }
     @Test
     public void getSurfaceTest() {
         assertEquals(10, crypt.getSurface());
     }
     @Test
-    public void getCreatureMaxTest() {
-        assertEquals(10, crypt.getCreatureMax());
+    public void getPatientMaxTest() {
+        assertEquals(10, crypt.getPatientMax());
     }
     @Test
-    public void getCreatureNowTest() {
-        assertEquals(0, crypt.getCreatureNow());
+    public void getPatientNowTest() {
+        assertEquals(0, crypt.getPatientNow());
     }
 
     @Test
-    public void addCreatureTest() {
+    public void addPatientTest() {
         PatientVampire Baptiste = new PatientVampire("Baptiste", true, 19, 77, 180);
-        crypt.addCreature(Baptiste);
-        assertEquals(1, crypt.getCreatureNow());
+        crypt.addPatient(Baptiste);
+        assertEquals(1, crypt.getPatientNow());
         PatientElf Estelle = new PatientElf("Estelle",false, 21, 54, 165);
-        assertThrows(IllegalArgumentException.class, () -> crypt.addCreature(Estelle));
+        assertThrows(IllegalArgumentException.class, () -> crypt.addPatient(Estelle));
     }
 
     @Test
-    public void removeCreatureTest() {
+    public void removePatientTest() {
         PatientVampire Baptiste = new PatientVampire("Baptiste", true, 19, 77, 180);
-        crypt.addCreature(Baptiste);
-        crypt.removeCreature(Baptiste);
-        assertEquals(0, crypt.getCreatureNow());
-        assertThrows(IllegalArgumentException.class, () -> crypt.removeCreature(Baptiste));
+        crypt.addPatient(Baptiste);
+        crypt.removePatient(Baptiste);
+        assertEquals(0, crypt.getPatientNow());
+        assertThrows(IllegalArgumentException.class, () -> crypt.removePatient(Baptiste));
     }
 
     @Test
-    public void getCreaturesTest() {
+    public void getPatientsTest() {
         PatientZombie Cyril = new PatientZombie("Cyril", false, 19, 73, 175);
-        crypt.addCreature(Cyril);
-        assertEquals(1, crypt.getCreatures().size());
-        assertTrue(crypt.getCreatures().contains(Cyril));
+        crypt.addPatient(Cyril);
+        assertEquals(1, crypt.getPatients().size());
+        assertTrue(crypt.getPatients().contains(Cyril));
 
     }
     @Test
@@ -82,22 +85,22 @@ public class CryptTest {
         assertEquals(20, crypt.getSurface());
     }
     @Test
-    public void setCreatureNowTest() {
+    public void setPatientNowTest() {
         PatientVampire Baptiste = new PatientVampire("Baptiste", true, 19, 77, 180);
         PatientVampire Mariam = new PatientVampire("Mariam", false, 19, 53, 160);
-        crypt.addCreature(Baptiste);
-        crypt.addCreature(Mariam);
-        crypt.setCreatureNow();
-        assertEquals(2, crypt.getCreatureNow());
+        crypt.addPatient(Baptiste);
+        crypt.addPatient(Mariam);
+        crypt.setPatientNow();
+        assertEquals(2, crypt.getPatientNow());
 
     }
     @Test
-    public void setCreaturesTest() {
-        PatientCollection creatures = new PatientCollection();
+    public void setPatientsTest() {
+        Collection<Patient> patients = new ArrayList<>();
         PatientVampire Baptiste = new PatientVampire("Baptiste", true, 19, 77, 180);
-        creatures.add(Baptiste);
-        crypt.setCreatures(creatures);
-        assertEquals(1, crypt.getCreatures().size());
+        patients.add(Baptiste);
+        crypt.setPatients(patients);
+        assertEquals(1, crypt.getPatients().size());
 
     }
     @Test
@@ -137,21 +140,21 @@ public class CryptTest {
         PatientVampire Blade = new PatientVampire("Blade", true, 32, 90, 188);
         PatientVampire Marcus = new PatientVampire("Marcus", true, 500, 88, 190);
         PatientVampire Victoria = new PatientVampire("Victoria", false, 120, 50, 160);
-        crypt.addCreature(Baptiste);
-        crypt.addCreature(Dracula);
-        crypt.addCreature(Selene);
-        crypt.addCreature(Vlad);
-        crypt.addCreature(Carmilla);
-        crypt.addCreature(Lestat);
-        crypt.addCreature(Akasha);
-        crypt.addCreature(Blade);
-        crypt.addCreature(Marcus);
-        crypt.addCreature(Victoria);
+        crypt.addPatient(Baptiste);
+        crypt.addPatient(Dracula);
+        crypt.addPatient(Selene);
+        crypt.addPatient(Vlad);
+        crypt.addPatient(Carmilla);
+        crypt.addPatient(Lestat);
+        crypt.addPatient(Akasha);
+        crypt.addPatient(Blade);
+        crypt.addPatient(Marcus);
+        crypt.addPatient(Victoria);
         assertTrue(crypt.isFull());
     }
     @Test
-    public void isCreatureInsideTest() {
-        PatientVampire Baptiste = new PatientVampire("Baptiste", true, 19, 77, 180);        crypt.addCreature(Baptiste);
-        assertTrue(crypt.isCreatureInService(Baptiste));
+    public void isPatientInsideTest() {
+        PatientVampire Baptiste = new PatientVampire("Baptiste", true, 19, 77, 180);        crypt.addPatient(Baptiste);
+        assertTrue(crypt.isPatientInService(Baptiste));
     }
 }

@@ -1,10 +1,14 @@
 package hospital.services;
 
-import hospital.entity.PatientCollection;
+import hospital.entity.Patient;
 import hospital.entity.patient.PatientDwarf;
 import hospital.entity.patient.PatientElf;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
+
+import java.util.ArrayList;
+import java.util.Collection;
+
 import static org.junit.jupiter.api.Assertions.*;
 
 public class ServiceTest {
@@ -18,49 +22,49 @@ public class ServiceTest {
 
     @Test
     public void toStringTest() {
-        assertEquals("Service{name='Service', surface=10.0, creatureMax=10, creatureNow=0, creatures=[], budget=poor}", service.toString());
+        assertEquals("Service{name='Service', surface=10.0, patientMax=10, patientNow=0, patients=[], budget=poor}", service.toString());
     }
     @Test
     public void getNameTest() {
-        assertEquals("Service", service.getName());
+        assertEquals("Service", service.getServiceName());
     }
     @Test
     public void getSurfaceTest() {
         assertEquals(10, service.getSurface());
     }
     @Test
-    public void getCreatureMaxTest() {
-        assertEquals(10, service.getCreatureMax());
+    public void getPatientMaxTest() {
+        assertEquals(10, service.getPatientMax());
     }
     @Test
-    public void getCreatureNowTest() {
-        assertEquals(0, service.getCreatureNow());
+    public void getPatientNowTest() {
+        assertEquals(0, service.getPatientNow());
     }
 
     @Test
-    public void addCreatureTest() {
+    public void addPatientTest() {
         PatientDwarf yousra = new PatientDwarf("Yousra",false, 19, 47, 153);
-        service.addCreature(yousra);
-        assertEquals(1, service.getCreatureNow());
+        service.addPatient(yousra);
+        assertEquals(1, service.getPatientNow());
         PatientElf  Estelle = new PatientElf("Estelle",false, 21, 54, 165);
-        assertThrows(IllegalArgumentException.class, () -> service.addCreature(Estelle));
+        assertThrows(IllegalArgumentException.class, () -> service.addPatient(Estelle));
     }
 
     @Test
-    public void removeCreatureTest() {
+    public void removePatientTest() {
         PatientDwarf yousra = new PatientDwarf("Yousra",false, 19, 47, 153);
-        service.addCreature(yousra);
-        service.removeCreature(yousra);
-        assertEquals(0, service.getCreatureNow());
-        assertThrows(IllegalArgumentException.class, () -> service.removeCreature(yousra));
+        service.addPatient(yousra);
+        service.removePatient(yousra);
+        assertEquals(0, service.getPatientNow());
+        assertThrows(IllegalArgumentException.class, () -> service.removePatient(yousra));
     }
 
     @Test
-    public void getCreaturesTest() {
+    public void getPatientsTest() {
         PatientDwarf yousra = new PatientDwarf("Yousra",false, 19, 47, 153);
-        service.addCreature(yousra);
-        assertEquals(1, service.getCreatures().size());
-        assertTrue(service.getCreatures().contains(yousra));
+        service.addPatient(yousra);
+        assertEquals(1, service.getPatients().size());
+        assertTrue(service.getPatients().contains(yousra));
 
     }
     @Test
@@ -78,22 +82,22 @@ public class ServiceTest {
         assertEquals(20, service.getSurface());
     }
     @Test
-    public void setCreatureNowTest() {
+    public void setPatientNowTest() {
         PatientElf Estelle = new PatientElf("Estelle",false, 21, 54, 165);
         PatientElf Mariam = new PatientElf("Mariam",false, 19, 53, 160);
-        service.addCreature(Estelle);
-        service.addCreature(Mariam);
-        service.setCreatureNow();
-        assertEquals(2, service.getCreatureNow());
+        service.addPatient(Estelle);
+        service.addPatient(Mariam);
+        service.setPatientNow();
+        assertEquals(2, service.getPatientNow());
 
     }
     @Test
-    public void setCreaturesTest() {
-        PatientCollection creatures = new PatientCollection();
+    public void setPatientsTest() {
+        Collection<Patient> patients = new ArrayList<>();
         PatientDwarf yousra = new PatientDwarf("Yousra",false, 19, 47, 153);
-        creatures.add(yousra);
-        service.setCreatures(creatures);
-        assertEquals(1, service.getCreatures().size());
+        patients.add(yousra);
+        service.setPatients(patients);
+        assertEquals(1, service.getPatients().size());
 
     }
     @Test
@@ -114,23 +118,23 @@ public class ServiceTest {
         PatientElf elf8 = new PatientElf("Selene", false, 22, 52, 168);
         PatientElf elf9 = new PatientElf("Kael", true, 24, 63, 172);
         PatientElf elf10 = new PatientElf("Aria", false, 26, 58, 169);
-        service.addCreature(elf1);
-        service.addCreature(elf2);
-        service.addCreature(elf3);
-        service.addCreature(elf4);
-        service.addCreature(elf5);
-        service.addCreature(elf6);
-        service.addCreature(elf7);
-        service.addCreature(elf8);
-        service.addCreature(elf9);
-        service.addCreature(elf10);
+        service.addPatient(elf1);
+        service.addPatient(elf2);
+        service.addPatient(elf3);
+        service.addPatient(elf4);
+        service.addPatient(elf5);
+        service.addPatient(elf6);
+        service.addPatient(elf7);
+        service.addPatient(elf8);
+        service.addPatient(elf9);
+        service.addPatient(elf10);
         assertTrue(service.isFull());
     }
     @Test
-    public void isCreatureInsideTest() {
+    public void isPatientInsideTest() {
         PatientDwarf yousra = new PatientDwarf("Yousra",false, 19, 47, 153);
-        service.addCreature(yousra);
-        assertTrue(service.isCreatureInService(yousra));
+        service.addPatient(yousra);
+        assertTrue(service.isPatientInService(yousra));
     }
 
 

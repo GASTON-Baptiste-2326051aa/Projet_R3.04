@@ -1,7 +1,6 @@
 package hospital.services;
 
 import hospital.entity.Patient;
-import hospital.entity.PatientCollection;
 import hospital.race.behavior.Contaminate;
 
 /**
@@ -44,9 +43,9 @@ public class QuarantineCenter extends Service {
      * @param creature a creature to add
      */
     @Override
-    public void addCreature(Patient creature) throws IllegalArgumentException {
+    public void addPatient(Patient creature) throws IllegalArgumentException {
         if (creature instanceof Contaminate) { //Il faut tester si c'est une créature bestiale
-            super.addCreature(creature);
+            super.addPatient(creature);
         } else {
             System.out.println("Only contagious creatures are allowed in a quarantine center.");
             throw new IllegalArgumentException("Only contagious creatures are allowed in a quarantine center");
@@ -71,7 +70,7 @@ public class QuarantineCenter extends Service {
      */
     @Override
     public void run(){
-        for (Patient creature : getCreatures()) {
+        for (Patient creature : getPatients()) {
             creature.run();
         }
         System.out.println(getName() + " is running");
@@ -84,10 +83,10 @@ public class QuarantineCenter extends Service {
     @Override
     public String toString() {
         return "QuarantineCenter{" +
-                "name=" + getName() +
+                "name=" + getServiceName() +
                 ", surface=" + getSurface() +
-                ", creatureMax=" + getCreatureMax() +
-                ", creatureNow=" + getCreatureNow() +
+                ", patientMax=" + getPatientMax() +
+                ", patientNow=" + getPatientNow() +
                 ", budget=" + budgetToString(getBudget()) +
                 ", isolation=" + isolation +
                 "}";
