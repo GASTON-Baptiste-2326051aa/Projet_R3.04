@@ -66,17 +66,6 @@ public class QuarantineCenter extends Service {
     }
 
     /**
-     * Run the quarantine center
-     */
-    @Override
-    public void run(){
-        for (Patient creature : getPatients()) {
-            creature.run();
-        }
-        System.out.println(getName() + " is running");
-    }
-
-    /**
      * Return the string representation of the quarantine center
      * @return the string representation of the quarantine center
      */

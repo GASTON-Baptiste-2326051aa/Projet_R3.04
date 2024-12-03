@@ -3,6 +3,7 @@ package hospital;
 import hospital.entity.Doctor;
 import hospital.entity.Patient;
 import hospital.entity.doctor._DoctorGenerator;
+import hospital.services.Crypt;
 import hospital.services.Service;
 
 import java.util.Random;
@@ -197,7 +198,7 @@ public class Hospital {
             int resp = Integer.parseInt(scanner.nextLine());
             switch (resp) {
                 case 1:
-                    actualDoctor.checkService(actualDoctor.chooseService(this));
+                    actualDoctor.checkServices(this);
                     action = action - CHECK_ACTION;
                     break;
                 case 2:
@@ -277,7 +278,7 @@ public class Hospital {
         Hospital hospital = new Hospital("The Hospital", 3);
         hospital.setServices(new Service[]{ new Service("Service", 15.2F, 800, 1)
         });
-        hospital.setDoctors(new Doctor[]{ _DoctorGenerator.generateDoctor() });
+        hospital.setDoctors(_DoctorGenerator.generateDoctors(10));
         hospital.run();
     }
 }
