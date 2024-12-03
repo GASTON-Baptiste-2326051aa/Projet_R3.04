@@ -14,9 +14,9 @@ public interface TriageCreature extends Race, Patient {
      * The Patient wait a time
      */
     @Override
-    default void waitATime(Service service) {
+    default void waitATime() {
         boolean containsTriageCreature = false;
-        for (Patient patient : service.getPatients()) {
+        for (Patient patient : getService().getPatients()) {
             if (patient instanceof TriageCreature) {
                 containsTriageCreature = true;
                 break;

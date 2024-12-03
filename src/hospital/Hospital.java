@@ -3,7 +3,6 @@ package hospital;
 import hospital.entity.Doctor;
 import hospital.entity.Patient;
 import hospital.entity.doctor._DoctorGenerator;
-import hospital.services.Crypt;
 import hospital.services.Service;
 
 import java.util.Random;
@@ -76,7 +75,7 @@ public class Hospital {
     /**
      * The maximum budget of the hospital.
      */
-    private int maxBudget = 0;
+    private int maxBudget;
 
     /**
      * Indicates whether the hospital is running.

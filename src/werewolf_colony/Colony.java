@@ -1,12 +1,33 @@
 package werewolf_colony;
 
+/**
+ * The `Colony` class represents a colony of werewolves.
+ */
 public class Colony {
 
+    /**
+     * The maximum number of minutes the colony can run.
+     */
     private final static int MAX_MINUTES = 1;
 
+    /**
+     * The array of howls in the colony.
+     */
     private final Howl[] howls;
+
+    /**
+     * The array of packs in the colony.
+     */
     private final Pack[] packs;
+
+    /**
+     * The array of werewolves in the colony.
+     */
     private final Werewolf[] werewolfs;
+
+    /**
+     * Indicates whether the colony is running.
+     */
     private boolean isRunning;
 
     /**
@@ -20,8 +41,8 @@ public class Colony {
     }
 
     /**
-     * Main method, to launch the program
-     * @param args
+     * Main method, to launch the program.
+     * @param args the command line arguments
      */
     public static void main(String[] args) {
         int minutes = 0;
@@ -77,10 +98,18 @@ public class Colony {
         System.out.println("End of the program.");
     }
 
+    /**
+     * Returns the array of howls in the colony.
+     * @return the array of howls
+     */
     public Howl[] getHowls() {
         return howls;
     }
 
+    /**
+     * Adds a howl to the colony.
+     * @param howl the howl to add
+     */
     public void addHowl(Howl howl) {
         for (int i = 0; i < howls.length; i++) {
             if (howls[i] == null) {
@@ -91,6 +120,10 @@ public class Colony {
         updateHowl();
     }
 
+    /**
+     * Removes a howl from the colony.
+     * @param howl the howl to remove
+     */
     public void removeHowl(Howl howl) {
         for (int i = 0; i < howls.length; i++) {
             if (howls[i] == howl) {
@@ -101,6 +134,9 @@ public class Colony {
         updateHowl();
     }
 
+    /**
+     * Updates the howls in the colony.
+     */
     public void updateHowl() {
         long time = System.currentTimeMillis();
         int nullCount = 0;
@@ -117,6 +153,10 @@ public class Colony {
         System.out.println("il y a maintenant " + getHowlCount() + " howls.");
     }
 
+    /**
+     * Returns the number of howls in the colony.
+     * @return the number of howls
+     */
     public int getHowlCount() {
         int count = 0;
         for (Howl howl : howls) {
@@ -127,10 +167,18 @@ public class Colony {
         return count;
     }
 
+    /**
+     * Returns the array of packs in the colony.
+     * @return the array of packs
+     */
     public Pack[] getPacks() {
         return packs;
     }
 
+    /**
+     * Adds a pack to the colony.
+     * @param pack the pack to add
+     */
     public void addPack(Pack pack) {
         for (int i = 0; i < packs.length; i++) {
             if (packs[i] == null) {
@@ -141,6 +189,10 @@ public class Colony {
         System.out.println("il y a maintenant " + getPackCount() + " packs.");
     }
 
+    /**
+     * Returns the number of packs in the colony.
+     * @return the number of packs
+     */
     public int getPackCount() {
         int count = 0;
         for (Pack pack : packs) {
@@ -151,10 +203,18 @@ public class Colony {
         return count;
     }
 
+    /**
+     * Returns the array of werewolves in the colony.
+     * @return the array of werewolves
+     */
     public Werewolf[] getWerewolfs() {
         return werewolfs;
     }
 
+    /**
+     * Adds a werewolf to the colony.
+     * @param werewolf the werewolf to add
+     */
     public void addWerewolf(Werewolf werewolf) {
         for (int i = 0; i < werewolfs.length; i++) {
             if (werewolfs[i] == null) {
@@ -165,6 +225,10 @@ public class Colony {
         System.out.println("il y a maintenant " + getWerewolfCount() + " werewolfs solitaires.");
     }
 
+    /**
+     * Removes a werewolf from the colony.
+     * @param werewolf the werewolf to remove
+     */
     public void removeWerewolf(Werewolf werewolf) {
         int nullCount = 0;
         for (int i = 0; i < werewolfs.length; i++) {
@@ -181,6 +245,10 @@ public class Colony {
         System.out.println("il y a maintenant " + getWerewolfCount() + " werewolfs solitaires.");
     }
 
+    /**
+     * Returns the number of werewolves in the colony.
+     * @return the number of werewolves
+     */
     public int getWerewolfCount() {
         int count = 0;
         for (Werewolf werewolf : werewolfs) {
@@ -191,10 +259,18 @@ public class Colony {
         return count;
     }
 
+    /**
+     * Returns whether the colony is running.
+     * @return `true` if the colony is running, `false` otherwise
+     */
     public boolean isRunning() {
         return isRunning;
     }
 
+    /**
+     * Sets whether the colony is running.
+     * @param running the new running state of the colony
+     */
     public void setRunning(boolean running) {
         isRunning = running;
     }

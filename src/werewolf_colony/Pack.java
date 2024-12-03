@@ -1,15 +1,29 @@
 package werewolf_colony;
 
+/**
+ * The `Pack` class represents a pack of werewolves.
+ */
 public class Pack extends Thread {
+    /**
+     * The couple of werewolves leading the pack.
+     */
     private final CoupleWerewolf coupleWerewolf;
+
+    /**
+     * The colony to which the pack belongs.
+     */
     private final Colony colony;
+
+    /**
+     * The array of werewolves in the pack.
+     */
     private Werewolf[] werewolfs;
 
     /**
-     * Constructor of the Pack class
-     * @param coupleWerewolf
-     * @param werewolfs
-     * @param colony
+     * Constructor of the Pack class.
+     * @param coupleWerewolf the couple of werewolves leading the pack
+     * @param werewolfs the array of werewolves in the pack
+     * @param colony the colony to which the pack belongs
      */
     public Pack(CoupleWerewolf coupleWerewolf, Werewolf[] werewolfs, Colony colony) {
         this.coupleWerewolf = coupleWerewolf;
@@ -18,24 +32,24 @@ public class Pack extends Thread {
     }
 
     /**
-     * Return the list of werewolves in the pack
-     * @return
+     * Returns the array of werewolves in the pack.
+     * @return the array of werewolves
      */
     public Werewolf[] getWerewolfs() {
         return this.werewolfs;
     }
 
     /**
-     * Return a couple of werewolves
-     * @return
+     * Returns the couple of werewolves leading the pack.
+     * @return the couple of werewolves
      */
     public CoupleWerewolf getCoupleWerewolf() {
         return this.coupleWerewolf;
     }
 
     /**
-     * Add a werewolve to the pack
-     * @param werewolf
+     * Adds a werewolf to the pack.
+     * @param werewolf the werewolf to add
      */
     public void addWerewolf(Werewolf werewolf) {
         for (int i = 0; i < werewolfs.length; i++) {
@@ -48,6 +62,10 @@ public class Pack extends Thread {
         System.out.println("The pack contains " + getWerewolfCount() + " werewolves.");
     }
 
+    /**
+     * Removes a werewolf from the pack.
+     * @param werewolf the werewolf to remove
+     */
     public void removeWerewolf(Werewolf werewolf) {
         for (int i = 0; i < werewolfs.length; i++) {
             if (werewolfs[i] == werewolf) {
@@ -60,8 +78,8 @@ public class Pack extends Thread {
     }
 
     /**
-     * Return the number of werewolves
-     * @return
+     * Returns the number of werewolves in the pack.
+     * @return the number of werewolves
      */
     public int getWerewolfCount() {
         int count = 1;
@@ -74,8 +92,8 @@ public class Pack extends Thread {
     }
 
     /**
-     * Return the best rank among the females werewolves
-     * @return
+     * Returns the best rank among the female werewolves in the pack.
+     * @return the best rank female werewolf
      */
     public Werewolf getBestRankFemale() {
         Werewolf bestRankFemale = werewolfs[0];
@@ -87,6 +105,10 @@ public class Pack extends Thread {
         return bestRankFemale;
     }
 
+    /**
+     * Returns all werewolves in the pack, including the leading couple.
+     * @return the array of all werewolves
+     */
     public Werewolf[] getAllWerewolfs() {
         Werewolf[] allWerewolfs = new Werewolf[werewolfs.length + 1];
         allWerewolfs[0] = coupleWerewolf.getMale();
@@ -100,7 +122,7 @@ public class Pack extends Thread {
     }
 
     /**
-     * Sort the werewolves by their rank
+     * Sorts the werewolves in the pack by their rank.
      */
     public void sortWerewolfs() {
         Werewolf[] sortedWerewolfs = new Werewolf[werewolfs.length];
@@ -115,6 +137,10 @@ public class Pack extends Thread {
         this.werewolfs = sortedWerewolfs;
     }
 
+    /**
+     * Returns the first available rank for a new werewolf.
+     * @return the array of available ranks
+     */
     public Rank[] firstRankAvailable() {
         Rank[] ranks = Rank.values();
         for (Werewolf werewolf : getAllWerewolfs()) {
@@ -126,15 +152,15 @@ public class Pack extends Thread {
     }
 
     /**
-     * Return the colony
-     * @return
+     * Returns the colony to which the pack belongs.
+     * @return the colony
      */
     public Colony getColony() {
         return colony;
     }
 
     /**
-     * Run the program
+     * Runs the pack's activities.
      */
     @Override
     public void run() {
@@ -146,11 +172,6 @@ public class Pack extends Thread {
             }
             this.coupleWerewolf.getMale().run();
             this.coupleWerewolf.getFemale().run();
-            try {
-                this.join();
-            } catch (InterruptedException e) {
-                throw new RuntimeException(e);
-            }
         }
     }
 }
