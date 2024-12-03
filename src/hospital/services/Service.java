@@ -6,10 +6,7 @@ import hospital.race.behavior.Contaminate;
 import hospital.race.behavior.Demoralize;
 import hospital.race.behavior.Revive;
 
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.Collection;
-import java.util.List;
+import java.util.*;
 
 /**
  * Service
@@ -178,6 +175,15 @@ public class Service extends Thread {
                 throw new IllegalArgumentException("The patients are not the same type");
             }
         }
+        for (Patient patient : patients) {
+            if (isFull()) {
+                throw new IllegalArgumentException("The service is full");
+            }
+            if (isPatientInService(patient)) {
+                throw new IllegalArgumentException(patient.getName() + " is already in the service.");
+            }
+            patient.setService(this);
+        }
         this.patients = patients;
     }
 
@@ -245,6 +251,7 @@ public class Service extends Thread {
             throw new IllegalArgumentException("This service is only for " + patients.iterator().next().getClass().getSimpleName());
         }
         this.patients.add(patient);
+        patient.setService(this);
         this.patientNow++;
         System.out.println(patient.getName() + " has been added to the service.");
     }
@@ -286,10 +293,10 @@ public class Service extends Thread {
      */
     public void sortMorale() {
         int n = getPatients().size();
+        // Filtrer uniquement les patients
         Patient[] patients = getPatients()
                 .stream()
-                .filter(patient -> patient instanceof Patient) // Filtrer uniquement les patients
-                .map(patient -> (Patient) patient) // Caster en Patient
+                .filter(Objects::nonNull) // Caster en Patient
                 .toArray(Patient[]::new); // Convertir en tableau
 
         for (int i = 0; i < n - 1; i++) {
@@ -319,22 +326,14 @@ public class Service extends Thread {
      */
     public void sortIllnessLevel() {
         int n = getPatients().size();
-        Patient[] patients = (Patient[]) getPatients().toArray();
+        Patient[] patients = getPatients().toArray(new Patient[0]);
         for (int i = 0; i < n - 1; i++) {
             for (int j = 0; j < n - i - 1; j++) {
                 if (patients[j].compareIllnessLevel(patients[j + 1]))
                     swap(patients, j, j + 1);
             }
         }
-    }
-
-    /**
-     * sort the patient by Illness level and Morale using Quicksort
-     */
-    public void sortIllnessAndMorale() {
-        Patient[] patients = (Patient[]) getPatients().toArray();
-        Patient[] sortedPatients = sortIllnessAndMorale(patients);
-        this.patients = new ArrayList<>(Arrays.asList(sortedPatients));
+        this.patients = new ArrayList<>(Arrays.asList(patients));
     }
 
     /**
@@ -344,20 +343,22 @@ public class Service extends Thread {
      * @return the patient sort by Illness level and Morale
      */
     private Patient[] sortIllnessAndMorale(Patient[] patients) {
+        if (patients.length < 2) {
+            return patients;
+        }
         List<Patient> less = new ArrayList<>();
         List<Patient> more = new ArrayList<>();
         Patient pivot = patients[0];
 
-        if (patients.length < 2) {
-            for (Patient patient : patients) {
-                if (patient.compareMoraleAndIllnessLevel(pivot))
-                    more.add(patient);
-                else less.add(patient);
-            }
-            List<Patient> tmp = new ArrayList<>(List.of(sortIllnessAndMorale((Patient[]) less.toArray())));
-            tmp.addAll(List.of(sortIllnessAndMorale((Patient[]) more.toArray())));
-            return (Patient[]) tmp.toArray();
-        } else return patients;
+        for (Patient patient : patients) {
+            if (patient.compareMoraleAndIllnessLevel(pivot))
+                more.add(patient);
+            else less.add(patient);
+        }
+        List<Patient> tmp = new ArrayList<>(Arrays.asList(sortIllnessAndMorale(less.toArray(new Patient[0]))));
+        tmp.add(pivot);
+        tmp.addAll(Arrays.asList(sortIllnessAndMorale(more.toArray(new Patient[0]))));
+        return tmp.toArray(new Patient[0]);
     }
 
     /**
@@ -407,6 +408,6 @@ public class Service extends Thread {
                 if (patient != null) {
                     patient.run();
                 }
-        }
+            }
     }
 }

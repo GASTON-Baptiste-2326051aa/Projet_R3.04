@@ -5,10 +5,14 @@ import hospital.entity.Patient;
 import hospital.illness.Illness;
 import hospital.illness.SetIllness;
 import hospital.race.Reptilian;
+import hospital.services.Service;
 
 public class PatientReptilian extends Creature implements Patient, Reptilian {
-    public int morale;
-    public SetIllness illnesses;
+    private int morale;
+    private boolean isAlive;
+    private SetIllness illnesses;
+    private Service service;
+
 
     public PatientReptilian(String name, boolean isMale, int age, float weight, float height, int morale, SetIllness illnesses) {
         super(name, isMale, age, weight, height);
@@ -28,6 +32,33 @@ public class PatientReptilian extends Creature implements Patient, Reptilian {
         this.illnesses = new SetIllness();
     }
 
+    @Override
+    public boolean getIsAlive() {
+        return this.isAlive;
+    }
+
+    /**
+     * @return Service where the patient is .
+     */
+    @Override
+    public Service getService() {
+        return this.service;
+    }
+    /**
+     * @param service where the patient is added
+     */
+    @Override
+    public void setService(Service service){
+        this.service = service;
+    }
+
+    /**
+     * @param b the status of the patient
+     */
+    @Override
+    public void setIsAlive(boolean b) {
+        this.isAlive = b;
+    }
     /**
      * The morale of the patient
      */

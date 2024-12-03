@@ -9,8 +9,11 @@ import hospital.services.Service;
 
 public class PatientElf extends Creature implements Patient, Elf {
 
-    public int morale;
-    public SetIllness illnesses;
+    private int morale;
+    private boolean isAlive;
+    private SetIllness illnesses;
+    private Service service;
+
 
     public PatientElf(String name, boolean isMale, int age, float weight, float height, int morale, SetIllness illnesses) {
         super(name, isMale, age, weight, height);
@@ -28,6 +31,37 @@ public class PatientElf extends Creature implements Patient, Elf {
         super(name, isMale, age);
         this.morale = MORALE_MAX;
         this.illnesses = new SetIllness();
+    }
+    /**
+     * @return Service where the patient is .
+     */
+    @Override
+    public Service getService() {
+        return this.service;
+    }
+    /**
+     * @param service where the patient is added
+     */
+    @Override
+    public void setService(Service service){
+        this.service = service;
+    }
+
+    /**
+     * @return if the patient is alive
+     */
+    @Override
+    public boolean getIsAlive() {
+        return this.isAlive;
+    }
+
+    /**
+     *
+     * @param b the status of the patient
+     */
+    @Override
+    public void setIsAlive(boolean b) {
+        this.isAlive = b;
     }
 
     /**

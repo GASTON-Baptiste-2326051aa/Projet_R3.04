@@ -1,5 +1,7 @@
 package hospital.entity;
 
+import hospital.services.Service;
+
 import java.util.Random;
 
 /**
@@ -39,6 +41,12 @@ public abstract class Creature implements Entity {
     private int age;
 
     /**
+     * The alive status of the creature
+     */
+    private boolean isAlive;
+
+
+    /**
      * Constructor of the Creature class
      *
      * @param name   the name of the creature
@@ -69,6 +77,7 @@ public abstract class Creature implements Entity {
         this.height = DEFAULT_HEIGHT;
         this.age = age;
     }
+
 
     /**
      * The name of the entity

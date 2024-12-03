@@ -9,7 +9,10 @@ import hospital.services.Service;
 
 public class PatientVampire extends Creature implements Patient, Vampire {
     private int morale;
+    private boolean isAlive;
     private SetIllness illnesses;
+    private Service service;
+
 
     public PatientVampire(String name, boolean isMale, int age, float weight, float height, int morale, SetIllness illnesses) {
         super(name, isMale, age, weight, height);
@@ -29,6 +32,33 @@ public class PatientVampire extends Creature implements Patient, Vampire {
         this.illnesses = new SetIllness();
     }
 
+    /**
+     * @return Service where the patient is .
+     */
+    @Override
+    public Service getService() {
+        return this.service;
+    }
+    /**
+     * @param service where the patient is added
+     */
+    @Override
+    public void setService(Service service){
+        this.service = service;
+    }
+
+    @Override
+    public boolean getIsAlive() {
+        return this.isAlive;
+    }
+
+    /**
+     * @param b the status of the patient
+     */
+    @Override
+    public void setIsAlive(boolean b) {
+        this.isAlive = b;
+    }
     /**
      * The morale of the patient
      */

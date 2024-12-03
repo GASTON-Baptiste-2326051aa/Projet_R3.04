@@ -9,7 +9,10 @@ import hospital.services.Service;
 
 public class PatientBeastMan extends Creature implements Patient, BeastMan {
     private int morale;
+    private boolean isAlive;
     private SetIllness illnesses;
+    private Service service;
+
 
     public PatientBeastMan(String name, boolean isMale, int age, float weight, float height, int morale, SetIllness illnesses) {
         super(name, isMale, age, weight, height);
@@ -29,7 +32,20 @@ public class PatientBeastMan extends Creature implements Patient, BeastMan {
         this.morale = MORALE_MAX;
         this.illnesses = new SetIllness();
     }
-
+    /**
+     * @return Service where the patient is .
+     */
+    @Override
+    public Service getService() {
+        return this.service;
+    }
+    /**
+     * @param service where the patient is added
+     */
+    @Override
+    public void setService(Service service){
+        this.service = service;
+    }
     /**
      * The morale of the patient
      */
@@ -37,6 +53,24 @@ public class PatientBeastMan extends Creature implements Patient, BeastMan {
     public int getMorale() {
         return this.morale;
     }
+
+    /**
+     * @return if the patient is alive
+     */
+    @Override
+    public boolean getIsAlive() {
+        return this.isAlive;
+    }
+
+    /**
+     *
+     * @param b the status of the patient
+     */
+    @Override
+    public void setIsAlive(boolean b) {
+        this.isAlive = b;
+    }
+
 
     /**
      * Set the morale of the patient

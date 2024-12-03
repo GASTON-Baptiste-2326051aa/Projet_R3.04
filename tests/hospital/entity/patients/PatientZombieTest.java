@@ -1,6 +1,7 @@
 package hospital.entity.patients;
 
 import hospital.entity.patient.PatientZombie;
+import hospital.services.Service;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
@@ -117,8 +118,10 @@ public class PatientZombieTest {
 
     @Test
     public void passAwayTest(){
-        patientZombie.passAway();
-        //assertFalse(patientZombie.isAlive());
+        Service service = new Service("Service", 100, 10, 1500);
+        service.addPatient(patientZombie);
+        patientZombie.passAway(service);
+        assertFalse(patientZombie.getIsAlive());
     }
 
     @Test

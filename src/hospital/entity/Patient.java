@@ -31,6 +31,10 @@ public interface Patient extends Entity {
      */
     int getMorale();
 
+    boolean getIsAlive();
+    void setIsAlive(boolean b);
+    Service getService();
+    void setService(Service service);
     /**
      * Set the morale of the patient
      * @param morale the morale of the patient
@@ -72,7 +76,7 @@ public interface Patient extends Entity {
      * The patient screams
      */
     default void scream() {
-        System.out.println(this + " screams...");
+        System.out.println(this.getName() + " screams...");
     }
 
     /**
@@ -90,7 +94,7 @@ public interface Patient extends Entity {
      * The patient passes away
      */
     default void passAway(Service service) {
-        System.out.println(this + " pass away");
+        System.out.println(this.getName() + " pass away");
         service.removePatient((Patient) this);
     }
 

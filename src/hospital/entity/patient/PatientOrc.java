@@ -8,8 +8,11 @@ import hospital.race.Orc;
 import hospital.services.Service;
 
 public class PatientOrc extends Creature implements Patient, Orc {
-    public int morale;
-    public SetIllness illnesses;
+    private int morale;
+    private boolean isAlive;
+    private SetIllness illnesses;
+    private Service service;
+
 
     public PatientOrc(String name, boolean isMale, int age, float weight, float height, int morale, SetIllness illnesses) {
         super(name, isMale, age, weight, height);
@@ -27,6 +30,34 @@ public class PatientOrc extends Creature implements Patient, Orc {
         super(name, isMale, age);
         this.morale = MORALE_MAX;
         this.illnesses = new SetIllness();
+    }
+    /**
+     * @return Service where the patient is .
+     */
+    @Override
+    public Service getService() {
+        return this.service;
+    }
+    /**
+     * @param service where the patient is added
+     */
+    @Override
+    public void setService(Service service){
+        this.service = service;
+    }
+
+    @Override
+    public boolean getIsAlive() {
+        return this.isAlive;
+    }
+
+    /**
+     *
+     * @param b the status of the patient
+     */
+    @Override
+    public void setIsAlive(boolean b) {
+        this.isAlive = b;
     }
 
     /**

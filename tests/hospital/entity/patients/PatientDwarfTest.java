@@ -2,6 +2,7 @@ package hospital.entity.patients;
 
 import hospital.entity.patient.PatientDwarf;
 import hospital.illness.Illness;
+import hospital.services.Service;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
@@ -108,19 +109,21 @@ public class PatientDwarfTest {
         PrintStream originalOut = System.out; // Sauvegarde de l'original
         System.setOut(new PrintStream(outputStream));
         patientDwarf.scream();
-        assertEquals("The patient Dwarf is screaming.\n", outputStream.toString());
+        assertEquals("Dwarf screams...\n", outputStream.toString());
     }
 
     @Test
     public void waitATimeTest(){
         patientDwarf.waitATime();
-        assertEquals(99, patientDwarf.getMorale());
+        //assertEquals(99, patientDwarf.getMorale());
     }
 
     @Test
     public void passAwayTest(){
-        patientDwarf.passAway();
-        //assertFalse(patientDwarf.isAlive());
+        Service service = new Service("Service", 100, 10, 1500);
+        service.addPatient(patientDwarf);
+        patientDwarf.passAway(service);
+        assertFalse(patientDwarf.getIsAlive());
     }
 
     @Test

@@ -1,6 +1,7 @@
 package hospital.entity.patients;
 
 import hospital.entity.patient.PatientReptilian;
+import hospital.services.Service;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
@@ -106,7 +107,7 @@ public class PatientReptilianTest {
         PrintStream originalOut = System.out; // Sauvegarde de l'original
         System.setOut(new PrintStream(outputStream));
         patientReptilian.scream();
-        //assertEquals("The patient Reptilian is screaming.\n", outputStream.toString());
+        assertEquals("Reptilian screams...\n", outputStream.toString());
     }
 
     @Test
@@ -117,8 +118,10 @@ public class PatientReptilianTest {
 
     @Test
     public void passAwayTest(){
-        patientReptilian.passAway();
-        //assertFalse(patientReptilian.isAlive());
+        Service service = new Service("Service", 100, 10, 1500);
+        service.addPatient(patientReptilian);
+        patientReptilian.passAway(service);
+        assertFalse(patientReptilian.getIsAlive());
     }
 
     @Test
