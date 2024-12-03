@@ -1,11 +1,15 @@
 package hospital.services;
 
+
 import hospital.Hospital;
-import hospital.entity.PatientCollection;
+import hospital.entity.Patient;
 import hospital.entity.patient.PatientElf;
 import hospital.entity.patient.PatientVampire;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
+
+import java.util.ArrayList;
+import java.util.Collection;
 
 import static org.junit.jupiter.api.Assertions.*;
 import static org.junit.jupiter.api.Assertions.assertTrue;
@@ -17,29 +21,29 @@ public class QuarantineCenterTest {
 
     @BeforeEach
     public void setUp() {
-        hospital = new Hospital("hospital");
+        hospital = new Hospital("hospital", 10);
         center = new QuarantineCenter("center", 10, 10, 1, hospital);
     }
 
     @Test
     public void toStringTest() {
-        assertEquals("QuarantineCenter{name=center, surface=10.0, creatureMax=10, creatureNow=0, budget=poor, isolation=false}", center.toString());
+        assertEquals("QuarantineCenter{name=center, surface=10.0, patientMax=10, patientNow=0, budget=poor, isolation=false}", center.toString());
     }
     @Test
     public void getNameTest() {
-        assertEquals("center", center.getName());
+        assertEquals("center", center.getServiceName());
     }
     @Test
     public void getSurfaceTest() {
         assertEquals(10, center.getSurface());
     }
     @Test
-    public void getCreatureMaxTest() {
-        assertEquals(10, center.getCreatureMax());
+    public void getPatientMaxTest() {
+        assertEquals(10, center.getPatientMax());
     }
     @Test
-    public void getCreatureNowTest() {
-        assertEquals(0, center.getCreatureNow());
+    public void getPatientNowTest() {
+        assertEquals(0, center.getPatientNow());
     }
 
     @Test
@@ -53,29 +57,29 @@ public class QuarantineCenterTest {
         assertTrue(center.isIsolate());
     }
     @Test
-    public void addCreatureTest() {
+    public void addPatientTest() {
         PatientVampire Baptiste = new PatientVampire("Baptiste", true, 19, 77, 180);
-        center.addCreature(Baptiste);
-        assertEquals(1, center.getCreatureNow());
+        center.addPatient(Baptiste);
+        assertEquals(1, center.getPatientNow());
         PatientElf Estelle = new PatientElf("Estelle",false, 21, 54, 165);
-        assertThrows(IllegalArgumentException.class, () -> center.addCreature(Estelle));
+        assertThrows(IllegalArgumentException.class, () -> center.addPatient(Estelle));
     }
 
     @Test
-    public void removeCreatureTest() {
+    public void removePatientTest() {
         PatientVampire Baptiste = new PatientVampire("Baptiste", true, 19, 77, 180);
-        center.addCreature(Baptiste);
-        center.removeCreature(Baptiste);
-        assertEquals(0, center.getCreatureNow());
-        assertThrows(IllegalArgumentException.class, () -> center.removeCreature(Baptiste));
+        center.addPatient(Baptiste);
+        center.removePatient(Baptiste);
+        assertEquals(0, center.getPatientNow());
+        assertThrows(IllegalArgumentException.class, () -> center.removePatient(Baptiste));
     }
 
     @Test
-    public void getCreaturesTest() {
+    public void getPatientsTest() {
         PatientVampire Baptiste = new PatientVampire("Baptiste", true, 19, 77, 180);
-        center.addCreature(Baptiste);
-        assertEquals(1, center.getCreatures().size());
-        assertTrue(center.getCreatures().contains(Baptiste));
+        center.addPatient(Baptiste);
+        assertEquals(1, center.getPatients().size());
+        assertTrue(center.getPatients().contains(Baptiste));
 
     }
     @Test
@@ -93,22 +97,22 @@ public class QuarantineCenterTest {
         assertEquals(20, center.getSurface());
     }
     @Test
-    public void setCreatureNowTest() {
+    public void setPatientNowTest() {
         PatientVampire Baptiste = new PatientVampire("Baptiste", true, 19, 77, 180);
         PatientVampire Mariam = new PatientVampire("Mariam", false, 19, 53, 160);
-        center.addCreature(Baptiste);
-        center.addCreature(Mariam);
-        center.setCreatureNow();
-        assertEquals(2, center.getCreatureNow());
+        center.addPatient(Baptiste);
+        center.addPatient(Mariam);
+        center.setPatientNow();
+        assertEquals(2, center.getPatientNow());
 
     }
     @Test
-    public void setCreaturesTest() {
-        PatientCollection creatures = new PatientCollection();
+    public void setPatientsTest() {
+        Collection<Patient> patients = new ArrayList<>();
         PatientVampire Baptiste = new PatientVampire("Baptiste", true, 19, 77, 180);
-        creatures.add(Baptiste);
-        center.setCreatures(creatures);
-        assertEquals(1, center.getCreatures().size());
+        patients.add(Baptiste);
+        center.setPatients(patients);
+        assertEquals(1, center.getPatients().size());
 
     }
     @Test
@@ -129,21 +133,21 @@ public class QuarantineCenterTest {
         PatientVampire Blade = new PatientVampire("Blade", true, 32, 90, 188);
         PatientVampire Marcus = new PatientVampire("Marcus", true, 500, 88, 190);
         PatientVampire Victoria = new PatientVampire("Victoria", false, 120, 50, 160);
-        center.addCreature(Baptiste);
-        center.addCreature(Dracula);
-        center.addCreature(Selene);
-        center.addCreature(Vlad);
-        center.addCreature(Carmilla);
-        center.addCreature(Lestat);
-        center.addCreature(Akasha);
-        center.addCreature(Blade);
-        center.addCreature(Marcus);
-        center.addCreature(Victoria);
+        center.addPatient(Baptiste);
+        center.addPatient(Dracula);
+        center.addPatient(Selene);
+        center.addPatient(Vlad);
+        center.addPatient(Carmilla);
+        center.addPatient(Lestat);
+        center.addPatient(Akasha);
+        center.addPatient(Blade);
+        center.addPatient(Marcus);
+        center.addPatient(Victoria);
         assertTrue(center.isFull());
     }
     @Test
-    public void isCreatureInsideTest() {
-        PatientVampire Baptiste = new PatientVampire("Baptiste", true, 19, 77, 180);        center.addCreature(Baptiste);
-        assertTrue(center.isCreatureInService(Baptiste));
+    public void isPatientInsideTest() {
+        PatientVampire Baptiste = new PatientVampire("Baptiste", true, 19, 77, 180);        center.addPatient(Baptiste);
+        assertTrue(center.isPatientInService(Baptiste));
     }
 }

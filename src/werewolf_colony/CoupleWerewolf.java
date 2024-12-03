@@ -53,7 +53,6 @@ public class CoupleWerewolf {
                 Rank.values()[Werewolf.random.nextInt(1, Rank.values().length)],
                 Werewolf.random.nextInt(Math.max(this.male.getImpetuosity() + 1,
                         this.female.getImpetuosity()) + 1), this.male.getPack());
-        werewolf.start();
         System.out.println("Un nouveau werewolf est né !");
         this.male.getPack().addWerewolf(werewolf);
     }

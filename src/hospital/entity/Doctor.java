@@ -47,12 +47,12 @@ public interface Doctor extends Entity {
      * @return the chosen patient
      */
     default Patient choosePatient(Service service) {
-        System.out.println("Choose a patient:");
-        for (int i = 0; i < service.getCreatures().size(); i++) {
-            System.out.println((i + 1) + " : " + service.getCreatures().toArray()[i]);
+        System.out.println("Choose a patient :");
+        for (int i = 0; i < service.getPatients().size(); i++) {
+            System.out.println((i + 1) + " : " + service.getPatients().toArray()[i]);
         }
         int resp = Integer.parseInt(input.nextLine());
-        return (Patient) service.getCreatures().toArray()[resp - 1];
+        return (Patient) service.getPatients().toArray()[resp - 1];
     }
 
     /**
@@ -70,11 +70,13 @@ public interface Doctor extends Entity {
     }
 
     /**
-     * Check the details of a service.
-     * @param service the service to check
+     * Check the services of a hospital.
+     * @param hospital hospital to check
      */
-    default void checkService(Service service) {
-        System.out.println(service);
+    default void checkServices(Hospital hospital) {
+        for (Service service : hospital.getServices()) {
+            System.out.println(service);
+        }
     }
 
     /**

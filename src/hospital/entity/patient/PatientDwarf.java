@@ -6,6 +6,7 @@ import hospital.illness.Illness;
 import hospital.illness.SetIllness;
 import hospital.illness.Illnesses;
 import hospital.race.Dwarf;
+import hospital.services.Service;
 
 import java.util.Random;
 
@@ -19,11 +20,19 @@ public class PatientDwarf extends Creature implements Patient, Dwarf {
      * The morale of the patient.
      */
     private int morale;
-
+    /**
+     * The status of the patient.
+     */
+    private boolean isAlive;
     /**
      * The illnesses of the patient.
      */
     private SetIllness illnesses;
+    /**
+     * The service where the patient is.
+     */
+    private Service service;
+
 
     /**
      * Constructs a `PatientDwarf` with specified attributes.
@@ -68,8 +77,40 @@ public class PatientDwarf extends Creature implements Patient, Dwarf {
     }
 
     /**
-     * Gets the morale of the patient.
-     * @return the morale of the patient
+     * gets the service where the patient is
+     * @return Service where the patient is .
+     */
+    @Override
+    public Service getService() {
+        return this.service;
+    }
+    /**
+     * @param service where the patient is added
+     */
+    @Override
+    public void setService(Service service){
+        this.service = service;
+    }
+
+    /**
+     * @return if the patient is alive
+     */
+    @Override
+    public boolean getIsAlive() {
+        return this.isAlive;
+    }
+
+    /**
+     *
+     * @param b the status of the patient
+     */
+    @Override
+    public void setIsAlive(boolean b) {
+        this.isAlive = b;
+    }
+
+    /**
+     * The morale of the patient
      */
     @Override
     public int getMorale() {

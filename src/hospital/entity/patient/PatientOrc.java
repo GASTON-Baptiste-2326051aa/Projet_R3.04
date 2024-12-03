@@ -11,6 +11,7 @@ import hospital.services.Service;
  * The `PatientOrc` class represents a patient of the Orc race.
  */
 public class PatientOrc extends Creature implements Patient, Orc {
+
     /**
      * The morale of the patient.
      */
@@ -20,6 +21,14 @@ public class PatientOrc extends Creature implements Patient, Orc {
      * The illnesses of the patient.
      */
     public SetIllness illnesses;
+    /**
+     * The status of the patient.
+     */
+    private boolean isAlive;
+    /**
+     * The service where the patient is.
+     */
+    private Service service;
 
     /**
      * Constructs a `PatientOrc` with specified attributes.
@@ -61,6 +70,34 @@ public class PatientOrc extends Creature implements Patient, Orc {
         super(name, isMale, age);
         this.morale = MORALE_MAX;
         this.illnesses = new SetIllness();
+    }
+    /**
+     * @return Service where the patient is .
+     */
+    @Override
+    public Service getService() {
+        return this.service;
+    }
+    /**
+     * @param service where the patient is added
+     */
+    @Override
+    public void setService(Service service){
+        this.service = service;
+    }
+
+    @Override
+    public boolean getIsAlive() {
+        return this.isAlive;
+    }
+
+    /**
+     *
+     * @param b the status of the patient
+     */
+    @Override
+    public void setIsAlive(boolean b) {
+        this.isAlive = b;
     }
 
     /**

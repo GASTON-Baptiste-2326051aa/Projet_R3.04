@@ -20,6 +20,15 @@ public class PatientElf extends Creature implements Patient, Elf {
      * The illnesses of the patient.
      */
     public SetIllness illnesses;
+    /**
+     * The status of the patient.
+     */
+    private boolean isAlive;
+    /**
+     * The service where the patient is.
+     */
+    private Service service;
+
 
     /**
      * Constructs a `PatientElf` with specified attributes.
@@ -61,6 +70,37 @@ public class PatientElf extends Creature implements Patient, Elf {
         super(name, isMale, age);
         this.morale = MORALE_MAX;
         this.illnesses = new SetIllness();
+    }
+    /**
+     * @return Service where the patient is .
+     */
+    @Override
+    public Service getService() {
+        return this.service;
+    }
+    /**
+     * @param service where the patient is added
+     */
+    @Override
+    public void setService(Service service){
+        this.service = service;
+    }
+
+    /**
+     * @return if the patient is alive
+     */
+    @Override
+    public boolean getIsAlive() {
+        return this.isAlive;
+    }
+
+    /**
+     *
+     * @param b the status of the patient
+     */
+    @Override
+    public void setIsAlive(boolean b) {
+        this.isAlive = b;
     }
 
     /**

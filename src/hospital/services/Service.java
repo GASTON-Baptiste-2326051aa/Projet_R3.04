@@ -1,16 +1,12 @@
 package hospital.services;
 
 import hospital.Hospital;
-import hospital.entity.Creature;
 import hospital.entity.Patient;
-import hospital.entity.PatientCollection;
 import hospital.race.behavior.Contaminate;
 import hospital.race.behavior.Demoralize;
 import hospital.race.behavior.Revive;
 
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.List;
+import java.util.*;
 
 /**
  * Service
@@ -25,17 +21,17 @@ public class Service extends Thread {
      */
     private float surface;
     /**
-     * The max amount of creature than the service could get
+     * The max amount of patient than the service could get
      */
-    private final int creatureMax;
+    private final int patientMax;
     /**
-     * The actual number of creatures inside the service
+     * The actual number of patients inside the service
      */
-    private int creatureNow = 0;
+    private int patientNow = 0;
     /**
-     * The creatures inside the service
+     * The patients inside the service
      */
-    private PatientCollection creatures;
+    private Collection<Patient> patients;
     /**
      * The budget of the service
      */
@@ -49,14 +45,31 @@ public class Service extends Thread {
      * Constructor of a medical service
      * @param name the name of the service
      * @param surface the surface of the service
-     * @param creatureMax the max amount of creature than the service could get
+     * @param patientMax the max amount of patient than the service could get
      * @param budget the budget of the service
      */
-    public Service(String name, float surface, int creatureMax, int budget, Hospital hospital) {
+    public Service(String name, float surface, int patientMax, int budget) {
         this.name = name;
         this.surface = surface;
-        this.creatureMax = creatureMax;
-        this.creatures = new PatientCollection();
+        this.patientMax = patientMax;
+        this.patients = new ArrayList<>();
+        this.budget = budget;
+        this.hospital= new Hospital();
+    }
+
+    /**
+     * Constructor of a medical service
+     * @param name the name of the service
+     * @param surface the surface of the service
+     * @param patientMax the max amount of patient than the service could get
+     * @param budget the budget of the service
+     * @param hospital the hospital where the service is
+     */
+    public Service(String name, float surface, int patientMax, int budget, Hospital hospital) {
+        this.name = name;
+        this.surface = surface;
+        this.patientMax = patientMax;
+        this.patients = new ArrayList<>();
         this.budget = budget;
         this.hospital = hospital;
     }
@@ -66,15 +79,15 @@ public class Service extends Thread {
      *
      * @param name        the name of the service
      * @param surface     the surface of the service
-     * @param creatureMax the max amount of creature than the service could get
+     * @param patientMax the max amount of patient than the service could get
      * @param budget      the budget of the service
-     * @param creatures   the creatures inside the service
+     * @param patients   the patients inside the service
      */
-    public Service(String name, float surface, int creatureMax, int budget, PatientCollection creatures, Hospital hospital) {
+    public Service(String name, float surface, int patientMax, int budget, Collection<Patient> patients, Hospital hospital) {
         this.name = name;
         this.surface = surface;
-        this.creatureMax = creatureMax;
-        this.creatures = creatures;
+        this.patientMax = patientMax;
+        this.patients = patients;
         this.budget = budget;
         this.hospital = hospital;
     }
@@ -112,57 +125,66 @@ public class Service extends Thread {
     }
 
     /**
-     * Get the max number of creatures inside a service
-     * @return the max number of creatures inside a service
+     * Get the max number of patients inside a service
+     * @return the max number of patients inside a service
      */
-    public int getCreatureMax() {
-        return creatureMax;
+    public int getPatientMax() {
+        return patientMax;
     }
 
     /**
-     * Get the actual number of creatures inside a service
-     * @return the actual number of creatures inside a service
+     * Get the actual number of patients inside a service
+     * @return the actual number of patients inside a service
      */
-    public int getCreatureNow() {
-        return creatureNow;
+    public int getPatientNow() {
+        return patientNow;
     }
 
     /**
-     * Set the number of creatures inside a service
+     * Set the number of patients inside a service
      */
-    public void setCreatureNow() {
-        this.creatureNow = this.creatures.size();
+    public void setPatientNow() {
+        this.patientNow = this.patients.size();
     }
 
     /**
-     * Return all the creatures inside a service
+     * Return all the patients inside a service
      *
-     * @return all the creatures inside a service
+     * @return all the patients inside a service
      */
-    public PatientCollection getCreatures() {
-        return creatures;
+    public Collection<Patient> getPatients() {
+        return patients;
     }
 
     /**
-     * Set all the creature inside a service
-     * @param creatures all the creature inside a service
+     * Set all the patient inside a service
+     * @param patients all the patient inside a service
      */
 
-    public void setCreatures(PatientCollection creatures) throws IllegalArgumentException {
-        Patient creature1;
-        if (creatures == null) {
-            throw new IllegalArgumentException("The creatures list is empty");
+    public void setPatients(Collection<Patient> patients) throws IllegalArgumentException {
+        Patient patient1;
+        if (patients == null) {
+            throw new IllegalArgumentException("The patients list is empty");
         }
-        if (creatures.isEmpty()) {
-            throw new IllegalArgumentException("The creatures list is empty");
+        if (patients.isEmpty()) {
+            throw new IllegalArgumentException("The patients list is empty");
         }
-        creature1 = creatures.iterator().next();
-        for (Patient creature : creatures) {
-            if (!creature.getClass().equals(creature1.getClass())) {
-                throw new IllegalArgumentException("The creatures are not the same type");
+        patient1 = patients.iterator().next();
+        for (Patient patient : patients) {
+            if (!patient.getClass().equals(patient1.getClass())) {
+                throw new IllegalArgumentException("The patients are not the same type");
             }
         }
-        this.creatures = creatures;
+        for (Patient patient : patients) {
+            if (isFull()) {
+                throw new IllegalArgumentException("The service is full");
+            }
+            if (isPatientInService(patient)) {
+                throw new IllegalArgumentException(patient.getName() + " is already in the service.");
+            }
+            patient.setService(this);
+        }
+        this.patients = patients;
     }
 
     /**
@@ -206,47 +228,49 @@ public class Service extends Thread {
     }
 
     /**
-     * Add a creature inside a service
-     * @param creature a creature to add to the service if it's possible
-     * @throws IllegalArgumentException if the creature is not the same type as the other creatures in the service
+     * Add a patient inside a service
+     * @param patient a patient to add to the service if it's possible
+     * @throws IllegalArgumentException if the patient is not the same type as the other patients in the service
      * @throws IllegalStateException if the service is full
      */
 
-    public void addCreature(Patient creature) throws IllegalArgumentException, IllegalStateException {
-        if (this.creatures == null) {
-            this.creatures = new PatientCollection();
+    public void addPatient(Patient patient) throws IllegalArgumentException, IllegalStateException {
+        if (this.patients == null) {
+            this.patients = new ArrayList<>();
         }
-        if(isCreatureInService(creature)) {
-            System.out.println(creature.getName() + " is already in the service.");
-            throw new IllegalStateException(creature.getName() + " is already in the service.");
+        if(isPatientInService(patient)) {
+            System.out.println(patient.getName() + " is already in the service.");
+            throw new IllegalStateException(patient.getName() + " is already in the service.");
         }
         if (isFull()) {
             System.out.println("The service is full");
             throw new IllegalStateException("The service is full");
         }
-        if (!creatures.isEmpty() && !creatures.iterator().next().getClass().equals(creature.getClass())) {
-            System.out.println("This service is only for " + creatures.iterator().next().getClass().getSimpleName());
-            throw new IllegalArgumentException("This service is only for " + creatures.iterator().next().getClass().getSimpleName());
+        if (!patients.isEmpty() && !patients.iterator().next().getClass().equals(patient.getClass())) {
+            System.out.println("This service is only for " + patients.iterator().next().getClass().getSimpleName());
+            throw new IllegalArgumentException("This service is only for " + patients.iterator().next().getClass().getSimpleName());
         }
-        this.creatures.add(creature);
-        this.creatureNow++;
-        System.out.println(creature.getName() + " has been added to the service.");
+        this.patients.add(patient);
+        patient.setService(this);
+        this.patientNow++;
+        System.out.println(patient.getName() + " has been added to the service.");
     }
 
     /**
-     * Remove a creature from a service
-     * @param creature a creature to remove from the service
-     * @throws IllegalArgumentException if the creature is not in the service
+     * Remove a patient from a service
+     * @param patient a patient to remove from the service
+     * @throws IllegalArgumentException if the patient is not in the service
      */
 
-    public void removeCreature(Creature creature) throws IllegalArgumentException {
-        if (this.creatures.remove(creature)) {
-            this.creatureNow--;
-            System.out.println(creature.getName() + " has been removed from the service.");
+    public void removePatient(Patient patient) throws IllegalArgumentException {
+        if (this.patients.contains(patient)) {
+            this.patients.remove(patient);
+            this.patientNow--;
+            System.out.println(patient.getName() + " has been removed from the service.");
         }
         else {
-            System.out.println(creature.getName() + " is not in the service.");
-            throw new IllegalArgumentException(creature.getName() + " is not in the service.");
+            System.out.println(patient.getName() + " is not in the service.");
+            throw new IllegalArgumentException(patient.getName() + " is not in the service.");
         }
     }
 
@@ -258,98 +282,101 @@ public class Service extends Thread {
      * @param j index to swap
      */
     public void swap(Patient[] patients, int i, int j) {
-
+        Patient temp = patients[i];
+        patients[i] = patients[j];
+        patients[j] = temp;
     }
 
     /**
-     * Sort every creature in the service according to their morale
+     * Sort every patient in the service according to their morale
      * Use a bubble sort
      */
     public void sortMorale() {
-                int n = getCreatures().size();
-                Patient[] patients = (Patient[]) getCreatures().toArray();
-                for (int i = 0; i < n - 1; i++) {
-                    for (int j = 0; j < n - i - 1; j++) {
-                        if (patients[j].compareMorale(patients[j + 1]))
-                            swap(patients, j, j + 1);
-                    }
+        int n = getPatients().size();
+        // Filtrer uniquement les patients
+        Patient[] patients = getPatients()
+                .stream()
+                .filter(Objects::nonNull) // Caster en Patient
+                .toArray(Patient[]::new); // Convertir en tableau
+
+        for (int i = 0; i < n - 1; i++) {
+            for (int j = 0; j < n - i - 1; j++) {
+                if (patients[j].compareMorale(patients[j + 1])) {
+                    swap(patients, j, j + 1);
                 }
             }
-
-    public boolean isCreatureInService(Patient creature) {
-        return creatures.contains(creature);
+        }
+        // Met à jour la collection avec les patients triés
+        this.patients = new ArrayList<>(Arrays.asList(patients));
+    }
+    public boolean isPatientInService(Patient patient) {
+        return patients.contains(patient);
     }
     /**
      * Check if the service is full
      * @return true if the service is full, false otherwise
      */
     public boolean isFull() {
-        return creatureNow == creatureMax;
+        return patientNow == patientMax;
     }
 
     /**
-     * Sort every creature in the service according to their illness level
+     * Sort every patient in the service according to their illness level
      * Use a bubble sort
      */
     public void sortIllnessLevel() {
-        int n = getCreatures().size();
-        Patient[] patients = (Patient[]) getCreatures().toArray();
+        int n = getPatients().size();
+        Patient[] patients = getPatients().toArray(new Patient[0]);
         for (int i = 0; i < n - 1; i++) {
             for (int j = 0; j < n - i - 1; j++) {
                 if (patients[j].compareIllnessLevel(patients[j + 1]))
                     swap(patients, j, j + 1);
             }
         }
-    }
-
-    /**
-     * sort the patient by Illness level and Morale using Quicksort
-     */
-    public void sortIllnessAndMorale() {
-        Patient[] patients = (Patient[]) getCreatures().toArray();
-        Patient[] sortedPatients = sortIllnessAndMorale(patients);
-        this.creatures = new PatientCollection(Arrays.asList(sortedPatients).toArray(new Patient[]{}));
+        this.patients = new ArrayList<>(Arrays.asList(patients));
     }
 
     /**
      * sort the patient by Illness level and Morale using Quicksort
      *
-     * @param creatures the patient to sort
+     * @param patients the patient to sort
      * @return the patient sort by Illness level and Morale
      */
-    private Patient[] sortIllnessAndMorale(Patient[] creatures) {
+    private Patient[] sortIllnessAndMorale(Patient[] patients) {
+        if (patients.length < 2) {
+            return patients;
+        }
         List<Patient> less = new ArrayList<>();
         List<Patient> more = new ArrayList<>();
-        Patient pivot = creatures[0];
+        Patient pivot = patients[0];
 
-        if (creatures.length < 2) {
-            for (Patient patient : creatures) {
-                if (patient.compareMoraleAndIllnessLevel(pivot))
-                    more.add(patient);
-                else less.add(patient);
-            }
-            List<Patient> tmp = new ArrayList<>(List.of(sortIllnessAndMorale((Patient[]) less.toArray())));
-            tmp.addAll(List.of(sortIllnessAndMorale((Patient[]) more.toArray())));
-            return (Patient[]) tmp.toArray();
-        } else return creatures;
+        for (Patient patient : patients) {
+            if (patient.compareMoraleAndIllnessLevel(pivot))
+                more.add(patient);
+            else less.add(patient);
+        }
+        List<Patient> tmp = new ArrayList<>(Arrays.asList(sortIllnessAndMorale(less.toArray(new Patient[0]))));
+        tmp.add(pivot);
+        tmp.addAll(Arrays.asList(sortIllnessAndMorale(more.toArray(new Patient[0]))));
+        return tmp.toArray(new Patient[0]);
     }
 
     /**
-     * a creature contaminate the service
+     * a patient contaminate the service
      */
     public void contaminate(Contaminate contaminate) {
 
     }
 
     /**
-     * a creature demoralise the service
+     * a patient demoralise the service
      */
     public void demoralize(Demoralize demoralize) {
 
     }
 
     /**
-     * a creature revive in the service
+     * a patient revive in the service
      */
     public void revive(Revive revive) {
 
@@ -364,9 +391,9 @@ public class Service extends Thread {
         return "Service{" +
                 "name='" + name + '\'' +
                 ", surface=" + surface +
-                ", creatureMax=" + creatureMax +
-                ", creatureNow=" + creatureNow +
-                ", creatures=" + creatures +
+                ", patientMax=" + patientMax +
+                ", patientNow=" + patientNow +
+                ", patients=" + patients +
                 ", budget=" + budgetToString(budget) +
                 "}";
     }
@@ -376,11 +403,15 @@ public class Service extends Thread {
      */
     @Override
     public void run() {
-        while(hospital.isRunning())
-            for (Patient creature : creatures.toArray(new Patient[]{})) {
-                if (creature != null) {
-                    creature.run(this);
+        while (hospital.isRunning()) {
+            for (Service service : getHospital().getServices()) {
+                if (!service.getPatients().isEmpty()) {
+                    for (Patient patient : service.getPatients()) {
+                        patient.run();
+                    }
                 }
+            }
+
         }
     }
 }

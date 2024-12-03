@@ -34,6 +34,10 @@ public interface Patient extends Entity {
      */
     int getMorale();
 
+    boolean getIsAlive();
+    void setIsAlive(boolean b);
+    Service getService();
+    void setService(Service service);
     /**
      * Set the morale of the patient
      * @param morale the morale of the patient
@@ -75,7 +79,7 @@ public interface Patient extends Entity {
      * The patient screams
      */
     default void scream() {
-        System.out.println(this + " screams...");
+        System.out.println(this.getName() + " screams...");
     }
 
     /**
@@ -92,16 +96,18 @@ public interface Patient extends Entity {
     /**
      * The patient passes away
      */
-    default void passAway(Service service) {
-        System.out.println(this + " pass away");
-        service.removeCreature((Creature) this);
+    default void passAway() {
+        System.out.println(this.getName() + " pass away");
+        getService().removePatient((Patient) this);
     }
 
     /**
      * The patient is getting carried away
      */
-    default void carriedAway() {
-        // TODO
+    default void carriedAway(Service from, Service to) {
+        System.out.println(this + " is getting carried away...");
+        from.removePatient((Patient) this);
+        to.addPatient((Patient) this);
     }
 
     /**
@@ -119,12 +125,12 @@ public interface Patient extends Entity {
     /**
      * The Patient do things
      */
-    default void run(Service service) {
+    default void run() {
         waitATime();
         if (random.nextBoolean())
             getIllnesses().toArray(new Illness[Illnesses.values().length])[random.nextInt(getIllnesses().size())].increase();
         if (is_dead()) {
-            passAway(service);
+            passAway();
         }
     }
 

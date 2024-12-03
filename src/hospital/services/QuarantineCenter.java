@@ -2,8 +2,9 @@ package hospital.services;
 
 import hospital.Hospital;
 import hospital.entity.Patient;
-import hospital.entity.PatientCollection;
 import hospital.race.behavior.Contaminate;
+
+import java.util.Collection;
 
 /**
  * The `QuarantineCenter` class represents a quarantine center service.
@@ -49,9 +50,9 @@ public class QuarantineCenter extends Service {
      * @throws IllegalArgumentException if the creature is not contagious
      */
     @Override
-    public void addCreature(Patient creature) throws IllegalArgumentException {
-        if (creature instanceof Contaminate) {
-            super.addCreature(creature);
+    public void addPatient(Patient creature) throws IllegalArgumentException {
+        if (creature instanceof Contaminate) { //Il faut tester si c'est une créature bestiale
+            super.addPatient(creature);
         } else {
             System.out.println("Only contagious creatures are allowed in a quarantine center.");
             throw new IllegalArgumentException("Only contagious creatures are allowed in a quarantine center");
@@ -60,19 +61,21 @@ public class QuarantineCenter extends Service {
 
     /**
      * Sets the creatures in the quarantine center, ensuring only contagious creatures can be added.
-     * @param creatures all the creatures inside the service
+     * @param patients all the creatures inside the service
      * @throws IllegalArgumentException if any creature is not contagious
      */
     @Override
-    public void setCreatures(PatientCollection creatures) {
-        for (Patient creature : creatures) {
-            if (!(creature instanceof Contaminate)) {
+    public void setPatients(Collection<Patient> patients)
+    {
+        for (Patient patient : patients) {
+            if (!(patient instanceof Contaminate)) {
                 System.out.println("Only contagious creatures are allowed in a quarantine center.");
                 throw new IllegalArgumentException("Only contagious creatures are allowed in a quarantine center");
             }
         }
-        super.setCreatures(creatures);
+        super.setPatients(patients);
     }
+
 
     /**
      * Sets the budget of the quarantine center, including the isolation factor.
@@ -88,16 +91,15 @@ public class QuarantineCenter extends Service {
     }
 
     /**
-     * Returns the string representation of the quarantine center.
      * @return the string representation of the quarantine center
      */
     @Override
     public String toString() {
         return "QuarantineCenter{" +
-                "name=" + getName() +
+                "name=" + getServiceName() +
                 ", surface=" + getSurface() +
-                ", creatureMax=" + getCreatureMax() +
-                ", creatureNow=" + getCreatureNow() +
+                ", patientMax=" + getPatientMax() +
+                ", patientNow=" + getPatientNow() +
                 ", budget=" + budgetToString(getBudget()) +
                 ", isolation=" + isolation +
                 "}";

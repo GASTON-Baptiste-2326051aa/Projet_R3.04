@@ -2,7 +2,6 @@ package hospital.entity.patient;
 
 import hospital.entity.Creature;
 import hospital.entity.Patient;
-import hospital.illness.Illness;
 import hospital.illness.SetIllness;
 import hospital.race.Vampire;
 import hospital.services.Service;
@@ -15,11 +14,19 @@ public class PatientVampire extends Creature implements Patient, Vampire {
      * The morale of the patient.
      */
     private int morale;
-
+    /**
+     * The status of the patient.
+     */
+    private boolean isAlive;
     /**
      * The illnesses of the patient.
      */
     private SetIllness illnesses;
+    /**
+     * The service where the patient is.
+     */
+    private Service service;
+
 
     /**
      * Constructs a `PatientVampire` with specified attributes.
@@ -65,7 +72,35 @@ public class PatientVampire extends Creature implements Patient, Vampire {
 
     /**
      * Gets the morale of the patient.
-     * @return the morale of the patient
+     * @return Service where the patient is .
+     */
+    @Override
+    public Service getService() {
+        return this.service;
+    }
+    /**
+     * @param service where the patient is added
+     */
+    @Override
+    public void setService(Service service){
+        this.service = service;
+    }
+
+    @Override
+    public boolean getIsAlive() {
+        return this.isAlive;
+    }
+
+    /**
+     * @param b the status of the patient
+     */
+    @Override
+    public void setIsAlive(boolean b) {
+        this.isAlive = b;
+    }
+    /**
+     * The morale of the patient
+>>>>>>> main
      */
     @Override
     public int getMorale() {

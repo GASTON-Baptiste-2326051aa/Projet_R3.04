@@ -3,6 +3,7 @@ package hospital;
 import hospital.entity.Doctor;
 import hospital.entity.Patient;
 import hospital.entity.doctor._DoctorGenerator;
+import hospital.services.Crypt;
 import hospital.services.Service;
 
 import java.util.Random;
@@ -87,6 +88,13 @@ public class Hospital {
      */
     private final Scanner scanner = new Scanner(System.in);
 
+
+    public Hospital(String name, int serviceMax) {
+        this.name = name;
+        this.serviceMax = serviceMax;
+        this.maxBudget = BUDGET_DEFAULT;
+        setTotalBudget();
+    }
     /**
      * Constructor of the class Hospital
      * @param name the name of the hospital
@@ -102,21 +110,6 @@ public class Hospital {
         this.maxBudget = BUDGET_DEFAULT;
         setTotalBudget();
     }
-
-    /**
-     * Constructor of the class Hospital
-     * @param name the name of the hospital
-     * @param serviceMax the maximum number of services in the hospital
-     */
-    public Hospital(String name, int serviceMax) {
-        this.name = name;
-        this.serviceMax = serviceMax;
-        this.services = new Service[]{};
-        this.doctors = new Doctor[]{};
-        this.maxBudget = BUDGET_DEFAULT;
-        setTotalBudget();
-    }
-
     /**
      * Constructor of the class Hospital
      */
@@ -192,7 +185,7 @@ public class Hospital {
     public int getCreatureNow() {
         int creatureNow = 0;
         for (Service service : services) {
-            creatureNow += service.getCreatureNow();
+            creatureNow += service.getPatientNow();
         }
         return creatureNow;
     }
@@ -205,7 +198,7 @@ public class Hospital {
         Patient[] creatures = new Patient[getCreatureNow()];
         int i = 0;
         for (Service service : services) {
-            for (Patient creature : service.getCreatures()) {
+            for (Patient creature : service.getPatients()) {
                 creatures[i++] = creature;
             }
         }
@@ -225,8 +218,13 @@ public class Hospital {
      */
     public void setTotalBudget() {
         this.totalBudget = 0;
+        if (services == null) {
+            return;
+        }
         for (Service service : services) {
-            this.totalBudget += service.getBudget();
+            if(service != null){
+                this.totalBudget += service.getBudget();
+            }
         }
     }
 
@@ -268,7 +266,7 @@ public class Hospital {
             int resp = Integer.parseInt(scanner.nextLine());
             switch (resp) {
                 case 1:
-                    actualDoctor.checkService(actualDoctor.chooseService(this));
+                    actualDoctor.checkServices(this);
                     action = action - CHECK_ACTION;
                     break;
                 case 2:
@@ -361,9 +359,10 @@ public class Hospital {
      * @param args the command line arguments
      */
     public static void main(String[] args) {
-        Hospital hospital = new Hospital("The Hospital", 3, new Service[]{
-                new Service("Service", 15.2F, 800, 1)},
-                new Doctor[]{new _DoctorGenerator().generateDoctor()});
+        Hospital hospital = new Hospital("The Hospital", 3);
+        hospital.setServices(new Service[]{ new Service("Service", 15.2F, 800, 1)
+        });
+        hospital.setDoctors(_DoctorGenerator.generateDoctors(10));
         hospital.run();
     }
 }

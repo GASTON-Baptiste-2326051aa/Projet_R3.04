@@ -15,11 +15,19 @@ public class PatientBeastMan extends Creature implements Patient, BeastMan {
      * The morale of the patient.
      */
     private int morale;
-
+    /**
+     * The status of the patient.
+     */
+    private boolean isAlive;
     /**
      * The illnesses of the patient.
      */
     private SetIllness illnesses;
+    /**
+     * The service where the patient is.
+     */
+    private Service service;
+
 
     /**
      * Constructs a `PatientBeastMan` with specified attributes.
@@ -62,7 +70,20 @@ public class PatientBeastMan extends Creature implements Patient, BeastMan {
         this.morale = MORALE_MAX;
         this.illnesses = new SetIllness();
     }
-
+    /**
+     * @return Service where the patient is .
+     */
+    @Override
+    public Service getService() {
+        return this.service;
+    }
+    /**
+     * @param service where the patient is added
+     */
+    @Override
+    public void setService(Service service){
+        this.service = service;
+    }
     /**
      * Gets the morale of the patient.
      * @return the morale of the patient
@@ -73,7 +94,25 @@ public class PatientBeastMan extends Creature implements Patient, BeastMan {
     }
 
     /**
-     * Sets the morale of the patient.
+     * @return if the patient is alive
+     */
+    @Override
+    public boolean getIsAlive() {
+        return this.isAlive;
+    }
+
+    /**
+     *
+     * @param b the status of the patient
+     */
+    @Override
+    public void setIsAlive(boolean b) {
+        this.isAlive = b;
+    }
+
+
+    /**
+     * Set the morale of the patient
      * @param morale the morale of the patient
      */
     @Override

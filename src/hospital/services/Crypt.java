@@ -1,10 +1,8 @@
 package hospital.services;
-
-import hospital.Hospital;
-import hospital.entity.Creature;
 import hospital.entity.Patient;
-import hospital.entity.PatientCollection;
 import hospital.race.behavior.Revive;
+
+import java.util.Collection;
 
 /**
  * Crypt
@@ -23,13 +21,13 @@ public class Crypt extends Service {
      * Constructor of a crypt
      * @param name the name of the crypt
      * @param surface the surface of the crypt
-     * @param creatureMax the max number of creatures
+     * @param patientMax the max number of patients
      * @param budget the budget of the crypt
      * @param ventilationLevel the ventilation level of the crypt
      * @param temperature the temperature of the crypt
      */
-    public Crypt(String name, float surface, int creatureMax, int budget, int ventilationLevel, float temperature, Hospital hospital) {
-        super(name, surface, creatureMax, budget, hospital);
+    public Crypt(String name, float surface, int patientMax, int budget, int ventilationLevel, float temperature) {
+        super(name, surface, patientMax, budget);
         this.ventilationLevel = ventilationLevel;
         this.temperature = temperature;
     }
@@ -71,31 +69,29 @@ public class Crypt extends Service {
     }
 
     /**
-     * Override the addCreature method to ensure only regenerative creatures can be added
-     * @param creature a creature to add
-     * @throws IllegalArgumentException if the creature is not a regenerative creature
-     * @throws IllegalStateException if the service is full or the creature is already in the service
+     * Override the addPatient method to ensure only regenerative patients can be added
+     * @param patient a patient to add
+     * @throws IllegalArgumentException if the patient is not a regenerative patient
+     * @throws IllegalStateException if the service is full or the patient is already in the service
      */
     @Override
-    public void addCreature(Patient creature) throws IllegalArgumentException{
-        if (creature instanceof Revive) { // vérifier si c'est un mort vivant
-            super.addCreature(creature);
+    public void addPatient(Patient patient) throws IllegalArgumentException{
+        if (patient instanceof Revive) { // vérifier si c'est un mort vivant
+            super.addPatient(patient);
         } else {
-            System.out.println("Only regenerative creatures are allowed in a crypt.");
-            throw new IllegalArgumentException("Only regenerative creatures are allowed in a crypt");
+            System.out.println("Only regenerative patients are allowed in a crypt.");
+            throw new IllegalArgumentException("Only regenerative patients are allowed in a crypt");
         }
     }
 
-    @Override
-    public void setCreatures(PatientCollection creatures) throws IllegalArgumentException {
-        for (Patient creature : creatures) {
-            if (creature instanceof Revive) { // vérifier si c'est un mort vivant
-                super.addCreature(creature);
-            } else {
-                System.out.println("Only regenerative creatures are allowed in a crypt.");
-                throw new IllegalArgumentException("Only regenerative creatures are allowed in a crypt");
+    public void setPatients(Collection<Patient> patients) throws IllegalArgumentException {
+        for (Patient patient : patients) {
+            if (!(patient instanceof Revive)) {
+                System.out.println("Only regenerative patients are allowed in a crypt.");
+                throw new IllegalArgumentException("Only regenerative patients are allowed in a crypt");
             }
         }
+        super.setPatients(patients);
     }
 
     /**
@@ -116,10 +112,10 @@ public class Crypt extends Service {
     @Override
     public String toString() {
         return "Crypt{" +
-                "name=" + getName()  +
+                "name=" + getServiceName()  +
                 ", surface=" + getSurface() +
-                ", creatureMax=" + getCreatureMax() +
-                ", creatureNow=" + getCreatureNow() +
+                ", patientMax=" + getPatientMax() +
+                ", patientNow=" + getPatientNow() +
                 ", budget=" + budgetToString(getBudget()) +
                 ", ventilationLevel=" + ventilationLevel +
                 ", temperature=" + temperature +

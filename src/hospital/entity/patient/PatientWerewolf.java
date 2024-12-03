@@ -5,20 +5,28 @@ import hospital.entity.Patient;
 import hospital.illness.Illness;
 import hospital.illness.SetIllness;
 import hospital.race.Werewolf;
+import hospital.services.Service;
 
 /**
  * The `PatientWerewolf` class represents a patient of the Werewolf race.
  */
 public class PatientWerewolf extends Creature implements Patient, Werewolf {
     /**
-     * The morale of the patient.
+     * The maximum morale of the patient.
      */
     private int morale;
-
+    /**
+     * The status of the patient.
+     */
+    private boolean isAlive;
     /**
      * The illnesses of the patient.
      */
     private SetIllness illnesses;
+    /**
+     * The service where the patient is.
+     */
+    private Service service;
 
     /**
      * Constructs a `PatientWerewolf` with specified attributes.
@@ -60,6 +68,33 @@ public class PatientWerewolf extends Creature implements Patient, Werewolf {
         super(name, isMale, age);
         this.morale = MORALE_MAX;
         this.illnesses = new SetIllness();
+    }
+    /**
+     * @return Service where the patient is .
+     */
+    @Override
+    public Service getService() {
+        return this.service;
+    }
+    /**
+     * @param service where the patient is added
+     */
+    @Override
+    public void setService(Service service){
+        this.service = service;
+    }
+
+    @Override
+    public boolean getIsAlive() {
+        return this.isAlive;
+    }
+
+    /**
+     * @param b the status of the patient
+     */
+    @Override
+    public void setIsAlive(boolean b) {
+        this.isAlive = b;
     }
 
     /**

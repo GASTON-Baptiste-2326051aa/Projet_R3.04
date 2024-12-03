@@ -5,6 +5,7 @@ import hospital.entity.Patient;
 import hospital.illness.Illness;
 import hospital.illness.SetIllness;
 import hospital.race.Reptilian;
+import hospital.services.Service;
 
 /**
  * The `PatientReptilian` class represents a patient of the Reptilian race.
@@ -19,6 +20,14 @@ public class PatientReptilian extends Creature implements Patient, Reptilian {
      * The illnesses of the patient.
      */
     public SetIllness illnesses;
+    /**
+     * The status of the patient.
+     */
+    private boolean isAlive;
+    /**
+     * The service where the patient is.
+     */
+    private Service service;
 
     /**
      * Constructs a `PatientReptilian` with specified attributes.
@@ -62,6 +71,33 @@ public class PatientReptilian extends Creature implements Patient, Reptilian {
         this.illnesses = new SetIllness();
     }
 
+    @Override
+    public boolean getIsAlive() {
+        return this.isAlive;
+    }
+
+    /**
+     * @return Service where the patient is .
+     */
+    @Override
+    public Service getService() {
+        return this.service;
+    }
+    /**
+     * @param service where the patient is added
+     */
+    @Override
+    public void setService(Service service){
+        this.service = service;
+    }
+
+    /**
+     * @param b the status of the patient
+     */
+    @Override
+    public void setIsAlive(boolean b) {
+        this.isAlive = b;
+    }
     /**
      * Gets the morale of the patient.
      * @return the morale of the patient
