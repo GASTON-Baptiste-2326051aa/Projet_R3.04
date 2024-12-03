@@ -1,14 +1,11 @@
 package hospital.entity.patient;
 
 import hospital.entity.Creature;
-import hospital.entity.Entity;
 import hospital.entity.Patient;
-import hospital.illness.Illness;
 import hospital.illness.SetIllness;
 import hospital.race.Zombie;
 import hospital.services.Service;
 
-import java.util.Objects;
 
 public class PatientZombie extends Creature implements Patient, Zombie {
     private int morale;

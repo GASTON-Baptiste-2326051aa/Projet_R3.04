@@ -1,14 +1,17 @@
 package hospital.entity;
 
 import hospital.illness.Illness;
+import hospital.illness.Illnesses;
 import hospital.illness.SetIllness;
 import hospital.services.Service;
+
+import java.util.ArrayList;
+import java.util.List;
 
 /**
  * The Patient interface
  */
 public interface Patient extends Entity {
-
     /**
      * The maximum morale
      */
@@ -82,7 +85,7 @@ public interface Patient extends Entity {
     /**
      * The patient waits
      */
-    default void waitATime(Service service) {
+    default void waitATime() {
         if (getMorale() <= MORALE_SCREAM)
             scream();
         else
@@ -93,9 +96,9 @@ public interface Patient extends Entity {
     /**
      * The patient passes away
      */
-    default void passAway(Service service) {
+    default void passAway() {
         System.out.println(this.getName() + " pass away");
-        service.removePatient((Patient) this);
+        getService().removePatient((Patient) this);
     }
 
     /**
@@ -108,10 +111,27 @@ public interface Patient extends Entity {
     }
 
     /**
+     * return true if the patient is dead, false otherwise
+     * @return true if the patient is dead, false otherwise
+     */
+    default boolean is_dead() {
+        for (Illness illness : getIllnesses()) {
+            if (illness.is_mortal() && random.nextInt(illness.getLvlMax()) == 0) {
+                return true;
+            }
+        } return false;
+    }
+
+    /**
      * The Patient do things
      */
-    default void run(Service service) {
-        waitATime(service);
+    default void run() {
+        waitATime();
+        if (random.nextBoolean())
+            getIllnesses().toArray(new Illness[Illnesses.values().length])[random.nextInt(getIllnesses().size())].increase();
+        if (is_dead()) {
+            passAway();
+        }
     }
 
     /**

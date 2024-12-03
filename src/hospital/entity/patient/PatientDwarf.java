@@ -12,25 +12,64 @@ import java.util.Random;
 
 import static java.lang.Thread.sleep;
 
+/**
+ * The `PatientDwarf` class represents a patient of the Dwarf race.
+ */
 public class PatientDwarf extends Creature implements Patient, Dwarf {
+    /**
+     * The morale of the patient.
+     */
     private int morale;
+    /**
+     * The status of the patient.
+     */
     private boolean isAlive;
+    /**
+     * The illnesses of the patient.
+     */
     private SetIllness illnesses;
+    /**
+     * The service where the patient is.
+     */
     private Service service;
 
 
+    /**
+     * Constructs a `PatientDwarf` with specified attributes.
+     * @param name the name of the patient
+     * @param isMale the sex of the patient
+     * @param age the age of the patient
+     * @param weight the weight of the patient
+     * @param height the height of the patient
+     * @param morale the morale of the patient
+     * @param illnesses the illnesses of the patient
+     */
     public PatientDwarf(String name, boolean isMale, int age, float weight, float height, int morale, SetIllness illnesses) {
         super(name, isMale, age, weight, height);
         this.morale = morale;
         this.illnesses = illnesses;
     }
 
+    /**
+     * Constructs a `PatientDwarf` with specified attributes and default morale and illnesses.
+     * @param name the name of the patient
+     * @param isMale the sex of the patient
+     * @param age the age of the patient
+     * @param weight the weight of the patient
+     * @param height the height of the patient
+     */
     public PatientDwarf(String name, boolean isMale, int age, float weight, float height) {
         super(name, isMale, age, weight, height);
         this.morale = MORALE_MAX;
         this.illnesses = new SetIllness();
     }
 
+    /**
+     * Constructs a `PatientDwarf` with specified attributes and default weight, height, morale, and illnesses.
+     * @param name the name of the patient
+     * @param isMale the sex of the patient
+     * @param age the age of the patient
+     */
     public PatientDwarf(String name, boolean isMale, int age) {
         super(name, isMale, age);
         this.morale = MORALE_MAX;
@@ -38,6 +77,7 @@ public class PatientDwarf extends Creature implements Patient, Dwarf {
     }
 
     /**
+     * gets the service where the patient is
      * @return Service where the patient is .
      */
     @Override
@@ -78,8 +118,7 @@ public class PatientDwarf extends Creature implements Patient, Dwarf {
     }
 
     /**
-     * Set the morale of the patient
-     *
+     * Sets the morale of the patient.
      * @param morale the morale of the patient
      */
     @Override
@@ -88,8 +127,7 @@ public class PatientDwarf extends Creature implements Patient, Dwarf {
     }
 
     /**
-     * The illnesses of the patient
-     *
+     * Gets the illnesses of the patient.
      * @return the illnesses of the patient
      */
     @Override
@@ -98,8 +136,7 @@ public class PatientDwarf extends Creature implements Patient, Dwarf {
     }
 
     /**
-     * Set the illnesses of the patient
-     *
+     * Sets the illnesses of the patient.
      * @param illnesses the illnesses of the patient
      */
     @Override

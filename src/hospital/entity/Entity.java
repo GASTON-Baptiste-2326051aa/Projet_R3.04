@@ -1,11 +1,14 @@
 package hospital.entity;
 
 import java.util.Objects;
+import java.util.Random;
 
 /**
  * The Entity interface
  */
 public interface Entity {
+    Random random = new Random();
+
     /**
      * The name of the entity
      * @return the name of the entity

@@ -7,25 +7,64 @@ import hospital.illness.SetIllness;
 import hospital.race.Reptilian;
 import hospital.services.Service;
 
+/**
+ * The `PatientReptilian` class represents a patient of the Reptilian race.
+ */
 public class PatientReptilian extends Creature implements Patient, Reptilian {
-    private int morale;
+    /**
+     * The morale of the patient.
+     */
+    public int morale;
+
+    /**
+     * The illnesses of the patient.
+     */
+    public SetIllness illnesses;
+    /**
+     * The status of the patient.
+     */
     private boolean isAlive;
-    private SetIllness illnesses;
+    /**
+     * The service where the patient is.
+     */
     private Service service;
 
-
+    /**
+     * Constructs a `PatientReptilian` with specified attributes.
+     * @param name the name of the patient
+     * @param isMale the sex of the patient
+     * @param age the age of the patient
+     * @param weight the weight of the patient
+     * @param height the height of the patient
+     * @param morale the morale of the patient
+     * @param illnesses the illnesses of the patient
+     */
     public PatientReptilian(String name, boolean isMale, int age, float weight, float height, int morale, SetIllness illnesses) {
         super(name, isMale, age, weight, height);
         this.morale = morale;
         this.illnesses = illnesses;
     }
 
+    /**
+     * Constructs a `PatientReptilian` with specified attributes and default morale and illnesses.
+     * @param name the name of the patient
+     * @param isMale the sex of the patient
+     * @param age the age of the patient
+     * @param weight the weight of the patient
+     * @param height the height of the patient
+     */
     public PatientReptilian(String name, boolean isMale, int age, float weight, float height) {
         super(name, isMale, age, weight, height);
         this.morale = MORALE_MAX;
         this.illnesses = new SetIllness();
     }
 
+    /**
+     * Constructs a `PatientReptilian` with specified attributes and default weight, height, morale, and illnesses.
+     * @param name the name of the patient
+     * @param isMale the sex of the patient
+     * @param age the age of the patient
+     */
     public PatientReptilian(String name, boolean isMale, int age) {
         super(name, isMale, age);
         this.morale = MORALE_MAX;
@@ -60,7 +99,8 @@ public class PatientReptilian extends Creature implements Patient, Reptilian {
         this.isAlive = b;
     }
     /**
-     * The morale of the patient
+     * Gets the morale of the patient.
+     * @return the morale of the patient
      */
     @Override
     public int getMorale() {
@@ -68,8 +108,7 @@ public class PatientReptilian extends Creature implements Patient, Reptilian {
     }
 
     /**
-     * Set the morale of the patient
-     *
+     * Sets the morale of the patient.
      * @param morale the morale of the patient
      */
     @Override
@@ -78,8 +117,7 @@ public class PatientReptilian extends Creature implements Patient, Reptilian {
     }
 
     /**
-     * The illnesses of the patient
-     *
+     * Gets the illnesses of the patient.
      * @return the illnesses of the patient
      */
     @Override
@@ -88,8 +126,7 @@ public class PatientReptilian extends Creature implements Patient, Reptilian {
     }
 
     /**
-     * Set the illnesses of the patient
-     *
+     * Sets the illnesses of the patient.
      * @param illnesses the illnesses of the patient
      */
     @Override

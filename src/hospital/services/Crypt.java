@@ -1,6 +1,4 @@
 package hospital.services;
-
-import hospital.entity.Patient;
 import hospital.entity.Patient;
 import hospital.race.behavior.Revive;
 
@@ -86,26 +84,16 @@ public class Crypt extends Service {
         }
     }
 
-
     public void setPatients(Collection<Patient> patients) throws IllegalArgumentException {
-        Patient patient1;
-        if (patients == null) {
-            throw new IllegalArgumentException("The patients list is empty");
-        }
-        if (patients.isEmpty()) {
-            throw new IllegalArgumentException("The patients list is empty");
-        }
-        patient1 = patients.iterator().next();
-        if (!(patient1 instanceof Revive)) {
-            throw new IllegalArgumentException("Only regenerative patients are allowed in a crypt");
-        }
         for (Patient patient : patients) {
-            if (!patient.getClass().equals(patient1.getClass())) {
-                throw new IllegalArgumentException("The patients are not the same type");
+            if (!(patient instanceof Revive)) {
+                System.out.println("Only regenerative patients are allowed in a crypt.");
+                throw new IllegalArgumentException("Only regenerative patients are allowed in a crypt");
             }
         }
         super.setPatients(patients);
     }
+
     /**
      * Override the budget revision to include ventilation and temperature checks
      * Faut finir la méthode

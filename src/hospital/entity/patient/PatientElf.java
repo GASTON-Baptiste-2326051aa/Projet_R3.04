@@ -7,26 +7,65 @@ import hospital.illness.SetIllness;
 import hospital.race.Elf;
 import hospital.services.Service;
 
+/**
+ * The `PatientElf` class represents a patient of the Elf race.
+ */
 public class PatientElf extends Creature implements Patient, Elf {
+    /**
+     * The morale of the patient.
+     */
+    public int morale;
 
-    private int morale;
+    /**
+     * The illnesses of the patient.
+     */
+    public SetIllness illnesses;
+    /**
+     * The status of the patient.
+     */
     private boolean isAlive;
-    private SetIllness illnesses;
+    /**
+     * The service where the patient is.
+     */
     private Service service;
 
 
+    /**
+     * Constructs a `PatientElf` with specified attributes.
+     * @param name the name of the patient
+     * @param isMale the sex of the patient
+     * @param age the age of the patient
+     * @param weight the weight of the patient
+     * @param height the height of the patient
+     * @param morale the morale of the patient
+     * @param illnesses the illnesses of the patient
+     */
     public PatientElf(String name, boolean isMale, int age, float weight, float height, int morale, SetIllness illnesses) {
         super(name, isMale, age, weight, height);
         this.morale = morale;
         this.illnesses = illnesses;
     }
 
+    /**
+     * Constructs a `PatientElf` with specified attributes and default morale and illnesses.
+     * @param name the name of the patient
+     * @param isMale the sex of the patient
+     * @param age the age of the patient
+     * @param weight the weight of the patient
+     * @param height the height of the patient
+     */
     public PatientElf(String name, boolean isMale, int age, float weight, float height) {
         super(name, isMale, age, weight, height);
         this.morale = MORALE_MAX;
         this.illnesses = new SetIllness();
     }
 
+    /**
+     * Constructs a `PatientElf` with specified attributes and default weight, height, morale, and illnesses.
+     * @param name the name of the patient
+     * @param isMale the sex of the patient
+     * @param age the age of the patient
+     */
     public PatientElf(String name, boolean isMale, int age) {
         super(name, isMale, age);
         this.morale = MORALE_MAX;
@@ -65,7 +104,8 @@ public class PatientElf extends Creature implements Patient, Elf {
     }
 
     /**
-     * The morale of the patient
+     * Gets the morale of the patient.
+     * @return the morale of the patient
      */
     @Override
     public int getMorale() {
@@ -73,8 +113,7 @@ public class PatientElf extends Creature implements Patient, Elf {
     }
 
     /**
-     * Set the morale of the patient
-     *
+     * Sets the morale of the patient.
      * @param morale the morale of the patient
      */
     @Override
@@ -83,8 +122,7 @@ public class PatientElf extends Creature implements Patient, Elf {
     }
 
     /**
-     * The illnesses of the patient
-     *
+     * Gets the illnesses of the patient.
      * @return the illnesses of the patient
      */
     @Override
@@ -93,8 +131,7 @@ public class PatientElf extends Creature implements Patient, Elf {
     }
 
     /**
-     * Set the illnesses of the patient
-     *
+     * Sets the illnesses of the patient.
      * @param illnesses the illnesses of the patient
      */
     @Override

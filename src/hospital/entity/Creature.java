@@ -9,15 +9,13 @@ import java.util.Random;
  */
 public abstract class Creature implements Entity {
     /**
-     * The default weight and height of a creature
+     * The default weight of a creature
      */
     protected static final float DEFAULT_WEIGHT = 70.8F;
-    protected static final float DEFAULT_HEIGHT = 1.80F;
-
     /**
-     * The Random object
+     * The default height of a creature
      */
-    protected final Random random = new Random();
+    protected static final float DEFAULT_HEIGHT = 1.80F;
 
     /**
      * The name of the creature

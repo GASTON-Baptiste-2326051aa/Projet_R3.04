@@ -407,7 +407,7 @@ public class Service extends Thread {
             for (Service service : getHospital().getServices()) {
                 if (!service.getPatients().isEmpty()) {
                     for (Patient patient : service.getPatients()) {
-                        patient.run(service);
+                        patient.run();
                     }
                 }
             }
