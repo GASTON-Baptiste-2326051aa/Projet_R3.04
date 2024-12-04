@@ -5,6 +5,7 @@ import hospital.entity.Doctor;
 import hospital.entity.Patient;
 import hospital.entity.doctor._DoctorGenerator;
 import hospital.entity.patient._PatientGenerator;
+import hospital.illness.Illness;
 import hospital.services.Crypt;
 import hospital.services.Service;
 
@@ -51,6 +52,11 @@ public class Hospital {
     private static final int BUDGET_DEFAULT = 2;
 
     /**
+     * the factor of propagation of illness
+     */
+    private final float ILLNESS_FACTOR = 0.5F;
+
+    /**
      * The name of the hospital.
      */
     private String name;
@@ -83,20 +89,25 @@ public class Hospital {
     /**
      * Indicates whether the hospital is running.
      */
-    boolean isRunning = true;
+    private boolean isRunning = true;
 
     /**
      * The scanner for user input.
      */
     private final Scanner scanner = new Scanner(System.in);
 
-
+    /**
+     * Constructor of the class Hospital
+     * @param name the name of the hospital
+     * @param serviceMax the maximum number of services in the hospital
+     */
     public Hospital(String name, int serviceMax) {
         this.name = name;
         this.serviceMax = serviceMax;
         this.maxBudget = BUDGET_DEFAULT;
         setTotalBudget();
     }
+
     /**
      * Constructor of the class Hospital
      * @param name the name of the hospital
@@ -247,6 +258,49 @@ public class Hospital {
     }
 
     /**
+     * Function to handle the menu
+     */
+    public void handleMenu(){
+        System.out.println("What do you want to do ?");
+        System.out.println("1 - Check a service.");
+        System.out.println("2 - Choose a service.");
+        System.out.println("3 - Check a patient.");
+        System.out.println("4 - Treat a patient.");
+        System.out.println("5 - Change the Service Budget.");
+        System.out.println("6 - Exit the Hospital.");
+    }
+
+    /**
+     * Add a random creature to a random service
+     * @param turn the current turn
+     */
+    public void addRandomCreature(int turn){
+        if (turn % 2 == 0){
+            Service targetService = services[new Random().nextInt(services.length)];
+            Patient patient = new _PatientGenerator().generatePatient();
+            System.out.println(patient.toString());
+
+            if (targetService != null){
+                targetService.addPatient(patient);
+            }
+        }
+    }
+
+    /**
+     * Increase the illnesses of the patients
+     */
+    public void increaseIllnesses(){
+        for (Service service : getServices()) {
+            for (Patient patient : service.getPatients()){
+                for (Illness illness : patient.getIllnesses()) {
+                    if (new Random().nextFloat() < ILLNESS_FACTOR)
+                        illness.increase();
+                }
+            }
+        }
+    }
+
+    /**
      * Start the hospital
      */
     public void run() {
@@ -257,33 +311,30 @@ public class Hospital {
         for (Service service : services) {
             service.start();
         }
-
         actualDoctor = chooseDoctor();
         while (isRunning) {
-            System.out.println("TURN " + turn);
-            if (turn % 2 ==1){
-                Service serviceChoisi = services[new Random().nextInt(services.length)];
-                Patient patient = new _PatientGenerator().generatePatient();
-                serviceChoisi.addPatient(patient);
-            }
-            System.out.println("What do you want to do ?");
-            System.out.println("1 - Check a service.");
-            System.out.println("2 - Choose a service.");
-            System.out.println("3 - Check a patient.");
-            System.out.println("4 - Treat a patient.");
-            System.out.println("5 - Change the Service Budget.");
-            System.out.println("6 - Exit the Hospital.");
+            System.out.println("TURN : " + turn);
+            addRandomCreature(turn);
+            increaseIllnesses();
+            handleMenu();
             int resp = Integer.parseInt(scanner.nextLine());
             switch (resp) {
                 case 1:
-                    actualDoctor.checkServices(this);
+                    for (int i = 0; i < services.length; i++) {
+                        System.out.println((i + 1) + " - " + services[i].getServiceName());
+                    }
+                    int serviceChoice = Integer.parseInt(scanner.nextLine());
+                    if (serviceChoice > 0 && serviceChoice <= services.length) {
+                        System.out.println("Details of " + services[serviceChoice - 1].getServiceName() + ":");
+                        System.out.println(services[serviceChoice - 1].toString());
+                    } else {
+                        System.out.println("Invalid choice.");
+                    }
                     action = action - CHECK_ACTION;
-
                     break;
                 case 2:
                     actualService = actualDoctor.chooseService(this);
                     action = action - CHOOSE_ACTION;
-                    turn++;
                     break;
                 case 3:
                     if (actualService == null)
@@ -296,12 +347,10 @@ public class Hospital {
                         actualService = actualDoctor.chooseService(this);
                     actualDoctor.treatPatient(actualService, actualDoctor.choosePatient(actualService));
                     action = action - TREAT_ACTION;
-                    turn++;
                     break;
                 case 5:
                     actualDoctor.changeServiceBudget(actualService);
                     action = action - CHANGE_ACTION;
-                    turn++;
                     break;
                 case 6:
                     isRunning = false;
@@ -328,8 +377,7 @@ public class Hospital {
                     System.out.println("Do you want to change the budget of one of the services ? (-1 for no)");
                 }
             }
-
-
+            turn++;
         }
     }
 
@@ -370,16 +418,35 @@ public class Hospital {
         this.isRunning = running;
     }
 
+
+    /**
+     * Initialize every Service for each type of creature
+     */
+    public void initializeServices(){
+        services = new Service[]{
+                new Service("Beast Men Service", 15.2F, 800, 1),
+                new Service("Dwarfs Service", 15.2F, 800, 1),
+                new Service("Elves Service", 15.2F, 800, 1),
+                new Service("Orcs Service", 15.2F, 800, 1),
+                new Service("Reptilians Service", 15.2F, 800, 1),
+                new Service("Vampires Service", 15.2F, 800, 1),
+                new Service("Werewolves Service", 15.2F, 800, 1),
+                new Service("Zombies Service", 15.2F, 800, 1),
+                new Crypt("The Crypt", 10.5F, 300, 1, 2, 24)
+
+
+        };
+    }
+
     /**
      * The main method to run the hospital
      * @param args the command line arguments
      */
     public static void main(String[] args) {
-        Hospital hospital = new Hospital("The Hospital", 3);
-        hospital.setServices(new Service[]{new Service("Service", 15.2F, 800, 1)
-        });
-
+        Hospital hospital = new Hospital("The Monstrospital", 3);
+        hospital.initializeServices();
         hospital.setDoctors(_DoctorGenerator.generateDoctors(10));
+        System.out.println("Welcome to the Monstrospital, Doctor, good luck !");
         hospital.run();
     }
 }

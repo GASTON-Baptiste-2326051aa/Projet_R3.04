@@ -1,12 +1,17 @@
 package hospital.entity.patients;
 
+import hospital.entity.Patient;
 import hospital.entity.patient.PatientReptilian;
+import hospital.illness.Illness;
+import hospital.illness.Illnesses;
 import hospital.services.Service;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
 import java.io.ByteArrayOutputStream;
 import java.io.PrintStream;
+import java.util.HashSet;
+import java.util.Set;
 
 import static org.junit.jupiter.api.Assertions.*;
 import static org.junit.jupiter.api.Assertions.assertEquals;
@@ -86,25 +91,52 @@ public class PatientReptilianTest {
     }
 
     @Test
+    public void addIllnessTest(){
+        Illness illness = new Illness(Illnesses.DRS);
+        patientReptilian.addIllness(illness);
+        assertEquals(1, patientReptilian.getIllnesses().size());
+        assertTrue(patientReptilian.getIllnesses().contains(illness));
+    }
+
+    @Test
     public void getIllnessesTest(){
+        Illness illness1 = new Illness(Illnesses.DRS);
+        Illness illness2 = new Illness(Illnesses.MDC);
+        patientReptilian.addIllness(illness1);
+        patientReptilian.addIllness(illness2);
+        Set<Illness> expectedIllnesses = new HashSet<>();
+        expectedIllnesses.add(illness1);
+        expectedIllnesses.add(illness2);
+        assertEquals(expectedIllnesses, patientReptilian.getIllnesses());
     }
 
     @Test
     public void setIllnessesTest(){
+        Illness illness1 = new Illness(Illnesses.DRS);
+        Illness illness2 = new Illness(Illnesses.MDC);
+        Set<Illness> listIllnesses = new HashSet<>();
+        listIllnesses.add(illness1);
+        listIllnesses.add(illness2);
+        patientReptilian.setIllnesses(listIllnesses);
+        assertTrue(patientReptilian.getIllnesses().contains(illness1));
+        assertTrue(patientReptilian.getIllnesses().contains(illness2));
 
     }
-    @Test
-    public void addIllnessTest(){
-    }
+
 
     @Test
     public void removeIllnessTest(){
+        Illness illness = new Illness(Illnesses.DRS);
+        patientReptilian.addIllness(illness);
+        assertTrue(patientReptilian.getIllnesses().contains(illness));
+        patientReptilian.removeIllness(illness);
+        assertEquals(0, patientReptilian.getIllnesses().size());
     }
 
     @Test
     public void screamTest(){
         ByteArrayOutputStream outputStream = new ByteArrayOutputStream();
-        PrintStream originalOut = System.out; // Sauvegarde de l'original
+        // Sauvegarde de l'original
         System.setOut(new PrintStream(outputStream));
         patientReptilian.scream();
         assertEquals("Reptilian screams...\n", outputStream.toString());
@@ -113,7 +145,7 @@ public class PatientReptilianTest {
     @Test
     public void waitATimeTest(){
         patientReptilian.waitATime();
-        //assertEquals(99, patientReptilian.getMorale());
+        assertEquals(96, patientReptilian.getMorale());
     }
 
     @Test
@@ -122,11 +154,64 @@ public class PatientReptilianTest {
         service.addPatient(patientReptilian);
         patientReptilian.passAway();
         assertFalse(patientReptilian.getIsAlive());
+
     }
 
     @Test
-    public void carriedAwayTest(){
+    public void agoniseTest(){
+        ByteArrayOutputStream outputStream = new ByteArrayOutputStream();
+        System.setOut(new PrintStream(outputStream));
+        patientReptilian.setMorale(Patient.MORALE_MIN);
+        patientReptilian.agonise();
+        assertEquals("""
+                Reptilian is agonising
+                Reptilian screams...
+                Reptilian screams...
+                Reptilian screams...
+                Reptilian screams...
+                Reptilian screams...
+                """, outputStream.toString());
     }
+    @Test
+    public void compareMoraleTest(){
+        PatientReptilian patientReptilian2 = new PatientReptilian("Reptilian2", true, 28, 104,220);
+        patientReptilian.setMorale(50);
+        patientReptilian2.setMorale(100);
+        assertFalse(patientReptilian.compareMorale(patientReptilian2));
+    }
+
+    @Test
+    public void getIllnessesLvlSumTest() {
+        Illness illness1 = new Illness(Illnesses.DRS);
+        Illness illness2 = new Illness(Illnesses.MDC);
+        patientReptilian.addIllness(illness1);
+        patientReptilian.addIllness(illness2);
+        assertEquals(0, patientReptilian.getIllnessesLvlSum());
+    }
+    @Test
+    public void compareIllnessLevelTest(){
+        PatientReptilian patientReptilian2 = new PatientReptilian("Reptilian2", true, 28, 104,220);
+        Illness illness1 = new Illness(Illnesses.DRS);
+        Illness illness2 = new Illness(Illnesses.MDC);
+        illness2.setLvl(4);
+        patientReptilian.addIllness(illness1);
+        patientReptilian2.addIllness(illness2);
+        assertFalse(patientReptilian.compareIllnessLevel(patientReptilian2));
+    }
+    @Test
+    public void compareMoraleAndIllnessLevelTest()
+    {
+        PatientReptilian patientReptilian2 = new PatientReptilian("Reptilian2", true, 28, 104,220);
+        Illness illness1 = new Illness(Illnesses.DRS);
+        Illness illness2 = new Illness(Illnesses.MDC);
+        patientReptilian.addIllness(illness1);
+        illness1.setLvl(4);
+        patientReptilian.setMorale(100);
+        patientReptilian2.addIllness(illness2);
+        patientReptilian2.setMorale(50);
+        assertTrue(patientReptilian.compareMoraleAndIllnessLevel(patientReptilian2));
+    }
+    
 
     @Test
     public void toStringTest(){

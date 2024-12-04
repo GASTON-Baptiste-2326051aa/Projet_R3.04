@@ -3,12 +3,11 @@ package hospital.entity.patient;
 import hospital.entity.Creature;
 import hospital.entity.Patient;
 import hospital.illness.Illness;
-import hospital.illness.SetIllness;
-import hospital.illness.Illnesses;
 import hospital.race.Dwarf;
 import hospital.services.Service;
 
-import java.util.Random;
+import java.util.HashSet;
+import java.util.Set;
 
 import static java.lang.Thread.sleep;
 
@@ -27,7 +26,7 @@ public class PatientDwarf extends Creature implements Patient, Dwarf {
     /**
      * The illnesses of the patient.
      */
-    private SetIllness illnesses;
+    private Set<Illness> illnesses;
     /**
      * The service where the patient is.
      */
@@ -44,7 +43,7 @@ public class PatientDwarf extends Creature implements Patient, Dwarf {
      * @param morale the morale of the patient
      * @param illnesses the illnesses of the patient
      */
-    public PatientDwarf(String name, boolean isMale, int age, float weight, float height, int morale, SetIllness illnesses) {
+    public PatientDwarf(String name, boolean isMale, int age, float weight, float height, int morale, Set<Illness> illnesses) {
         super(name, isMale, age, weight, height);
         this.morale = morale;
         this.illnesses = illnesses;
@@ -61,7 +60,7 @@ public class PatientDwarf extends Creature implements Patient, Dwarf {
     public PatientDwarf(String name, boolean isMale, int age, float weight, float height) {
         super(name, isMale, age, weight, height);
         this.morale = MORALE_MAX;
-        this.illnesses = new SetIllness();
+        this.illnesses = new HashSet<>();
     }
 
     /**
@@ -73,7 +72,7 @@ public class PatientDwarf extends Creature implements Patient, Dwarf {
     public PatientDwarf(String name, boolean isMale, int age) {
         super(name, isMale, age);
         this.morale = MORALE_MAX;
-        this.illnesses = new SetIllness();
+        this.illnesses = new HashSet<>();
     }
 
     /**
@@ -131,7 +130,7 @@ public class PatientDwarf extends Creature implements Patient, Dwarf {
      * @return the illnesses of the patient
      */
     @Override
-    public SetIllness getIllnesses() {
+    public Set<Illness> getIllnesses() {
         return this.illnesses;
     }
 
@@ -140,7 +139,7 @@ public class PatientDwarf extends Creature implements Patient, Dwarf {
      * @param illnesses the illnesses of the patient
      */
     @Override
-    public void setIllnesses(SetIllness illnesses) {
+    public void setIllnesses(Set<Illness> illnesses) {
         this.illnesses = illnesses;
     }
 }

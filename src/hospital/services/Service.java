@@ -2,9 +2,6 @@ package hospital.services;
 
 import hospital.Hospital;
 import hospital.entity.Patient;
-import hospital.race.behavior.Contaminate;
-import hospital.race.behavior.Demoralize;
-import hospital.race.behavior.Revive;
 
 import java.util.*;
 
@@ -40,6 +37,11 @@ public class Service extends Thread {
      * The Hospital
      */
     private final Hospital hospital;
+
+    /**
+     * The type of creature in the service
+     */
+    private int race = 8;
 
     /**
      * Constructor of a medical service
@@ -90,6 +92,26 @@ public class Service extends Thread {
         this.patients = patients;
         this.budget = budget;
         this.hospital = hospital;
+    }
+
+    /**
+     * Constructor of a medical service
+     *
+     * @param name        the name of the service
+     * @param surface     the surface of the service
+     * @param patientMax the max amount of patient than the service could get
+     * @param budget      the budget of the service
+     * @param patients   the patients inside the service
+     * @param race       the race of the patient inside the service
+     */
+    public Service(String name, float surface, int patientMax, int budget, Collection<Patient> patients, Hospital hospital, int race) {
+        this.name = name;
+        this.surface = surface;
+        this.patientMax = patientMax;
+        this.patients = patients;
+        this.budget = budget;
+        this.hospital = hospital;
+        this.race = race;
     }
 
     /**
@@ -153,6 +175,7 @@ public class Service extends Thread {
      * @return all the patients inside a service
      */
     public Collection<Patient> getPatients() {
+        sortIllnessAndMorale();
         return patients;
     }
 
@@ -160,7 +183,6 @@ public class Service extends Thread {
      * Set all the patient inside a service
      * @param patients all the patient inside a service
      */
-
     public void setPatients(Collection<Patient> patients) throws IllegalArgumentException {
         Patient patient1;
         if (patients == null) {
@@ -185,6 +207,7 @@ public class Service extends Thread {
             patient.setService(this);
         }
         this.patients = patients;
+        sortIllnessAndMorale();
     }
 
     /**
@@ -233,7 +256,6 @@ public class Service extends Thread {
      * @throws IllegalArgumentException if the patient is not the same type as the other patients in the service
      * @throws IllegalStateException if the service is full
      */
-
     public void addPatient(Patient patient) throws IllegalArgumentException, IllegalStateException {
         if (this.patients == null) {
             this.patients = new ArrayList<>();
@@ -253,7 +275,8 @@ public class Service extends Thread {
         this.patients.add(patient);
         patient.setService(this);
         this.patientNow++;
-        System.out.println(patient.getName() + " has been added to the service.");
+        System.out.println(patient.getName() + " has been added to the " + getServiceName() + ".");
+        sortIllnessAndMorale();
     }
 
     /**
@@ -261,7 +284,6 @@ public class Service extends Thread {
      * @param patient a patient to remove from the service
      * @throws IllegalArgumentException if the patient is not in the service
      */
-
     public void removePatient(Patient patient) throws IllegalArgumentException {
         if (this.patients.contains(patient)) {
             this.patients.remove(patient);
@@ -272,8 +294,8 @@ public class Service extends Thread {
             System.out.println(patient.getName() + " is not in the service.");
             throw new IllegalArgumentException(patient.getName() + " is not in the service.");
         }
+        sortIllnessAndMorale();
     }
-
 
     /**
      * Function allowing us to swap elements in an array, used for sorting
@@ -309,9 +331,14 @@ public class Service extends Thread {
         // Met à jour la collection avec les patients triés
         this.patients = new ArrayList<>(Arrays.asList(patients));
     }
+
+    /**
+     * Test if the patient is in the service
+     */
     public boolean isPatientInService(Patient patient) {
         return patients.contains(patient);
     }
+
     /**
      * Check if the service is full
      * @return true if the service is full, false otherwise
@@ -337,50 +364,44 @@ public class Service extends Thread {
     }
 
     /**
+     * sort this patient by Illness level and Morale using Quicksort
+     */
+    public void sortIllnessAndMorale(){
+        this.patients = sortIllnessAndMorale(this.patients);
+    }
+
+    /**
      * sort the patient by Illness level and Morale using Quicksort
      *
      * @param patients the patient to sort
      * @return the patient sort by Illness level and Morale
      */
-    private Patient[] sortIllnessAndMorale(Patient[] patients) {
-        if (patients.length < 2) {
+    private Collection<Patient> sortIllnessAndMorale(Collection<Patient> patients) {
+        if (patients.size() < 2) {
             return patients;
         }
-        List<Patient> less = new ArrayList<>();
-        List<Patient> more = new ArrayList<>();
-        Patient pivot = patients[0];
+        Collection<Patient> less = new ArrayList<>();
+        Collection<Patient> more = new ArrayList<>();
+        Patient pivot = patients.toArray(new Patient[]{})[0];
 
         for (Patient patient : patients) {
             if (patient.compareMoraleAndIllnessLevel(pivot))
                 more.add(patient);
             else less.add(patient);
         }
-        List<Patient> tmp = new ArrayList<>(Arrays.asList(sortIllnessAndMorale(less.toArray(new Patient[0]))));
-        tmp.add(pivot);
-        tmp.addAll(Arrays.asList(sortIllnessAndMorale(more.toArray(new Patient[0]))));
-        return tmp.toArray(new Patient[0]);
+        Collection<Patient> tmp = new ArrayList<>(less);
+        tmp.addAll(new ArrayList<>(more));
+        return tmp;
     }
 
     /**
-     * a patient contaminate the service
+     * return the race than can be in the service
+     * @return the race than can be in the service
      */
-    public void contaminate(Contaminate contaminate) {
-
+    public int getRace(){
+        return this.race;
     }
 
-    /**
-     * a patient demoralise the service
-     */
-    public void demoralize(Demoralize demoralize) {
-
-    }
-
-    /**
-     * a patient revive in the service
-     */
-    public void revive(Revive revive) {
-
-    }
 
     /**
      * Return the string representation of a service
@@ -388,14 +409,13 @@ public class Service extends Thread {
      */
     @Override
     public String toString() {
-        return "Service{" +
-                "name='" + name + '\'' +
-                ", surface=" + surface +
-                ", patientMax=" + patientMax +
-                ", patientNow=" + patientNow +
-                ", patients=" + patients +
-                ", budget=" + budgetToString(budget) +
-                "}";
+        return "Service : " +
+                "\nName='" + name + '\'' +
+                "\nSurface=" + surface +
+                "\nPatientMax=" + patientMax +
+                "\nPatientNow=" + patientNow +
+                "\nPatients=" + patients +
+                "\nBudget=" + budgetToString(budget) + " ";
     }
 
     /**

@@ -1,5 +1,7 @@
 package hospital.illness;
 
+import java.util.Set;
+
 /**
  * The Illness class
  */
@@ -66,12 +68,12 @@ public class Illness {
      * Set the level of an illness
      * @param lvl the level of an illness
      */
-    public void setLvl(int lvl) {
+    public void setLvl(int lvl) throws IllegalArgumentException {
         this.lvl = lvl;
         if (this.lvl > lvlMax) {
-            this.lvl = lvlMax;
+            throw new IllegalArgumentException("The level of the illness is too high");
         } else if (this.lvl < 0) {
-            this.lvl = 0;
+            throw new IllegalArgumentException("The level of the illness is too low");
         }
     }
 
@@ -86,18 +88,24 @@ public class Illness {
     /**
      * Increase the level of an illness
      */
-    public void increase() {
+    public void increase() throws IllegalStateException {
         if (lvl < lvlMax) {
             setLvl(lvl + 1);
+        }
+        else {
+            throw new IllegalStateException("The illness is already at its max level");
         }
     }
 
     /**
      * Decrease the level of an illness
      */
-    public void decrease() {
+    public void decrease() throws IllegalStateException {
         if (lvl > 0) {
             setLvl(lvl - 1);
+        }
+        else {
+            throw new IllegalStateException("The illness is already at its min level");
         }
     }
 
@@ -121,4 +129,19 @@ public class Illness {
                 ", lvlMax=" + lvlMax +
                 '}';
     }
+
+    /**
+     * return the max level of the illnesses
+     * @return the max level of the illnesses
+     */
+    public static int getIllnessesLvlMax(Set<Illness> illnesses) {
+        int max = 0;
+        for (Illness illness : illnesses) {
+            if (illness.getLvl() > max) {
+                max = illness.getLvl();
+            }
+        }
+        return max;
+    }
+
 }

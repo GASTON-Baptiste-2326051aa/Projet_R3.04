@@ -84,6 +84,11 @@ public class Crypt extends Service {
         }
     }
 
+    /**
+     *
+     * @param patients all the patients inside the service
+     * @throws IllegalArgumentException if any patient is not a regenerative patient
+     */
     public void setPatients(Collection<Patient> patients) throws IllegalArgumentException {
         for (Patient patient : patients) {
             if (!(patient instanceof Revive)) {

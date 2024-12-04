@@ -16,10 +16,12 @@ public interface TriageCreature extends Race, Patient {
     @Override
     default void waitATime() {
         boolean containsTriageCreature = false;
-        for (Patient patient : getService().getPatients()) {
-            if (patient instanceof TriageCreature) {
-                containsTriageCreature = true;
-                break;
+        if (getService().getPatients().size()> 1){
+            for (Patient patient : getService().getPatients()) {
+                if (patient instanceof TriageCreature) {
+                    containsTriageCreature = true;
+                    break;
+                }
             }
         }
         if (containsTriageCreature) {

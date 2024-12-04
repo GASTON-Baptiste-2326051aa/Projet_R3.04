@@ -1,12 +1,17 @@
 package hospital.entity.patients;
 
+import hospital.entity.Patient;
 import hospital.entity.patient.PatientZombie;
+import hospital.illness.Illness;
+import hospital.illness.Illnesses;
 import hospital.services.Service;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
 import java.io.ByteArrayOutputStream;
 import java.io.PrintStream;
+import java.util.HashSet;
+import java.util.Set;
 
 import static org.junit.jupiter.api.Assertions.*;
 import static org.junit.jupiter.api.Assertions.assertEquals;
@@ -84,30 +89,55 @@ public class PatientZombieTest {
         patientZombie.setMorale(50);
         assertEquals(50, patientZombie.getMorale());
     }
+    @Test
+    public void addIllnessTest(){
+        Illness illness = new Illness(Illnesses.DRS);
+        patientZombie.addIllness(illness);
+        assertEquals(1, patientZombie.getIllnesses().size());
+        assertTrue(patientZombie.getIllnesses().contains(illness));
+    }
 
     @Test
     public void getIllnessesTest(){
+        Illness illness1 = new Illness(Illnesses.DRS);
+        Illness illness2 = new Illness(Illnesses.MDC);
+        patientZombie.addIllness(illness1);
+        patientZombie.addIllness(illness2);
+        Set<Illness> expectedIllnesses = new HashSet<>();
+        expectedIllnesses.add(illness1);
+        expectedIllnesses.add(illness2);
+        assertEquals(expectedIllnesses, patientZombie.getIllnesses());
     }
 
     @Test
     public void setIllnessesTest(){
+        Illness illness1 = new Illness(Illnesses.DRS);
+        Illness illness2 = new Illness(Illnesses.MDC);
+        Set<Illness> listIllnesses = new HashSet<>();
+        listIllnesses.add(illness1);
+        listIllnesses.add(illness2);
+        patientZombie.setIllnesses(listIllnesses);
+        assertTrue(patientZombie.getIllnesses().contains(illness1));
+        assertTrue(patientZombie.getIllnesses().contains(illness2));
 
     }
-    @Test
-    public void addIllnessTest(){
-    }
+
 
     @Test
     public void removeIllnessTest(){
+        Illness illness = new Illness(Illnesses.DRS);
+        patientZombie.addIllness(illness);
+        assertTrue(patientZombie.getIllnesses().contains(illness));
+        patientZombie.removeIllness(illness);
+        assertEquals(0, patientZombie.getIllnesses().size());
     }
 
     @Test
     public void screamTest(){
         ByteArrayOutputStream outputStream = new ByteArrayOutputStream();
-        PrintStream originalOut = System.out; // Sauvegarde de l'original
         System.setOut(new PrintStream(outputStream));
         patientZombie.scream();
-        //assertEquals("The patient Zombie is screaming.\n", outputStream.toString());
+        assertEquals("Zombie screams...\n", outputStream.toString());
     }
 
     @Test
@@ -115,7 +145,7 @@ public class PatientZombieTest {
         Service service = new Service("Service", 100, 10, 1500);
         service.addPatient(patientZombie);
         patientZombie.waitATime();
-        //assertEquals(99, patientZombie.getMorale());
+        assertEquals(98, patientZombie.getMorale());
     }
 
     @Test
@@ -127,13 +157,78 @@ public class PatientZombieTest {
     }
 
     @Test
-    public void carriedAwayTest(){
+    public void agoniseTest(){
+        ByteArrayOutputStream outputStream = new ByteArrayOutputStream();
+        System.setOut(new PrintStream(outputStream));
+        patientZombie.setMorale(Patient.MORALE_MIN);
+        patientZombie.agonise();
+        assertEquals("""
+                Zombie is agonising
+                Zombie screams...
+                Zombie screams...
+                Zombie screams...
+                Zombie screams...
+                Zombie screams...
+                """, outputStream.toString());
     }
 
     @Test
     public void reviveTest(){
+        ByteArrayOutputStream outputStream = new ByteArrayOutputStream();
+        Service service = new Service("Service", 100, 10, 1500);
+        service.addPatient(patientZombie);
+        patientZombie.passAway();
+        assertFalse(patientZombie.getIsAlive());
+        assertEquals(0, service.getPatients().size());
+        System.setOut(new PrintStream(outputStream));
+        patientZombie.revive();
+        assertEquals("""
+                Zombie revives...
+                Zombie has been added to the Service.
+                """, outputStream.toString());
+        assertTrue(patientZombie.getIsAlive());
+        assertEquals(1, service.getPatients().size());
+    }
+    @Test
+    public void compareMoraleTest(){
+        PatientZombie patientZombie2 = new PatientZombie("Zombie2", true, 28, 104,220);
+        patientZombie.setMorale(50);
+        patientZombie2.setMorale(100);
+        assertFalse(patientZombie.compareMorale(patientZombie2));
     }
 
+    @Test
+    public void getIllnessesLvlSumTest() {
+        Illness illness1 = new Illness(Illnesses.DRS);
+        Illness illness2 = new Illness(Illnesses.MDC);
+        patientZombie.addIllness(illness1);
+        patientZombie.addIllness(illness2);
+        assertEquals(0, patientZombie.getIllnessesLvlSum());
+    }
+    @Test
+    public void compareIllnessLevelTest(){
+        PatientZombie patientZombie2 = new PatientZombie("Zombie2", true, 28, 104,220);
+        Illness illness1 = new Illness(Illnesses.DRS);
+        Illness illness2 = new Illness(Illnesses.MDC);
+        illness2.setLvl(4);
+        patientZombie.addIllness(illness1);
+        patientZombie2.addIllness(illness2);
+        assertFalse(patientZombie.compareIllnessLevel(patientZombie2));
+    }
+    @Test
+    public void compareMoraleAndIllnessLevelTest()
+    {
+        PatientZombie patientZombie2 = new PatientZombie("Zombie2", true, 28, 104,220);
+        Illness illness1 = new Illness(Illnesses.DRS);
+        Illness illness2 = new Illness(Illnesses.MDC);
+        patientZombie.addIllness(illness1);
+        illness1.setLvl(4);
+        patientZombie.setMorale(100);
+        patientZombie2.addIllness(illness2);
+        patientZombie2.setMorale(50);
+        assertTrue(patientZombie.compareMoraleAndIllnessLevel(patientZombie2));
+    }
+    
     @Test
     public void toStringTest(){
         assertEquals("PatientZombie{name='Zombie', isMale=true, weight=104.0, height=220.0, age=28}", patientZombie.toString());

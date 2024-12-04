@@ -3,9 +3,11 @@ package hospital.entity.patient;
 import hospital.entity.Creature;
 import hospital.entity.Patient;
 import hospital.illness.Illness;
-import hospital.illness.SetIllness;
 import hospital.race.Werewolf;
 import hospital.services.Service;
+
+import java.util.HashSet;
+import java.util.Set;
 
 /**
  * The `PatientWerewolf` class represents a patient of the Werewolf race.
@@ -22,7 +24,7 @@ public class PatientWerewolf extends Creature implements Patient, Werewolf {
     /**
      * The illnesses of the patient.
      */
-    private SetIllness illnesses;
+    private Set<Illness> illnesses;
     /**
      * The service where the patient is.
      */
@@ -38,7 +40,7 @@ public class PatientWerewolf extends Creature implements Patient, Werewolf {
      * @param morale the morale of the patient
      * @param illnesses the illnesses of the patient
      */
-    public PatientWerewolf(String name, boolean isMale, int age, float weight, float height, int morale, SetIllness illnesses) {
+    public PatientWerewolf(String name, boolean isMale, int age, float weight, float height, int morale, Set<Illness> illnesses) {
         super(name, isMale, age, weight, height);
         this.morale = morale;
         this.illnesses = illnesses;
@@ -55,7 +57,7 @@ public class PatientWerewolf extends Creature implements Patient, Werewolf {
     public PatientWerewolf(String name, boolean isMale, int age, float weight, float height) {
         super(name, isMale, age, weight, height);
         this.morale = MORALE_MAX;
-        this.illnesses = new SetIllness();
+        this.illnesses = new HashSet<>();
     }
 
     /**
@@ -67,7 +69,7 @@ public class PatientWerewolf extends Creature implements Patient, Werewolf {
     public PatientWerewolf(String name, boolean isMale, int age) {
         super(name, isMale, age);
         this.morale = MORALE_MAX;
-        this.illnesses = new SetIllness();
+        this.illnesses = new HashSet<>();
     }
     /**
      * @return Service where the patient is .
@@ -120,7 +122,7 @@ public class PatientWerewolf extends Creature implements Patient, Werewolf {
      * @return the illnesses of the patient
      */
     @Override
-    public SetIllness getIllnesses() {
+    public Set<Illness> getIllnesses() {
         return this.illnesses;
     }
 
@@ -129,7 +131,7 @@ public class PatientWerewolf extends Creature implements Patient, Werewolf {
      * @param illnesses the illnesses of the patient
      */
     @Override
-    public void setIllnesses(SetIllness illnesses) {
+    public void setIllnesses(Set<Illness> illnesses) {
         this.illnesses = illnesses;
     }
 }

@@ -4,9 +4,11 @@ import hospital.entity.patient.PatientDwarf;
 import hospital.entity.patient.PatientZombie;
 import hospital.illness.Illness;
 import hospital.illness.Illnesses;
-import hospital.illness.SetIllness;
 
+import java.util.HashSet;
+import java.util.List;
 import java.util.Random;
+import java.util.Set;
 
 /**
  * The `_Generator` class provides methods to generate random patients, doctors, and various attributes for them.
@@ -27,7 +29,7 @@ public class _Generator {
      * @return a `PatientDwarf` instance representing Yousra Mehdi.
      */
     public static Patient getYousraPatient() {
-        return new PatientDwarf("Yousra Mehdi", false, 18, 1.53F, 45.0F, Patient.MORALE_MAX, new SetIllness(new Illness[]{new Illness(Illnesses.FOMO), new Illness(Illnesses.DRS)}));
+        return new PatientDwarf("Yousra Mehdi", false, 18, 1.53F, 45.0F, Patient.MORALE_MAX, new HashSet<>(List.of(new Illness[]{new Illness(Illnesses.FOMO), new Illness(Illnesses.DRS)})));
     }
 
     /**
@@ -43,7 +45,7 @@ public class _Generator {
      * @return a `PatientZombie` instance representing Cyril Tamine.
      */
     public static Patient getCyrilPatient() {
-        return new PatientZombie("Cyril Tamine", true, 19, 1.75F, 73.0F, Patient.MORALE_MAX, new SetIllness(new Illness[]{new Illness(Illnesses.DRS)}));
+        return new PatientZombie("Cyril Tamine", true, 19, 1.75F, 73.0F, Patient.MORALE_MAX, new HashSet<>(List.of(new Illness[]{new Illness(Illnesses.DRS)})));
     }
 
     /**
@@ -133,10 +135,10 @@ public class _Generator {
      * Generates a random set of illnesses.
      * @return a `SetIllness` instance with random illnesses.
      */
-    public static SetIllness generateIllnesses() {
-        int rdm = random.nextInt(Illnesses.values().length);
+    public static Set<Illness> generateIllnesses() {
+        int rdm = random.nextInt(Illnesses.values().length)+1;
         Illnesses[] values = Illnesses.values().clone();
-        SetIllness illnesses = new SetIllness();
+        Set<Illness> illnesses = new HashSet<>();
         for (int i = 0; i < rdm; i++) {
             int ill = generateSuperRandom(values.length-1);
             if (values[ill] == null) {

@@ -2,11 +2,9 @@ package hospital.entity;
 
 import hospital.illness.Illness;
 import hospital.illness.Illnesses;
-import hospital.illness.SetIllness;
 import hospital.services.Service;
 
-import java.util.ArrayList;
-import java.util.List;
+import java.util.Set;
 
 /**
  * The Patient interface
@@ -49,13 +47,14 @@ public interface Patient extends Entity {
      *
      * @return the illnesses of the patient
      */
-    SetIllness getIllnesses();
+    Set<Illness> getIllnesses();
 
     /**
      * Set the illnesses of the patient
+     *
      * @param illnesses the illnesses of the patient
      */
-    void setIllnesses(SetIllness illnesses);
+    void setIllnesses(Set<Illness> illnesses);
 
     /**
      * Add an illness to the patient
@@ -88,7 +87,9 @@ public interface Patient extends Entity {
     default void waitATime() {
         if (getMorale() <= MORALE_SCREAM)
             scream();
-        else
+        else if (getMorale() == MORALE_MIN) {
+            agonise();
+        } else
             System.out.println(this + " wait a time...");
         this.setMorale(getMorale() - WAIT_MORALE);
     }
@@ -98,28 +99,21 @@ public interface Patient extends Entity {
      */
     default void passAway() {
         System.out.println(this.getName() + " pass away");
-        getService().removePatient((Patient) this);
+        getService().removePatient(this);
+        setIsAlive(false);
     }
 
     /**
      * The patient is getting carried away
      */
-    default void carriedAway(Service from, Service to) {
-        System.out.println(this + " is getting carried away...");
-        from.removePatient((Patient) this);
-        to.addPatient((Patient) this);
-    }
+    default void agonise() {
+        int screamCount = 0;
+        System.out.println(this.getName() + " is agonising");
+        while (getMorale() == MORALE_MIN && screamCount < 5) {
+            scream();
+            screamCount++;
+        }
 
-    /**
-     * return true if the patient is dead, false otherwise
-     * @return true if the patient is dead, false otherwise
-     */
-    default boolean is_dead() {
-        for (Illness illness : getIllnesses()) {
-            if (illness.is_mortal() && random.nextInt(illness.getLvlMax()) == 0) {
-                return true;
-            }
-        } return false;
     }
 
     /**
@@ -129,8 +123,10 @@ public interface Patient extends Entity {
         waitATime();
         if (random.nextBoolean())
             getIllnesses().toArray(new Illness[Illnesses.values().length])[random.nextInt(getIllnesses().size())].increase();
-        if (is_dead()) {
-            passAway();
+        for (Illness illness : getIllnesses()) {
+            if (illness.is_mortal() && random.nextInt(illness.getLvlMax()) == 0) {
+                passAway();
+            }
         }
     }
 
@@ -141,8 +137,20 @@ public interface Patient extends Entity {
      * @return true if this patient has a lower morale than the other patient
      */
     default boolean compareMorale(Patient patient) {
-        return this.getMorale() < patient.getMorale();
+        return this.getMorale() > patient.getMorale();
     }
+    /**
+     * return the sum of the levels of the illnesses
+     * @return the sum of the levels of the illnesses
+     */
+    default int getIllnessesLvlSum() {
+        int sum = 0;
+        for (Illness illness : getIllnesses()) {
+            sum += illness.getLvl();
+        }
+        return sum;
+    }
+
 
     /**
      * Compare two patients according to their illness level
@@ -151,7 +159,7 @@ public interface Patient extends Entity {
      * @return true if this patient has a higher illness level than the other patient
      */
     default boolean compareIllnessLevel(Patient patient) {
-        return this.getIllnesses().getIllnessesLvlSum() > patient.getIllnesses().getIllnessesLvlSum();
+        return getIllnessesLvlSum() > patient.getIllnessesLvlSum();
     }
 
     /**

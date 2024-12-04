@@ -22,7 +22,7 @@ public class ServiceTest {
 
     @Test
     public void toStringTest() {
-        assertEquals("Service{name='Service', surface=10.0, patientMax=10, patientNow=0, patients=[], budget=poor}", service.toString());
+        assertEquals("Service : \nName='Service'\nSurface=10.0\nPatientMax=10\nPatientNow=0\nPatients=[]\nBudget=poor ", service.toString());
     }
     @Test
     public void getNameTest() {

@@ -1,6 +1,9 @@
 package hospital.entity.patients;
 
+import hospital.entity.Patient;
 import hospital.entity.patient.PatientOrc;
+import hospital.illness.Illness;
+import hospital.illness.Illnesses;
 import hospital.services.Service;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -8,6 +11,7 @@ import org.junit.jupiter.api.Test;
 import java.io.ByteArrayOutputStream;
 import java.io.PrintStream;
 
+import static hospital.illness.Illnesses.getRandomIllness;
 import static org.junit.jupiter.api.Assertions.*;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
@@ -104,7 +108,6 @@ public class PatientOrcTest {
     @Test
     public void screamTest(){
         ByteArrayOutputStream outputStream = new ByteArrayOutputStream();
-        PrintStream originalOut = System.out; // Sauvegarde de l'original
         System.setOut(new PrintStream(outputStream));
         patientOrc.scream();
         assertEquals("Orc screams...\n", outputStream.toString());
@@ -115,7 +118,7 @@ public class PatientOrcTest {
         Service service = new Service("Service", 100, 10, 1500);
         service.addPatient(patientOrc);
         patientOrc.waitATime();
-        //assertEquals(99, patientOrc.getMorale());
+        assertEquals(98, patientOrc.getMorale());
     }
 
     @Test
@@ -127,11 +130,73 @@ public class PatientOrcTest {
     }
 
     @Test
-    public void carriedAwayTest(){
+    public void agoniseTest(){
+        ByteArrayOutputStream outputStream = new ByteArrayOutputStream();
+        System.setOut(new PrintStream(outputStream));
+        patientOrc.setMorale(Patient.MORALE_MIN);
+        patientOrc.agonise();
+        assertEquals("""
+                Orc is agonising
+                Orc screams...
+                Orc screams...
+                Orc screams...
+                Orc screams...
+                Orc screams...
+                """, outputStream.toString());
     }
 
     @Test
     public void contaminateTest(){
+        Service service = new Service("Service", 100, 10, 1500);
+        PatientOrc patientOrc2 = new PatientOrc("Orc2", true, 28, 104,220);
+        service.addPatient(patientOrc);
+        service.addPatient(patientOrc2);
+        ByteArrayOutputStream outputStream = new ByteArrayOutputStream();
+        System.setOut(new PrintStream(outputStream));
+        assertThrows(IllegalStateException.class, () -> patientOrc.contaminate());
+        patientOrc.addIllness(getRandomIllness());
+        patientOrc.contaminate();
+        assertEquals("Orc contaminates Orc2...\n", outputStream.toString());
+
+    }
+    @Test
+    public void compareMoraleTest(){
+        PatientOrc patientOrc2 = new PatientOrc("Orc2", true, 28, 104,220);
+        patientOrc.setMorale(50);
+        patientOrc2.setMorale(100);
+        assertFalse(patientOrc.compareMorale(patientOrc2));
+    }
+
+    @Test
+    public void getIllnessesLvlSumTest() {
+        Illness illness1 = new Illness(Illnesses.DRS);
+        Illness illness2 = new Illness(Illnesses.MDC);
+        patientOrc.addIllness(illness1);
+        patientOrc.addIllness(illness2);
+        assertEquals(0, patientOrc.getIllnessesLvlSum());
+    }
+    @Test
+    public void compareIllnessLevelTest(){
+        PatientOrc patientOrc2 = new PatientOrc("Orc2", true, 28, 104,220);
+        Illness illness1 = new Illness(Illnesses.DRS);
+        Illness illness2 = new Illness(Illnesses.MDC);
+        illness2.setLvl(4);
+        patientOrc.addIllness(illness1);
+        patientOrc2.addIllness(illness2);
+        assertFalse(patientOrc.compareIllnessLevel(patientOrc2));
+    }
+    @Test
+    public void compareMoraleAndIllnessLevelTest()
+    {
+        PatientOrc patientOrc2 = new PatientOrc("Orc2", true, 28, 104,220);
+        Illness illness1 = new Illness(Illnesses.DRS);
+        Illness illness2 = new Illness(Illnesses.MDC);
+        patientOrc.addIllness(illness1);
+        illness1.setLvl(4);
+        patientOrc.setMorale(100);
+        patientOrc2.addIllness(illness2);
+        patientOrc2.setMorale(50);
+        assertTrue(patientOrc.compareMoraleAndIllnessLevel(patientOrc2));
     }
 
     @Test

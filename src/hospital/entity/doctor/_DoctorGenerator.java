@@ -68,7 +68,7 @@ public class _DoctorGenerator extends _Generator {
      * @return an array of generated doctors
      */
     public static Doctor[] generateDoctors(int max) {
-        int rdm = random.nextInt(max + 1);
+        int rdm = random.nextInt(max)+1;
         Doctor[] doctors = new Doctor[rdm];
         for (int i = 0; i < rdm; i++) {
             doctors[i] = generateDoctor();

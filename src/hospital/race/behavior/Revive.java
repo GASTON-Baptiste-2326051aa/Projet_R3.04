@@ -1,17 +1,17 @@
 package hospital.race.behavior;
 
-import hospital.services.Service;
+import hospital.entity.Patient;
 
 /**
  * the Revive interface
  */
-public interface Revive {
+public interface Revive extends Patient {
     /**
      * the creature revive
-     *
-     * @param service the service where the creature revive
      */
-    default void revive(Service service) {
-        service.revive(this);
+    default void revive() {
+        System.out.println(getName() + " revives...");
+        getService().addPatient(this);
+        this.setIsAlive(true);
     }
 }

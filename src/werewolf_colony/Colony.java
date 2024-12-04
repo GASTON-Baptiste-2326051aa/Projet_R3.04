@@ -21,7 +21,7 @@ public class Colony {
 
     /**
      * Main method, to launch the program
-     * @param args
+     * @param args default argument
      */
     public static void main(String[] args) {
         int minutes = 0;
