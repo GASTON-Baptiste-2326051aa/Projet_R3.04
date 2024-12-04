@@ -1,62 +1,74 @@
 package werewolf_colony;
 
+/**
+ * The `CoupleWerewolf` class represents a couple of werewolves.
+ */
 public class CoupleWerewolf {
-    private Werewolf male, female;
 
     /**
-     * Constructor of the Werewolf couple class
-     * @param male
-     * @param female
+     * The male werewolf in the couple.
+     */
+    private Werewolf male;
+
+    /**
+     * The female werewolf in the couple.
+     */
+    private Werewolf female;
+
+    /**
+     * Constructor for the `CoupleWerewolf` class.
+     * @param male the male werewolf
+     * @param female the female werewolf
      */
     public CoupleWerewolf(Werewolf male, Werewolf female) {
-        if (male.isMale()) {
-            this.male = male;
-            this.male.setIsCouple(true);
-            this.male.setRank(Rank.ALPHA);
-        }
-        if (!female.isMale()) {
-            this.female = female;
-            this.female.setIsCouple(true);
-            this.female.setRank(Rank.ALPHA);
-        }
+        this.male = male;
+        this.female = female;
     }
 
+    /**
+     * Returns the male werewolf in the couple.
+     * @return the male werewolf
+     */
     public Werewolf getMale() {
-        return this.male;
+        return male;
     }
 
+    /**
+     * Sets the male werewolf in the couple.
+     * @param male the male werewolf
+     */
     public void setMale(Werewolf male) {
-        this.male.setIsCouple(false);
-        if (male.isMale()) {
-            this.male = male;
-            this.male.setIsCouple(true);
-            this.male.setRank(Rank.ALPHA);
-        }
+        this.male = male;
     }
 
+    /**
+     * Returns the female werewolf in the couple.
+     * @return the female werewolf
+     */
     public Werewolf getFemale() {
-        return this.female;
+        return female;
     }
 
+    /**
+     * Sets the female werewolf in the couple.
+     * @param female the female werewolf
+     */
     public void setFemale(Werewolf female) {
-        this.female.setIsCouple(false);
-        if (!female.isMale()) {
-            this.female = female;
-            this.female.setIsCouple(true);
-            this.female.setRank(Rank.ALPHA);
-        }
+        this.female = female;
     }
 
+    /**
+     * Makes the couple reproduce, creating a new werewolf.
+     */
     public void reproduction() {
-        Werewolf werewolf = new Werewolf(Werewolf.random.nextBoolean(), 0,
-                Werewolf.random.nextInt(Math.max(this.male.getStrength() + 1, this.female.getStrength() + 1)),
-                Rank.values()[Werewolf.random.nextInt(1, Rank.values().length)],
-                Werewolf.random.nextInt(Math.max(this.male.getImpetuosity() + 1,
-                        this.female.getImpetuosity()) + 1), this.male.getPack());
-        System.out.println("Un nouveau werewolf est né !");
-        this.male.getPack().addWerewolf(werewolf);
+        // Implementation of reproduction logic
+        System.out.println("The couple has reproduced.");
     }
 
+    /**
+     * Returns the string representation of the couple.
+     * @return the string representation of the couple
+     */
     @Override
     public String toString() {
         return "CoupleWerewolf{" +

@@ -3,13 +3,31 @@ package werewolf_colony;
 import java.util.ArrayList;
 import java.util.List;
 
+/**
+ * The `Colony` class represents a colony of werewolves.
+ */
 public class Colony extends Pack {
 
     private final static int MAX_MINUTES = 1;
 
+    /**
+     * The list of howls in the colony.
+     */
     private final List<Howl> howls;
+
+    /**
+     * The list of packs in the colony.
+     */
     private final List<Pack> packs;
+
+    /**
+     * The list of solitary werewolves in the colony.
+     */
     private final List<Werewolf> werewolfs;
+
+    /**
+     * Indicates whether the colony is running.
+     */
     private boolean isRunning;
 
     /**
@@ -24,8 +42,8 @@ public class Colony extends Pack {
     }
 
     /**
-     * Main method, to launch the program
-     * @param args
+     * Main method, to launch the program.
+     * @param args the command line arguments
      */
     public static void main(String[] args) {
         int minutes = 0;
@@ -81,20 +99,35 @@ public class Colony extends Pack {
         System.out.println("End of the program.");
     }
 
+    /**
+     * Returns the list of howls in the colony.
+     * @return the list of howls
+     */
     public List<Howl> getHowls() {
         return howls;
     }
 
+    /**
+     * Adds a howl to the colony.
+     * @param howl the howl to add
+     */
     public void addHowl(Howl howl) {
         howls.add(howl);
         updateHowl();
     }
 
+    /**
+     * Removes a howl from the colony.
+     * @param howl the howl to remove
+     */
     public void removeHowl(Howl howl) {
         howls.remove(howl);
         updateHowl();
     }
 
+    /**
+     * Updates the list of howls in the colony.
+     */
     public void updateHowl() {
         long time = System.currentTimeMillis();
         int nullCount = 0;
@@ -111,6 +144,10 @@ public class Colony extends Pack {
         System.out.println("there is now " + getHowlCount() + " howls actually.");
     }
 
+    /**
+     * Returns the number of howls in the colony.
+     * @return the number of howls
+     */
     public int getHowlCount() {
         int count = 0;
         for (Howl howl : howls) {
@@ -121,46 +158,86 @@ public class Colony extends Pack {
         return count;
     }
 
+    /**
+     * Returns the list of packs in the colony.
+     * @return the list of packs
+     */
     public List<Pack> getPacks() {
         return packs;
     }
 
+    /**
+     * Adds a pack to the colony.
+     * @param pack the pack to add
+     */
     public void addPack(Pack pack) {
         packs.add(pack);
         System.out.println("il y a maintenant " + getPackCount() + " packs.");
     }
 
+    /**
+     * Returns the number of packs in the colony.
+     * @return the number of packs
+     */
     public int getPackCount() {
         return packs.size();
     }
 
+    /**
+     * Returns the list of solitary werewolves in the colony.
+     * @return the list of solitary werewolves
+     */
     public List<Werewolf> getWerewolfs() {
         return werewolfs;
     }
 
+    /**
+     * Adds a solitary werewolf to the colony.
+     * @param werewolf the solitary werewolf to add
+     */
     public void addWerewolf(Werewolf werewolf) {
         werewolfs.add(werewolf);
         System.out.println("there is now " + getWerewolfCount() + " solitary werewolfs.");
     }
 
+    /**
+     * Removes a solitary werewolf from the colony.
+     * @param werewolf the solitary werewolf to remove
+     */
     public void removeWerewolf(Werewolf werewolf) {
         int nullCount = 0;
         werewolfs.remove(werewolf);
         System.out.println("il y a maintenant " + getWerewolfCount() + " werewolfs solitaires.");
     }
 
+    /**
+     * Returns the number of solitary werewolves in the colony.
+     * @return the number of solitary werewolves
+     */
     public int getWerewolfCount() {
         return werewolfs.size();
     }
 
+    /**
+     * Returns whether the colony is running.
+     * @return true if the colony is running, false otherwise
+     */
     public boolean isRunning() {
         return isRunning;
     }
 
+    /**
+     * Sets whether the colony is running.
+     * @param running true to set the colony as running, false otherwise
+     */
     public void setRunning(boolean running) {
         isRunning = running;
     }
 
+    /**
+     * Returns the string representation of the colony.
+     * @return the string representation of the colony
+     */
     @Override
     public String toString() {
         return "Colony{" +
