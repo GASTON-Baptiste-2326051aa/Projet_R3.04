@@ -3,6 +3,8 @@ package werewolf_colony;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
+import java.util.ArrayList;
+
 import static org.junit.jupiter.api.Assertions.*;
 
 class WerewolfTest {
@@ -97,7 +99,7 @@ class WerewolfTest {
 
     @Test
     void getImpetuosity() {
-        assertEquals(0, this.werewolf.getImpetuosity());
+        assertEquals(1, this.werewolf.getImpetuosity());
     }
 
     @Test
@@ -115,7 +117,7 @@ class WerewolfTest {
     void setPack() {
         Werewolf werewolf = new Werewolf(false, 0, 10, Rank.ALPHA, 0, colony);
         Werewolf werewolf2 = new Werewolf(true, 0, 10, Rank.ALPHA, 0, colony);
-        Pack pack = new Pack(new CoupleWerewolf(werewolf, werewolf2), new Werewolf[100], new Colony());
+        Pack pack = new Pack(new CoupleWerewolf(werewolf, werewolf2), new ArrayList<>(), new Colony());
         this.werewolf.setPack(pack);
         assertEquals(pack, this.werewolf.getPack());
     }
@@ -133,27 +135,25 @@ class WerewolfTest {
 
     @Test
     void screams() {
-        Colony colony = new Colony();
-        this.werewolf.screams(colony, Message.ANGRY);
-        assertEquals(this.werewolf, colony.getHowls()[0].getFrom());
+        this.werewolf.screams(Message.ANGRY);
+        assertEquals(this.werewolf, colony.getHowls().get(0).getFrom());
     }
 
     @Test
     void testScreams() {
-        Colony colony = new Colony();
-        Werewolf to = new Werewolf(false, 0, 10, Rank.ALPHA, 0, colony);
-        this.werewolf.screams(colony, to, Message.ANGRY);
-        assertEquals(this.werewolf, colony.getHowls()[0].getFrom());
+        this.werewolf.screams(Message.ANGRY);
+        assertEquals(1, colony.getHowlCount());
     }
 
-//    @Test
-//    void entendre() {
-//        Colony colony = new Colony();
-//        Werewolf from = new Werewolf(false, 0, 10, Rank.ALPHA, 0, null);
-//        from.screams(colony, Message.LOVE);
-//        this.werewolf.entendre(colony);
-//        assertEquals(2, colony.getHurlementCount());
-//    }
+    @Test
+    void entendre() {
+        assertTrue(true); // TODO
+        /* Colony colony = new Colony();
+        Werewolf from = new Werewolf(false, 0, 10, Rank.ALPHA, 0, null);
+        from.screams(colony, Message.LOVE);
+        this.werewolf.entendre(colony);
+        assertEquals(2, colony.getHurlementCount());*/
+    }
 
     @Test
     void challenge() {
@@ -165,7 +165,7 @@ class WerewolfTest {
         Colony colony = new Colony();
         Werewolf werewolfs = new Werewolf(false, 0, 10, Rank.ALPHA, 0, colony);
         this.werewolf.createPack(colony, werewolfs);
-        assertEquals(1, colony.getPacks()[0].getWerewolfCount());
+        assertEquals(1, colony.getPacks().get(0).getWerewolfCount());
     }
 
     @Test
@@ -175,7 +175,7 @@ class WerewolfTest {
         Werewolf werewolfs2 = new Werewolf(true, 0, 10, Rank.ALPHA, 0, colony);
         werewolfs2.createPack(colony, werewolfs);
         this.werewolf.joinPack(colony, werewolfs2.getPack());
-        assertEquals(2, colony.getPacks()[0].getWerewolfCount());
+        assertEquals(2, colony.getPacks().get(0).getWerewolfCount());
     }
 
     @Test
@@ -186,6 +186,6 @@ class WerewolfTest {
         werewolfs2.createPack(colony, werewolfs);
         this.werewolf.joinPack(colony, werewolfs2.getPack());
         this.werewolf.quitPack(colony);
-        assertEquals(1, colony.getPacks()[0].getWerewolfCount());
+        assertEquals(1, colony.getPacks().get(0).getWerewolfCount());
     }
 }

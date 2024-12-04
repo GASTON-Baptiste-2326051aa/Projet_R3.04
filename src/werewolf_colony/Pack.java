@@ -1,120 +1,119 @@
 package werewolf_colony;
 
+import java.util.ArrayList;
+import java.util.List;
+
+/**
+ * The `Pack` class represents a pack of werewolves.
+ */
 public class Pack extends Thread {
+    /**
+     * The couple of werewolves leading the pack.
+     */
     private final CoupleWerewolf coupleWerewolf;
-    private final Colony colony;
-    private Werewolf[] werewolfs;
 
     /**
-     * Constructor of the Pack class
-     * @param coupleWerewolf
-     * @param werewolfs
-     * @param colony
+     * The colony to which the pack belongs.
      */
-    public Pack(CoupleWerewolf coupleWerewolf, Werewolf[] werewolfs, Colony colony) {
+    private final Colony colony;
+
+    /**
+     * The list of werewolves in the pack.
+     */
+    private List<Werewolf> werewolfs;
+
+    /**
+     * Constructor of the Pack class.
+     * @param coupleWerewolf the couple of werewolves leading the pack
+     * @param werewolfs the list of werewolves in the pack
+     * @param colony the colony to which the pack belongs
+     */
+    public Pack(CoupleWerewolf coupleWerewolf, List<Werewolf> werewolfs, Colony colony) {
         this.coupleWerewolf = coupleWerewolf;
         this.werewolfs = werewolfs;
         this.colony = colony;
     }
 
     /**
-     * Return the list of werewolves in the pack
-     * @return
+     * Returns the list of werewolves in the pack.
+     * @return the list of werewolves
      */
-    public Werewolf[] getWerewolfs() {
+    public List<Werewolf> getWerewolfs() {
         return this.werewolfs;
     }
 
     /**
-     * Return a couple of werewolves
-     * @return
+     * Returns the couple of werewolves leading the pack.
+     * @return the couple of werewolves
      */
     public CoupleWerewolf getCoupleWerewolf() {
         return this.coupleWerewolf;
     }
 
     /**
-     * Add a werewolve to the pack
-     * @param werewolf
+     * Adds a werewolf to the pack.
+     * @param werewolf the werewolf to add
      */
     public void addWerewolf(Werewolf werewolf) {
-        for (int i = 0; i < werewolfs.length; i++) {
-            if (werewolfs[i] == null) {
-                werewolfs[i] = werewolf;
-                break;
-            }
-        }
-        sortWerewolfs();
-        System.out.println("The pack contains " + getWerewolfCount() + " werewolves.");
-    }
-
-    public void removeWerewolf(Werewolf werewolf) {
-        for (int i = 0; i < werewolfs.length; i++) {
-            if (werewolfs[i] == werewolf) {
-                werewolfs[i] = null;
-                break;
-            }
-        }
+        werewolfs.add(werewolf);
         sortWerewolfs();
         System.out.println("The pack contains " + getWerewolfCount() + " werewolves.");
     }
 
     /**
-     * Return the number of werewolves
-     * @return
+     * Removes a werewolf from the pack.
+     * @param werewolf the werewolf to remove
+     */
+    public void removeWerewolf(Werewolf werewolf) {
+        werewolfs.remove(werewolf);
+        sortWerewolfs();
+        System.out.println("The pack contains " + getWerewolfCount() + " werewolves.");
+    }
+
+    /**
+     * Returns the number of werewolves in the pack.
+     * @return the number of werewolves
      */
     public int getWerewolfCount() {
-        int count = 1;
-        for (Werewolf werewolf : werewolfs) {
-            if (werewolf != null) {
-                count++;
-            }
-        }
-        return count;
+        return werewolfs.size();
     }
 
     /**
-     * Return the best rank among the females werewolves
-     * @return
+     * Returns the best rank among the female werewolves in the pack.
+     * @return the best rank female werewolf
      */
     public Werewolf getBestRankFemale() {
-        Werewolf bestRankFemale = werewolfs[0];
+        Werewolf bestRankFemale = new Werewolf(false, 0, 0, Rank.BETA, 0, colony);
         for (Werewolf werewolf : werewolfs) {
-            if (werewolf != null && !werewolf.isMale() && werewolf.getRank().getValue() > bestRankFemale.getRank().getValue()) {
+            if (!werewolf.isMale() && werewolf.getRank().getValue() > bestRankFemale.getRank().getValue()) {
                 bestRankFemale = werewolf;
             }
         }
         return bestRankFemale;
     }
 
-    public Werewolf[] getAllWerewolfs() {
-        Werewolf[] allWerewolfs = new Werewolf[werewolfs.length + 1];
-        allWerewolfs[0] = coupleWerewolf.getMale();
-        int i = 1;
-        for (Werewolf werewolf : werewolfs) {
-            if (werewolf != null) {
-                allWerewolfs[i++] = werewolf;
-            }
-        }
+    /**
+     * Returns all werewolves in the pack, including the leading couple.
+     * @return the list of all werewolves
+     */
+    public List<Werewolf> getAllWerewolfs() {
+        List<Werewolf> allWerewolfs = new ArrayList<>();
+        allWerewolfs.add(coupleWerewolf.getMale());
+        allWerewolfs.addAll(werewolfs);
         return allWerewolfs;
     }
 
     /**
-     * Sort the werewolves by their rank
+     * Sorts the werewolves in the pack by their rank.
      */
     public void sortWerewolfs() {
-        Werewolf[] sortedWerewolfs = new Werewolf[werewolfs.length];
-        int i = 0;
-        for (Rank rank : Rank.values()) {
-            for (Werewolf werewolf : werewolfs) {
-                if (werewolf != null && werewolf.getRank() == rank) {
-                    sortedWerewolfs[i++] = werewolf;
-                }
-            }
-        }
-        this.werewolfs = sortedWerewolfs;
+        werewolfs.sort((werewolf1, werewolf2) -> werewolf1.getRank().getValue() - werewolf2.getRank().getValue());
     }
 
+    /**
+     * Returns the first available rank for a new werewolf.
+     * @return the array of available ranks
+     */
     public Rank[] firstRankAvailable() {
         Rank[] ranks = Rank.values();
         for (Werewolf werewolf : getAllWerewolfs()) {
@@ -126,15 +125,28 @@ public class Pack extends Thread {
     }
 
     /**
-     * Return the colony
-     * @return
+     * Returns the colony to which the pack belongs.
+     * @return the colony
      */
     public Colony getColony() {
         return colony;
     }
 
     /**
-     * Run the program
+     * Returns the string representation of the pack.
+     * @return the string representation of the pack
+     */
+    @Override
+    public String toString() {
+        return "Pack{" +
+                "coupleWerewolf=" + coupleWerewolf +
+                ", colony=" + colony +
+                ", werewolfs=" + werewolfs +
+                "} extends " + super.toString();
+    }
+
+    /**
+     * Runs the pack's activities.
      */
     @Override
     public void run() {
