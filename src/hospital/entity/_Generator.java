@@ -1,5 +1,4 @@
 package hospital.entity;
-
 import hospital.entity.doctor.DoctorDwarf;
 import hospital.entity.patient.PatientDwarf;
 import hospital.entity.patient.PatientZombie;

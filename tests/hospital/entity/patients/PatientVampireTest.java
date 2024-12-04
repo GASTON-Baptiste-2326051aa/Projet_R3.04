@@ -120,7 +120,7 @@ public class PatientVampireTest {
     public void passAwayTest(){
         Service service = new Service("Service", 100, 10, 1500);
         service.addPatient(patientVampire);
-        patientVampire.passAway(service);
+        patientVampire.passAway();
         assertFalse(patientVampire.getIsAlive());
     }
 

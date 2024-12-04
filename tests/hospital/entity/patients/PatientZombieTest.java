@@ -112,6 +112,8 @@ public class PatientZombieTest {
 
     @Test
     public void waitATimeTest(){
+        Service service = new Service("Service", 100, 10, 1500);
+        service.addPatient(patientZombie);
         patientZombie.waitATime();
         //assertEquals(99, patientZombie.getMorale());
     }
@@ -120,7 +122,7 @@ public class PatientZombieTest {
     public void passAwayTest(){
         Service service = new Service("Service", 100, 10, 1500);
         service.addPatient(patientZombie);
-        patientZombie.passAway(service);
+        patientZombie.passAway();
         assertFalse(patientZombie.getIsAlive());
     }
 

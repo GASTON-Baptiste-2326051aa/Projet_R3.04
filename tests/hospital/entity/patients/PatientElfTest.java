@@ -119,7 +119,7 @@ public class PatientElfTest {
     public void passAwayTest(){
         Service service = new Service("Service", 100, 10, 1500);
         service.addPatient(patientElf);
-        patientElf.passAway(service);
+        patientElf.passAway();
         assertFalse(patientElf.getIsAlive());
     }
 

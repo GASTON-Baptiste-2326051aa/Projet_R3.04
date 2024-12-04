@@ -12,7 +12,7 @@ import java.io.Serial;
  */
 public interface VIPCreature extends Race, Patient {
     @Override
-    default void waitATime(Service service) {
+    default void waitATime() {
         setMorale(getMorale() - WAIT_MORALE * 2);
     }
 }
