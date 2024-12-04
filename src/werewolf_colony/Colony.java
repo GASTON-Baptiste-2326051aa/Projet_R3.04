@@ -1,21 +1,25 @@
 package werewolf_colony;
 
-public class Colony {
+import java.util.ArrayList;
+import java.util.List;
+
+public class Colony extends Pack {
 
     private final static int MAX_MINUTES = 1;
 
-    private final Howl[] howls;
-    private final Pack[] packs;
-    private final Werewolf[] werewolfs;
+    private final List<Howl> howls;
+    private final List<Pack> packs;
+    private final List<Werewolf> werewolfs;
     private boolean isRunning;
 
     /**
      * Constructor of the Colony class, allowing us to create a colony in our program.
      */
     public Colony() {
-        this.howls = new Howl[10000];
-        this.packs = new Pack[1000];
-        this.werewolfs = new Werewolf[5000];
+        super(null, new ArrayList<>(), null);
+        this.howls = new ArrayList<>();
+        this.packs = new ArrayList<>();
+        this.werewolfs = new ArrayList<>();
         this.isRunning = false;
     }
 
@@ -77,44 +81,34 @@ public class Colony {
         System.out.println("End of the program.");
     }
 
-    public Howl[] getHowls() {
+    public List<Howl> getHowls() {
         return howls;
     }
 
     public void addHowl(Howl howl) {
-        for (int i = 0; i < howls.length; i++) {
-            if (howls[i] == null) {
-                howls[i] = howl;
-                break;
-            }
-        }
+        howls.add(howl);
         updateHowl();
     }
 
     public void removeHowl(Howl howl) {
-        for (int i = 0; i < howls.length; i++) {
-            if (howls[i] == howl) {
-                howls[i] = null;
-                break;
-            }
-        }
+        howls.remove(howl);
         updateHowl();
     }
 
     public void updateHowl() {
         long time = System.currentTimeMillis();
         int nullCount = 0;
-        for (int i = 0; i < howls.length - 1; i++) {
-            if (howls[i] != null && time - howls[i].getTime() > 100) {
-                removeHowl(howls[i]);
-            } else if (howls[i] == null) {
+        for (int i = 0; i < howls.size() - 1; i++) {
+            if (howls.get(i) != null && time - howls.get(i).getTime() > 100) {
+                removeHowl(howls.get(i));
+            } else if (howls.get(i) == null) {
                 nullCount++;
             }
             if (nullCount >= 100) {
                 break;
             }
         }
-        System.out.println("il y a maintenant " + getHowlCount() + " howls.");
+        System.out.println("there is now " + getHowlCount() + " howls actually.");
     }
 
     public int getHowlCount() {
@@ -127,68 +121,36 @@ public class Colony {
         return count;
     }
 
-    public Pack[] getPacks() {
+    public List<Pack> getPacks() {
         return packs;
     }
 
     public void addPack(Pack pack) {
-        for (int i = 0; i < packs.length; i++) {
-            if (packs[i] == null) {
-                packs[i] = pack;
-                break;
-            }
-        }
+        packs.add(pack);
         System.out.println("il y a maintenant " + getPackCount() + " packs.");
     }
 
     public int getPackCount() {
-        int count = 0;
-        for (Pack pack : packs) {
-            if (pack != null) {
-                count++;
-            }
-        }
-        return count;
+        return packs.size();
     }
 
-    public Werewolf[] getWerewolfs() {
+    public List<Werewolf> getWerewolfs() {
         return werewolfs;
     }
 
     public void addWerewolf(Werewolf werewolf) {
-        for (int i = 0; i < werewolfs.length; i++) {
-            if (werewolfs[i] == null) {
-                werewolfs[i] = werewolf;
-                break;
-            }
-        }
-        System.out.println("il y a maintenant " + getWerewolfCount() + " werewolfs solitaires.");
+        werewolfs.add(werewolf);
+        System.out.println("there is now " + getWerewolfCount() + " solitary werewolfs.");
     }
 
     public void removeWerewolf(Werewolf werewolf) {
         int nullCount = 0;
-        for (int i = 0; i < werewolfs.length; i++) {
-            if (werewolfs[i] != null && werewolfs[i] == werewolf) {
-                werewolfs[i] = null;
-                break;
-            } else if (werewolfs[i] == null) {
-                nullCount++;
-            }
-            if (nullCount >= 100) {
-                break;
-            }
-        }
+        werewolfs.remove(werewolf);
         System.out.println("il y a maintenant " + getWerewolfCount() + " werewolfs solitaires.");
     }
 
     public int getWerewolfCount() {
-        int count = 0;
-        for (Werewolf werewolf : werewolfs) {
-            if (werewolf != null) {
-                count++;
-            }
-        }
-        return count;
+        return werewolfs.size();
     }
 
     public boolean isRunning() {
@@ -197,5 +159,15 @@ public class Colony {
 
     public void setRunning(boolean running) {
         isRunning = running;
+    }
+
+    @Override
+    public String toString() {
+        return "Colony{" +
+                "howls=" + howls +
+                ", packs=" + packs +
+                ", werewolfs=" + werewolfs +
+                ", isRunning=" + isRunning +
+                "} extends " + super.toString();
     }
 }

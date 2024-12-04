@@ -1,7 +1,7 @@
 package werewolf_colony;
 
 public enum Message {
-    PACK("werewolf_colony"),
+    PACK("pack"),
     PACK_ANSWER("pack_answer"),
     DOMINATION("domination"),
     SUBMISSION("submission"),

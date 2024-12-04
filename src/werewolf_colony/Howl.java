@@ -33,4 +33,13 @@ public class Howl {
     public long getTime() {
         return time;
     }
+
+    @Override
+    public String toString() {
+        return "Howl{" +
+                "from=" + from +
+                ", message=" + message +
+                ", time=" + time +
+                '}';
+    }
 }

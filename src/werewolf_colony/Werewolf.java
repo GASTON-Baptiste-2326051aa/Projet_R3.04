@@ -1,5 +1,6 @@
 package werewolf_colony;
 
+import java.util.ArrayList;
 import java.util.Random;
 
 public class Werewolf {
@@ -91,7 +92,7 @@ public class Werewolf {
     public void vieillir(Colony colony) {
         this.catAge++;
         if (this.catAge >= 3)
-            this.die(colony);
+            this.die();
         setLvl();
     }
 
@@ -179,14 +180,9 @@ public class Werewolf {
         this.inRelationship = InRelationship;
     }
 
-    public void screams(Colony colony, Message message) {
+    public void screams(Message message) {
         colony.addHowl(new Howl(this, message));
         System.out.println("A Werewolf just yelled a message: " + message);
-    }
-
-    public void screams(Colony colony, Werewolf to, Message message) {
-        colony.addHowl(new Howl(this, to, message));
-        System.out.println("A Werewolf just responded to another Werewolf : " + message);
     }
 
     public void entendre(Colony colony) {
@@ -195,12 +191,12 @@ public class Werewolf {
                 switch (howl.getMessage().getValue()) {
                     case "werewolf_colony" -> {
                         if (this.pack != null && this.pack == howl.getFrom().getPack() && random.nextBoolean()) {
-                            this.screams(colony, howl.getFrom(), Message.PACK_ANSWER);
+                            this.screams(Message.PACK_ANSWER);
                         }
                     }
                     case "domination" -> {
                         if (howl.getFrom() != this && random.nextBoolean()) {
-                            this.screams(colony, Message.SUBMISSION);
+                            this.screams(Message.SUBMISSION);
                         }
                     }
                     case "submission" -> {
@@ -223,7 +219,7 @@ public class Werewolf {
         this.pack.removeWerewolf(this);
     }
 
-    public void die(Colony colony) {
+    public void die() {
         System.out.println("un Werewolf vient de mourir...");
         this.pack.removeWerewolf(this);
         colony.removeWerewolf(this);
@@ -257,7 +253,7 @@ public class Werewolf {
     public void createPack(Colony colony, Werewolf werewolf) {
         if (this.isMale()) {
             CoupleWerewolf tmp = new CoupleWerewolf(this, werewolf);
-            Pack pack = new Pack(tmp, new Werewolf[1000], colony);
+            Pack pack = new Pack(tmp, new ArrayList<>(), colony);
             colony.addPack(pack);
             this.pack = pack;
             this.setRank(Rank.ALPHA);
@@ -303,7 +299,7 @@ public class Werewolf {
     }
 
     public void run() {
-        Werewolf werewolf = this.pack.getAllWerewolfs()[random.nextInt(this.pack.getWerewolfCount())];
+        Werewolf werewolf = this.pack.getAllWerewolfs().get(random.nextInt(this.pack.getWerewolfCount()));
         if (werewolf != this) {
             if (this.pack != null && !this.isInCouple() && random.nextBoolean() &&
                     this.getStrength() >= werewolf.getStrength() && random.nextInt(impetuosity) == 0) {
@@ -311,9 +307,9 @@ public class Werewolf {
             }
         }
         if (!inRelationship)
-            this.screams(this.getColony(), Message.values()[random.nextInt(Message.values().length)]);
+            this.screams(Message.values()[random.nextInt(Message.values().length)]);
         else if (random.nextBoolean())
-            this.screams(this.getColony(), Message.values()[random.nextInt(1, Message.values().length)]);
+            this.screams(Message.values()[random.nextInt(1, Message.values().length)]);
         entendre(pack.getColony());
         if ((this.rank == Rank.OMEGA && random.nextBoolean()) || random.nextInt(100) == 0)
             this.becomeHuman();

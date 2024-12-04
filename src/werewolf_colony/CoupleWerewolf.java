@@ -56,4 +56,12 @@ public class CoupleWerewolf {
         System.out.println("Un nouveau werewolf est né !");
         this.male.getPack().addWerewolf(werewolf);
     }
+
+    @Override
+    public String toString() {
+        return "CoupleWerewolf{" +
+                "male=" + male +
+                ", female=" + female +
+                '}';
+    }
 }
