@@ -164,15 +164,15 @@ public class Service extends Thread {
     public void setPatients(Collection<Patient> patients) throws IllegalArgumentException {
         Patient patient1;
         if (patients == null) {
-            throw new IllegalArgumentException("The patients list is empty");
+            throw new IllegalArgumentException("The patients list is empty.");
         }
         if (patients.isEmpty()) {
-            throw new IllegalArgumentException("The patients list is empty");
+            throw new IllegalArgumentException("The patients list is empty.");
         }
         patient1 = patients.iterator().next();
         for (Patient patient : patients) {
             if (!patient.getClass().equals(patient1.getClass())) {
-                throw new IllegalArgumentException("The patients are not the same type");
+                throw new IllegalArgumentException("The patients are not the same type.");
             }
         }
         for (Patient patient : patients) {
@@ -201,7 +201,7 @@ public class Service extends Thread {
      */
     public void setBudget(int budget) {
         this.budget = budget;
-        System.out.println("The budget of the service is now " + budgetToString(budget));
+        System.out.println("The budget of the service is now " + budgetToString(budget) + ".");
     }
 
     /**
@@ -243,12 +243,12 @@ public class Service extends Thread {
             throw new IllegalStateException(patient.getName() + " is already in the service.");
         }
         if (isFull()) {
-            System.out.println("The service is full");
-            throw new IllegalStateException("The service is full");
+            System.out.println("The service is full.");
+            throw new IllegalStateException("The service is full.");
         }
         if (!patients.isEmpty() && !patients.iterator().next().getClass().equals(patient.getClass())) {
-            System.out.println("This service is only for " + patients.iterator().next().getClass().getSimpleName());
-            throw new IllegalArgumentException("This service is only for " + patients.iterator().next().getClass().getSimpleName());
+            System.out.println("This service is only for " + patients.iterator().next().getClass().getSimpleName() + ".");
+            throw new IllegalArgumentException("This service is only for " + patients.iterator().next().getClass().getSimpleName() + ".");
         }
         this.patients.add(patient);
         patient.setService(this);

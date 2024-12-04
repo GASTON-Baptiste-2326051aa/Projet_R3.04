@@ -139,7 +139,7 @@ public class _Generator {
         Illnesses[] values = Illnesses.values().clone();
         SetIllness illnesses = new SetIllness();
         for (int i = 0; i < rdm; i++) {
-            int ill = generateSuperRandom(values.length);
+            int ill = generateSuperRandom(values.length-1);
             if (values[ill] == null) {
                 i--;
                 continue;

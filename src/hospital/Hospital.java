@@ -1,8 +1,10 @@
 package hospital;
 
+import hospital.entity.Creature;
 import hospital.entity.Doctor;
 import hospital.entity.Patient;
 import hospital.entity.doctor._DoctorGenerator;
+import hospital.entity.patient._PatientGenerator;
 import hospital.services.Crypt;
 import hospital.services.Service;
 
@@ -250,28 +252,38 @@ public class Hospital {
     public void run() {
         Service actualService = null;
         Doctor actualDoctor = null;
+        int turn = 1;
         int action = ACTION_MAX;
         for (Service service : services) {
             service.start();
         }
+
         actualDoctor = chooseDoctor();
         while (isRunning) {
+            System.out.println("TURN " + turn);
+            if (turn % 2 ==1){
+                Service serviceChoisi = services[new Random().nextInt(services.length)];
+                Patient patient = new _PatientGenerator().generatePatient();
+                serviceChoisi.addPatient(patient);
+            }
             System.out.println("What do you want to do ?");
-            System.out.println("1 - Check a service");
-            System.out.println("2 - Choose a service");
-            System.out.println("3 - Check a patient");
-            System.out.println("4 - Treat a patient");
-            System.out.println("5 - Change the Service Budget");
-            System.out.println("6 - Exit the Hospital");
+            System.out.println("1 - Check a service.");
+            System.out.println("2 - Choose a service.");
+            System.out.println("3 - Check a patient.");
+            System.out.println("4 - Treat a patient.");
+            System.out.println("5 - Change the Service Budget.");
+            System.out.println("6 - Exit the Hospital.");
             int resp = Integer.parseInt(scanner.nextLine());
             switch (resp) {
                 case 1:
                     actualDoctor.checkServices(this);
                     action = action - CHECK_ACTION;
+
                     break;
                 case 2:
                     actualService = actualDoctor.chooseService(this);
                     action = action - CHOOSE_ACTION;
+                    turn++;
                     break;
                 case 3:
                     if (actualService == null)
@@ -284,16 +296,18 @@ public class Hospital {
                         actualService = actualDoctor.chooseService(this);
                     actualDoctor.treatPatient(actualService, actualDoctor.choosePatient(actualService));
                     action = action - TREAT_ACTION;
+                    turn++;
                     break;
                 case 5:
                     actualDoctor.changeServiceBudget(actualService);
                     action = action - CHANGE_ACTION;
+                    turn++;
                     break;
                 case 6:
                     isRunning = false;
                     break;
                 default:
-                    System.out.println("Invalid choice");
+                    System.out.println("Invalid choice.");
             }
             if (isRunning && action <= 0) {
                 System.out.println("Your Doctor is tired...");
@@ -301,19 +315,21 @@ public class Hospital {
                 action = ACTION_MAX;
             }
             if (new Random().nextInt(100) == 0) {
-                System.out.println("the Hospital got more budget !");
+                System.out.println("The Hospital got more budget !");
                 maxBudget++;
-                System.out.println("The list of the service in the hospital :");
+                System.out.println("The list of the services in the hospital :");
                 actualDoctor.checkHospital(this);
-                System.out.println("did you want to change the budget of one of the services ?(-1 for no)");
+                System.out.println("Do you want to change the budget of one of the services ? (-1 for no)");
                 resp = Integer.parseInt(scanner.nextLine());
                 while (resp != -1 || maxBudget > totalBudget) {
                     actualDoctor.changeServiceBudget(actualDoctor.chooseService(this));
-                    System.out.println("The list of the service in the hospital :");
+                    System.out.println("The list of the services in the hospital :");
                     actualDoctor.checkHospital(this);
-                    System.out.println("did you want to change the budget of one of the services ?(-1 for no)");
+                    System.out.println("Do you want to change the budget of one of the services ? (-1 for no)");
                 }
             }
+
+
         }
     }
 
@@ -332,7 +348,7 @@ public class Hospital {
             doctor = doctors[choice - 1];
             System.out.println("You have chosen " + doctor.getName());
         } else {
-            System.out.println("Invalid choice");
+            System.out.println("Invalid choice.");
             doctor = chooseDoctor();
         }
         return doctor;
@@ -360,8 +376,9 @@ public class Hospital {
      */
     public static void main(String[] args) {
         Hospital hospital = new Hospital("The Hospital", 3);
-        hospital.setServices(new Service[]{ new Service("Service", 15.2F, 800, 1)
+        hospital.setServices(new Service[]{new Service("Service", 15.2F, 800, 1)
         });
+
         hospital.setDoctors(_DoctorGenerator.generateDoctors(10));
         hospital.run();
     }
